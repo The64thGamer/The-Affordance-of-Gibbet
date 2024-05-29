@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Space Fries")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+16fe0b8c59350cdc7ab3d37b654ae48980a57705")]
 [assembly: System.Reflection.AssemblyProductAttribute("Space Fries")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Space Fries")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

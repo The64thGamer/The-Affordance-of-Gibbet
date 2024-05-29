@@ -7,6 +7,7 @@ public partial class GameMaster : Node
 	public override void _Ready()
 	{
 		AddToGroup("Game Masters");
+		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
 
 	public void PlayerReadyForThisTurn()
