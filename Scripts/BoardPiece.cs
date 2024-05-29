@@ -11,6 +11,7 @@ public partial class BoardPiece : Node3D
 	//Turns
 	protected bool currentlyOnTurn;
 	protected float currentTurnTimeLerp;
+	protected float actionTimeLeft;
 
 	public override void _Ready()
 	{
@@ -19,6 +20,10 @@ public partial class BoardPiece : Node3D
 
 	public override void _Process(double delta)
 	{
+		//Before Turn
+		actionTimeLeft -= (float)delta;
+		
+		//On Turn
 		if(currentlyOnTurn)
 		{
 			//Calculate Lerp
@@ -32,7 +37,7 @@ public partial class BoardPiece : Node3D
 			//Move
 			if(futureWaypoint != null)
 			{
-				GlobalPosition = currentWaypoint.GlobalPosition.Lerp(futureWaypoint.GlobalPosition,currentTurnTimeLerp);
+				GlobalPosition = currentWaypoint.GlobalPosition.Lerp(futureWaypoint.GlobalPosition,1-((1 - currentTurnTimeLerp) * (1 - currentTurnTimeLerp)));
 
 
 				//Change Waypoints
@@ -55,9 +60,10 @@ public partial class BoardPiece : Node3D
 		futureWaypoint = currentWaypoint.GetWaypoint(moveDirection);
 	}
 
-	public void StartTurn()
+	public void StartTurn(float minTurnTime)
 	{
 		currentlyOnTurn = true;
 		currentTurnTimeLerp = 0;
+		actionTimeLeft = minTurnTime;
 	}
 }

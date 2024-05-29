@@ -21,6 +21,11 @@ public partial class Player : BoardPiece
 
 	public override void _Process(double delta)
 	{
+		if(actionTimeLeft <= 0)
+		{
+			GetTree().CallGroup("Game Masters", "PlayerReadyForThisTurn");		
+		}
+
 		//Head Rotation
 		playerHead.Basis = playerHead.Basis.Orthonormalized().Slerp(fakePlayerHead.Basis.Orthonormalized(),(float)delta * 6);
 
