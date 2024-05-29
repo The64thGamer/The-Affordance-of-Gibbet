@@ -1,0 +1,6 @@
+res://Scenes/Main.tscn
+res://Scripts/BoardPiece.cs
+res://Scripts/new_script.cs
+res://Scripts/Player.cs
+res://Scripts/Waypoint.cs
+res://Scripts/GameMaster.cs

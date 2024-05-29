@@ -1,0 +1,9 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1716953403
+icon.svg::CompressedTexture2D::7357573893846763975::1716910039::1716910044::1::::<><>::
+::res://Scenes/::1716953311
+Main.tscn::PackedScene::6401704040522222812::1716953062::0::1::::<><>::res://Scripts/Waypoint.cs<>res://Scripts/BoardPiece.cs
+::res://Scripts/::1716953062
+BoardPiece.cs::CSharpScript::-1::1716953052::0::1::::<><>::
+Player.cs::CSharpScript::-1::1716953058::0::1::::<><>::
+Waypoint.cs::CSharpScript::-1::1716952888::0::1::::<>Node3D<>::

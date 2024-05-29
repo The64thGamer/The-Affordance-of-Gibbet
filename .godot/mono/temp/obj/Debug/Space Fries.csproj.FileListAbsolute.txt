@@ -1,0 +1,17 @@
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/bin/Debug/Space Fries.deps.json
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/bin/Debug/Space Fries.runtimeconfig.json
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/bin/Debug/Space Fries.dll
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/bin/Debug/Space Fries.pdb
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/bin/Debug/GodotSharp.dll
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/bin/Debug/GodotSharpEditor.dll
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/obj/Debug/Space Fries.csproj.AssemblyReference.cache
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/obj/Debug/Space Fries.GeneratedMSBuildEditorConfig.editorconfig
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/obj/Debug/Space Fries.AssemblyInfoInputs.cache
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/obj/Debug/Space Fries.AssemblyInfo.cs
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/obj/Debug/Space Fries.csproj.CoreCompileInputs.cache
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/obj/Debug/Space Fries.csproj.CopyComplete
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/obj/Debug/Space Fries.dll
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/obj/Debug/refint/Space Fries.dll
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/obj/Debug/Space Fries.pdb
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/obj/Debug/Space Fries.genruntimeconfig.cache
+/home/the64thgamer/Desktop/My Archive/My Games/Godot Projects/Space Fries/.godot/mono/temp/obj/Debug/ref/Space Fries.dll

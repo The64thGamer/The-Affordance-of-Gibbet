@@ -1,0 +1,88 @@
+[gd_scene load_steps=8 format=3 uid="uid://cxhbeothnwanc"]
+
+[ext_resource type="Script" path="res://Scripts/Waypoint.cs" id="1_2aaq4"]
+[ext_resource type="Script" path="res://Scripts/GameMaster.cs" id="1_vlvyk"]
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="2_nd0mm"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bh3s1"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0.4, 0.329412, 0.592157, 1)
+sky_curve = 0.01875
+ground_bottom_color = Color(0.337255, 0.341176, 0.376471, 1)
+ground_horizon_color = Color(0.435294, 0.443137, 0.458824, 1)
+
+[sub_resource type="Sky" id="Sky_tkonq"]
+sky_material = SubResource("ProceduralSkyMaterial_bh3s1")
+
+[sub_resource type="Environment" id="Environment_7fl4d"]
+background_mode = 2
+sky = SubResource("Sky_tkonq")
+
+[sub_resource type="PrismMesh" id="PrismMesh_fnx3n"]
+
+[node name="GameMaster" type="Node3D"]
+script = ExtResource("1_vlvyk")
+
+[node name="Waypoint" type="Node3D" parent="." node_paths=PackedStringArray("waypoints")]
+script = ExtResource("1_2aaq4")
+waypoints = [NodePath("../Waypoint2"), NodePath("../Waypoint3"), NodePath("../Waypoint4")]
+
+[node name="Waypoint2" type="Node3D" parent="." node_paths=PackedStringArray("waypoints")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.6817)
+script = ExtResource("1_2aaq4")
+waypoints = [NodePath("../Waypoint")]
+
+[node name="Waypoint3" type="Node3D" parent="." node_paths=PackedStringArray("waypoints")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.46514, 0, -0.711998)
+script = ExtResource("1_2aaq4")
+waypoints = [NodePath("../Waypoint")]
+
+[node name="Waypoint4" type="Node3D" parent="." node_paths=PackedStringArray("waypoints")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.94675, 4.76837e-07, -0.948163)
+script = ExtResource("1_2aaq4")
+waypoints = [NodePath("../Waypoint")]
+
+[node name="Player" type="Node3D" parent="." node_paths=PackedStringArray("currentWaypoint")]
+script = ExtResource("2_nd0mm")
+currentWaypoint = NodePath("../Waypoint")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_7fl4d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.24862, -6.70311)
+mesh = SubResource("PrismMesh_fnx3n")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.03079, 5.5733, -6.70311)
+mesh = SubResource("PrismMesh_fnx3n")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.31934, 2.3332, -6.70311)
+mesh = SubResource("PrismMesh_fnx3n")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.95044, 4.73441, -6.70311)
+mesh = SubResource("PrismMesh_fnx3n")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.95044, 6.17355, -11.4018)
+mesh = SubResource("PrismMesh_fnx3n")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.90689, 7.94647, -11.4018)
+mesh = SubResource("PrismMesh_fnx3n")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.55923, -0.503015, -11.4018)
+mesh = SubResource("PrismMesh_fnx3n")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.87459, -2.10198, -11.4018)
+mesh = SubResource("PrismMesh_fnx3n")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.856951, -0.473902, 0.202612, 0.225406, 0.698137, 0.679557, -0.463494, -0.536677, 0.705089, 0, 0, 0)
