@@ -48,6 +48,10 @@ public partial class BoardPiece : Node3D
 					futureWaypoint = null;
 				}
 			}
+			else
+			{
+				GlobalPosition = currentWaypoint.GlobalPosition;
+			}
 		}
 	}
 

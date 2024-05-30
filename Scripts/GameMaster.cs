@@ -10,6 +10,7 @@ public partial class GameMaster : Node
 	{
 		AddToGroup("Game Masters");
 		Input.MouseMode = Input.MouseModeEnum.Captured;
+		GetTree().CallGroup("Board Pieces", "StartTurn",minTurnTime,turnExecutionTime);
 	}
 
 	public void PlayerReadyForThisTurn()

@@ -96,7 +96,7 @@ waypoints = [NodePath("../Main Room Far Center"), NodePath("../Main Room Right")
 
 [node name="Hallway Entrance" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.42508, -4.76837e-07, -20.8974)
-waypoints = [NodePath("../Main Room Far Left"), NodePath("../Main Room Far Center"), NodePath("../Corridor Entrance"), NodePath("../Hallway Exit")]
+waypoints = [NodePath("../Main Room Far Left"), NodePath("../Main Room Far Center"), NodePath("../Corridor Entrance"), NodePath("../Hallway Exit"), NodePath("../Main Room Far Right")]
 
 [node name="Hallway Exit" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.81353, -4.76837e-07, -26.4149)
