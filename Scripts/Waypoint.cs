@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 public partial class Waypoint : Node3D
 {
@@ -35,5 +37,16 @@ public partial class Waypoint : Node3D
 
 		GD.Print("Selected waypoint with " + Mathf.RadToDeg(lowestAngle) + "degrees of closeness.");
 		return waypoints[closestWaypoint];
+	}
+
+	public override void _Process(double delta)
+	{    
+		for (int i = 0; i < waypoints.Length; i++)
+		{
+			if(waypoints[i] != null)
+			{
+				DebugDraw.Arrow(GlobalPosition,waypoints[i].GlobalPosition - GlobalPosition,2,new Color(0,1,1));
+			}	
+		}
 	}
 }

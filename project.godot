@@ -15,6 +15,10 @@ run/main_scene="res://Scenes/Main.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+DebugDraw="*res://addons/debug_drawing/DebugDraw.cs"
+
 [display]
 
 window/size/viewport_width=1280
@@ -23,6 +27,10 @@ window/size/viewport_height=960
 [dotnet]
 
 project/assembly_name="Space Fries"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/debug_drawing/plugin.cfg")
 
 [input]
 
