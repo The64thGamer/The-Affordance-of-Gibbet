@@ -55,14 +55,20 @@ public partial class BoardPiece : Node3D
 		}
 	}
 
-	protected void Move(Vector2 moveDirection)
+	protected bool Move(Vector2 moveDirection)
 	{
 		if(currentWaypoint == null)
 		{
-			return;
+			return false;
 		}
 
 		futureWaypoint = currentWaypoint.GetWaypoint(moveDirection);
+
+		if(futureWaypoint == null)
+		{
+			return false;
+		}
+		return true;
 	}
 
 	public void StartTurn(float minTurnTime,float turnExecTime)

@@ -40,8 +40,10 @@ public partial class Player : BoardPiece
 		{
 			if(!currentlyOnTurn)
 			{			
-				Move(new Vector2(direction.X,direction.Z));
-    			GetTree().CallGroup("Game Masters", "PlayerReadyForThisTurn");		
+				if(Move(new Vector2(direction.X,direction.Z)))
+				{
+    				GetTree().CallGroup("Game Masters", "PlayerReadyForThisTurn");	
+				}	
 			}
 		}
 	}
