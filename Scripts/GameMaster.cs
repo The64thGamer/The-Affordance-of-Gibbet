@@ -16,6 +16,7 @@ public partial class GameMaster : Node
 	public void PlayerReadyForThisTurn()
 	{
 		GD.Print("Turn " + turnCounter + " begins.");
+		GetTree().CallGroup("Board Pieces", "AIDecideTurn");
 		GetTree().CallGroup("Board Pieces", "StartTurn",minTurnTime,turnExecutionTime);
 		turnCounter++;
 	}

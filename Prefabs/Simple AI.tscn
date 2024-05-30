@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlf73gynf2yx0"]
+
+[ext_resource type="Script" path="res://Scripts/SimpleAI.cs" id="1_wrp5r"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_yb6hb"]
+
+[node name="Simple AI" type="Node3D"]
+script = ExtResource("1_wrp5r")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2, 0)
+mesh = SubResource("CylinderMesh_yb6hb")

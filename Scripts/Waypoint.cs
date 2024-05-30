@@ -22,7 +22,6 @@ public partial class Waypoint : Node3D
 		for (int i = 0; i < waypoints.Length; i++)
 		{
 			float currentAngle = Mathf.Abs(moveDirection.AngleTo(new Vector2(waypoints[i].GlobalPosition.X - GlobalPosition.X,waypoints[i].GlobalPosition.Z - GlobalPosition.Z)));
-			GD.Print(i + " " + Mathf.RadToDeg(currentAngle));
 			if(currentAngle < lowestAngle)
 			{
 				lowestAngle = currentAngle;
@@ -35,7 +34,6 @@ public partial class Waypoint : Node3D
 			return null;
 		}
 
-		GD.Print("Selected waypoint with " + Mathf.RadToDeg(lowestAngle) + "degrees of closeness.");
 		return waypoints[closestWaypoint];
 	}
 
