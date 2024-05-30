@@ -47,28 +47,28 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.55571, 0, 3.99159)
 [node name="Waypoints" type="Node" parent="."]
 
 [node name="Entrance Center" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.290052, 0, 2.59565)
-waypoints = [NodePath("../Entrance Left"), NodePath("../Entrance Right"), NodePath("../Main Room Center")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35607, 0, 2.59565)
+waypoints = [NodePath("../Entrance Left"), NodePath("../Entrance Right"), NodePath("../Main Room Center"), NodePath("../Main Room Left"), NodePath("../Main Room Right")]
 
 [node name="Entrance Left" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.82444, 0, 2.59565)
-waypoints = [NodePath("../Entrance Center"), NodePath("../Main Room Left"), NodePath("../Counter Left")]
+waypoints = [NodePath("../Entrance Center"), NodePath("../Main Room Left"), NodePath("../Counter Left"), NodePath("../Main Room Center")]
 
 [node name="Entrance Right" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.64036, 0, 2.59565)
-waypoints = [NodePath("../Entrance Center"), NodePath("../Main Room Right")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.63123, 0, 2.59565)
+waypoints = [NodePath("../Entrance Center"), NodePath("../Main Room Right"), NodePath("../Main Room Center")]
 
 [node name="Main Room Center" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.290052, 0, -5.23415)
-waypoints = [NodePath("../Entrance Center"), NodePath("../Main Room Left"), NodePath("../Main Room Right"), NodePath("../Main Room Far Center")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35607, 0, -5.23415)
+waypoints = [NodePath("../Entrance Center"), NodePath("../Main Room Left"), NodePath("../Main Room Right"), NodePath("../Main Room Far Center"), NodePath("../Main Room Far Left"), NodePath("../Main Room Far Right"), NodePath("../Entrance Left"), NodePath("../Entrance Right")]
 
 [node name="Main Room Left" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.82444, 0, -3.88597)
-waypoints = [NodePath("../Entrance Left"), NodePath("../Main Room Center"), NodePath("../Main Room Far Left"), NodePath("../Counter Center"), NodePath("../Counter Left"), NodePath("../Counter Right")]
+waypoints = [NodePath("../Entrance Left"), NodePath("../Main Room Center"), NodePath("../Main Room Far Left"), NodePath("../Counter Center"), NodePath("../Counter Left"), NodePath("../Counter Right"), NodePath("../Main Room Far Center"), NodePath("../Entrance Center")]
 
 [node name="Main Room Right" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.64036, 0, -5.23415)
-waypoints = [NodePath("../Entrance Right"), NodePath("../Main Room Far Right"), NodePath("../Main Room Center")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.63123, 0, -5.23415)
+waypoints = [NodePath("../Entrance Right"), NodePath("../Main Room Far Right"), NodePath("../Main Room Center"), NodePath("../Entrance Center"), NodePath("../Main Room Far Center")]
 
 [node name="Counter Center" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.44034, 0, -3.88597)
@@ -82,11 +82,22 @@ waypoints = [NodePath("../Counter Center"), NodePath("../Entrance Left"), NodePa
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.44034, 0, -8.16613)
 waypoints = [NodePath("../Main Room Far Left"), NodePath("../Counter Center"), NodePath("../Main Room Left")]
 
-[node name="Main Room Far Center" parent="Waypoints" instance=ExtResource("4_a4b10")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.290052, 0, -13.0448)
+[node name="Main Room Far Center" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35607, 0, -13.0448)
+waypoints = [NodePath("../Main Room Far Left"), NodePath("../Main Room Far Right"), NodePath("../Main Room Center"), NodePath("../Main Room Left"), NodePath("../Main Room Right"), NodePath("../Hallway Entrance"), NodePath("../Corridor Entrance")]
 
-[node name="Main Room Far Left" parent="Waypoints" instance=ExtResource("4_a4b10")]
+[node name="Main Room Far Left" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.82444, 0, -13.0448)
+waypoints = [NodePath("../Counter Right"), NodePath("../Main Room Far Center"), NodePath("../Main Room Left"), NodePath("../Main Room Center"), NodePath("../Hallway Entrance"), NodePath("../Corridor Entrance")]
 
-[node name="Main Room Far Right" parent="Waypoints" instance=ExtResource("4_a4b10")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.64036, 0, -13.0448)
+[node name="Main Room Far Right" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.63123, 0, -13.0448)
+waypoints = [NodePath("../Main Room Far Center"), NodePath("../Main Room Right"), NodePath("../Main Room Center"), NodePath("../Hallway Entrance")]
+
+[node name="Hallway Entrance" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.42508, -4.76837e-07, -20.8974)
+waypoints = [NodePath("../Main Room Far Left"), NodePath("../Main Room Far Center"), NodePath("../Corridor Entrance")]
+
+[node name="Corridor Entrance" parent="Waypoints" node_paths=PackedStringArray("waypoints") instance=ExtResource("4_a4b10")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.56472, -4.76837e-07, -20.8974)
+waypoints = [NodePath("../Hallway Entrance"), NodePath("../Main Room Far Left"), NodePath("../Main Room Far Center")]

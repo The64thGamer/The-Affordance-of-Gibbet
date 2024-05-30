@@ -39,13 +39,13 @@ public partial class Waypoint : Node3D
 		return waypoints[closestWaypoint];
 	}
 
-	public override void _Process(double delta)
+	public override void _Ready()
 	{    
 		for (int i = 0; i < waypoints.Length; i++)
 		{
 			if(waypoints[i] != null)
 			{
-				DebugDraw.Arrow(GlobalPosition,waypoints[i].GlobalPosition - GlobalPosition,2,new Color(0,1,1));
+				DebugDraw.Arrow(GlobalPosition,waypoints[i].GlobalPosition - GlobalPosition,1,new Color(0,0,0),999999);
 			}	
 		}
 	}
