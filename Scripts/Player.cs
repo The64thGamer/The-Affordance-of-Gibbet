@@ -21,7 +21,13 @@ public partial class Player : BoardPiece
     }
 
 	public override void _Process(double delta)
-	{
+	{ 
+		if (Input.IsActionJustPressed("Pause"))
+        {
+			GetTree().Root.PropagateNotification((int)NotificationWMCloseRequest);
+			GetTree().Quit();
+		}
+
 		base._Process(delta);
 
 		if(actionTimeLeft <= 0)
