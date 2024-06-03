@@ -35,7 +35,7 @@ shadow_enabled = true
 shadow_blur = 0.096
 
 [node name="Test Map" parent="." instance=ExtResource("4_0kke2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.55571, 0, 3.99159)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.56619, 0.0592232, 3.98423)
 
 [node name="Player" parent="." node_paths=PackedStringArray("currentWaypoint") instance=ExtResource("3_rpmay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46829, 0, -0.0796766)
@@ -187,5 +187,6 @@ currentWaypoint = NodePath("../Waypoints/Backroom E")
 
 [node name="VoxelGI" type="VoxelGI" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.99689, 6.89193, -24.6488)
+subdiv = 2
 size = Vector3(42.3949, 15.6484, 59.7733)
 data = ExtResource("7_0jyuy")
