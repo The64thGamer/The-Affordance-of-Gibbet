@@ -9,4 +9,5 @@ script = ExtResource("1_wrp5r")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2, 0)
+visible = false
 mesh = SubResource("CylinderMesh_yb6hb")

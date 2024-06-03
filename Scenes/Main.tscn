@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://cxhbeothnwanc"]
+[gd_scene load_steps=11 format=3 uid="uid://cxhbeothnwanc"]
 
 [ext_resource type="Script" path="res://Scripts/GameMaster.cs" id="1_vlvyk"]
 [ext_resource type="PackedScene" uid="uid://y2q4374ibsbh" path="res://Prefabs/Player.tscn" id="3_rpmay"]
 [ext_resource type="PackedScene" uid="uid://c6mpsvtvaktv4" path="res://Models/Test Map.glb" id="4_0kke2"]
 [ext_resource type="PackedScene" uid="uid://bufrxc8btjvfr" path="res://Prefabs/Waypoint.tscn" id="4_a4b10"]
 [ext_resource type="PackedScene" uid="uid://dlf73gynf2yx0" path="res://Prefabs/Simple AI.tscn" id="5_h1cb1"]
+[ext_resource type="PackedScene" uid="uid://lwl378hm2uo4" path="res://Models/Enemy.glb" id="6_0aafd"]
+[ext_resource type="VoxelGIData" uid="uid://bceohniajuiwb" path="res://Scenes/Main.VoxelGI_data.res" id="7_0jyuy"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bh3s1"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -19,6 +21,7 @@ sky_material = SubResource("ProceduralSkyMaterial_bh3s1")
 [sub_resource type="Environment" id="Environment_7fl4d"]
 background_mode = 2
 sky = SubResource("Sky_tkonq")
+ambient_light_sky_contribution = 0.0
 
 [node name="GameMaster" type="Node3D"]
 script = ExtResource("1_vlvyk")
@@ -27,7 +30,9 @@ script = ExtResource("1_vlvyk")
 environment = SubResource("Environment_7fl4d")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.856951, -0.473902, 0.202612, 0.225406, 0.698137, 0.679557, -0.463494, -0.536677, 0.705089, 0, 0, 0)
+transform = Transform3D(0.856951, -0.473902, 0.202612, 0.425114, 0.872191, 0.241994, -0.291397, -0.121244, 0.948888, 0, -0.0860834, 0.465995)
+shadow_enabled = true
+shadow_blur = 0.096
 
 [node name="Test Map" parent="." instance=ExtResource("4_0kke2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.55571, 0, 3.99159)
@@ -177,3 +182,10 @@ waypoints = [NodePath("../Bathroom Entrance")]
 [node name="Simple AI" parent="." node_paths=PackedStringArray("currentWaypoint") instance=ExtResource("5_h1cb1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.818986, 0, 0.700527)
 currentWaypoint = NodePath("../Waypoints/Backroom E")
+
+[node name="Enemy" parent="Simple AI" instance=ExtResource("6_0aafd")]
+
+[node name="VoxelGI" type="VoxelGI" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.99689, 6.89193, -24.6488)
+size = Vector3(42.3949, 15.6484, 59.7733)
+data = ExtResource("7_0jyuy")
