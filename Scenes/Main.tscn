@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cxhbeothnwanc"]
+[gd_scene load_steps=14 format=3 uid="uid://cxhbeothnwanc"]
 
 [ext_resource type="Script" path="res://Scripts/GameMaster.cs" id="1_vlvyk"]
 [ext_resource type="PackedScene" uid="uid://y2q4374ibsbh" path="res://Prefabs/Player.tscn" id="3_rpmay"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://dlf73gynf2yx0" path="res://Prefabs/Simple AI.tscn" id="5_h1cb1"]
 [ext_resource type="PackedScene" uid="uid://lwl378hm2uo4" path="res://Models/Enemy.glb" id="6_0aafd"]
 [ext_resource type="VoxelGIData" uid="uid://bceohniajuiwb" path="res://Scenes/Main.VoxelGI_data.res" id="7_0jyuy"]
+[ext_resource type="Material" uid="uid://cw537pxpydi87" path="res://Materials/Test.tres" id="8_4w0ya"]
+[ext_resource type="PackedScene" uid="uid://3ul8kn720u2o" path="res://Models/Computer.glb" id="9_jwqxu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bh3s1"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -22,6 +24,8 @@ sky_material = SubResource("ProceduralSkyMaterial_bh3s1")
 background_mode = 2
 sky = SubResource("Sky_tkonq")
 ambient_light_sky_contribution = 0.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vfw0e"]
 
 [node name="GameMaster" type="Node3D"]
 script = ExtResource("1_vlvyk")
@@ -186,7 +190,15 @@ currentWaypoint = NodePath("../Waypoints/Backroom E")
 [node name="Enemy" parent="Simple AI" instance=ExtResource("6_0aafd")]
 
 [node name="VoxelGI" type="VoxelGI" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.99689, 6.89193, -24.6488)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.92946, 6.89193, -23.0343)
 subdiv = 2
-size = Vector3(42.3949, 15.6484, 59.7733)
+size = Vector3(44.3868, 15.6484, 67.8296)
 data = ExtResource("7_0jyuy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, 0, 0.0325251, 0)
+mesh = SubResource("PlaneMesh_vfw0e")
+surface_material_override/0 = ExtResource("8_4w0ya")
+
+[node name="Computer" parent="." instance=ExtResource("9_jwqxu")]
+transform = Transform3D(-3.0598e-08, 0, -0.7, 0, 0.7, 0, 0.7, 0, -3.0598e-08, -12.6952, 3.79896, -3.99426)
