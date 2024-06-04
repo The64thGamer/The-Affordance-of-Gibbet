@@ -1,0 +1,41 @@
+key,en
+TITLE,The Affordance of a Gibbet
+CREATOR,The 64th Gamer
+LOG_TERMINAL_A_01,"OFH System
+IVY M. Compatible - Release 1 - Version 1.0 - 1969
+
+NASA 68 System Fork - Maintained by Open Foundation for Humanity - Openly Copyable & Modifiable
+
+
+LAST ONLINE: 186 Days
+DATE: 3796 Days Since Separation
+
+
+** Welcome** GUEST to LUNAR VILLAGE: HARVEST"
+LOG_TERMINAL_A_COMMAND_ANY,"UNKNOWN COMMAND! type HELP to get HELP."
+LOG_TERMINAL_A_COMMAND_HELP,"INFO - information
+SRPOS - get estimated SR positioning
+SRMAP - saved SR positions
+CALL - call for ASSISTANCE"
+LOG_TERMINAL_A_COMMAND_INFO,"NOTICE from the Open Foundation for Humanity APPROVED AS OF 2999 D.S.S
+
+
+Location of current terminal AS OF LAST KNOWN POSITION in sole LUNAR VILLAGE on moon HARVEST.  Nearest OFH station in case of EMERGENCY is AS OF 2999 D.S.S the LUNAR VILLAGE of moon FOYLE.
+SR positions for FOYLE secured in the SRMAP of this terminal. 
+
+
+DESCRIPTION OF VILLAGE provided by officials running LUNAR VILLAGE of HARVEST:
+'The village on Harvest is led by a team of engineers conducting research into robotic assisted living.'
+
+HARVEST is - CLOSED - to immigration. STATED REASON 'Resources only planned to accommodate founding members.'
+
+HARVEST is - OPEN - to visitors. The Open Foundation for Humanity solely judged activity would not impede this village's survival AS OF 2999 D.S.S.""
+LOG_TERMINAL_A_COMMAND_SRPOS,"CALCULATING. . .
+
+POS 193741.9431, 97478.638001, 9999873.003004, <-(213.00009, 5.431, 0.0001)"
+LOG_TERMINAL_A_COMMAND_SRMAP,"<NO ENTRIES FOUND>"
+LOG_TERMINAL_A_COMMAND_CALL,"CALLING OTHER TERMINALS. . .
+. . .
+NO TERMINALS CONNECTED.
+NO OTHER TERMINALS IN SRMAP."
+LOG_PLAYER_00001,""
