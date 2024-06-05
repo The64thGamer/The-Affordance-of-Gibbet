@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://dwikffoj068ul"]
+
+[ext_resource type="Script" path="res://Scripts/Entity2D.cs" id="1_aahpd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5by4a"]
+size = Vector2(50, 50)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4v8te"]
+size = Vector2(50, 50)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ty6lq"]
+
+[node name="Level1" type="Node3D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+script = ExtResource("1_aahpd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_5by4a")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+texture = SubResource("PlaceholderTexture2D_4v8te")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 39)
+shape = SubResource("WorldBoundaryShape2D_ty6lq")
