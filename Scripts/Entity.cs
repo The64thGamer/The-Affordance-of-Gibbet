@@ -43,7 +43,11 @@ public partial class Entity : CharacterBody2D
 
 	void UpdateSprites(double delta)
 	{
-		sprite.FlipH = Velocity.X < 0 ? true : false;
+		if(Velocity.X != 0)
+		{
+			sprite.FlipH = Velocity.X < 0 ? true : false;
+		}
+		
 		if(Velocity.Y == 0)
 		{
 			if(Velocity == Vector2.Zero)
