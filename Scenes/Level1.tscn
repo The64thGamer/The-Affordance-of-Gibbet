@@ -1,13 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://dwikffoj068ul"]
+[gd_scene load_steps=9 format=3 uid="uid://dwikffoj068ul"]
 
 [ext_resource type="Script" path="res://Scripts/Entity.cs" id="1_aahpd"]
 [ext_resource type="TileSet" uid="uid://dcsalqtqp55os" path="res://Tilesets/Tiles.tres" id="2_gtx7n"]
 [ext_resource type="Texture2D" uid="uid://dkcjqj62srcov" path="res://Sprites/Sprite Player.png" id="3_rsto5"]
 [ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="4_onesk"]
+[ext_resource type="Script" path="res://Scripts/CopyUI.cs" id="5_aamwq"]
 [ext_resource type="Texture2D" uid="uid://cevs0b6yp1nfw" path="res://Sprites/Sprite UI.png" id="5_lwkgl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5by4a"]
 size = Vector2(16, 16)
+
+[sub_resource type="Curve" id="Curve_jqpdy"]
+_data = [Vector2(0, 0), 0.0, 2.57971, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [node name="Level1" type="Node3D"]
 
@@ -40,10 +45,16 @@ script = ExtResource("4_onesk")
 position = Vector2(6, -51)
 zoom = Vector2(3, 3)
 
-[node name="Copy UI" type="Node2D" parent="Gibbet"]
+[node name="Copy UI" type="Node2D" parent="Gibbet" node_paths=PackedStringArray("buttonB", "arrowUp", "arrowRight", "arrowDown", "arrowLeft")]
+script = ExtResource("5_aamwq")
+buttonB = NodePath("B Button")
+arrowUp = NodePath("Arrow Up")
+arrowRight = NodePath("Arrow Right")
+arrowDown = NodePath("Arrow Down")
+arrowLeft = NodePath("Arrow Left")
+moveOutCurve = SubResource("Curve_jqpdy")
 
 [node name="B Button" type="Sprite2D" parent="Gibbet/Copy UI"]
-visible = false
 texture_filter = 1
 texture = ExtResource("5_lwkgl")
 hframes = 10
@@ -51,8 +62,8 @@ vframes = 20
 script = ExtResource("4_onesk")
 
 [node name="Arrow Up" type="Sprite2D" parent="Gibbet/Copy UI"]
-visible = false
 texture_filter = 1
+position = Vector2(0, -20)
 texture = ExtResource("5_lwkgl")
 hframes = 10
 vframes = 20
@@ -60,8 +71,8 @@ frame = 2
 script = ExtResource("4_onesk")
 
 [node name="Arrow Right" type="Sprite2D" parent="Gibbet/Copy UI"]
-visible = false
 texture_filter = 1
+position = Vector2(20, 0)
 texture = ExtResource("5_lwkgl")
 flip_h = true
 hframes = 10
@@ -70,8 +81,8 @@ frame = 1
 script = ExtResource("4_onesk")
 
 [node name="Arrow Down" type="Sprite2D" parent="Gibbet/Copy UI"]
-visible = false
 texture_filter = 1
+position = Vector2(0, 20)
 texture = ExtResource("5_lwkgl")
 hframes = 10
 vframes = 20
@@ -79,8 +90,8 @@ frame = 3
 script = ExtResource("4_onesk")
 
 [node name="Arrow Left" type="Sprite2D" parent="Gibbet/Copy UI"]
-visible = false
 texture_filter = 1
+position = Vector2(-20, 0)
 texture = ExtResource("5_lwkgl")
 hframes = 10
 vframes = 20
