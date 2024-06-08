@@ -13,7 +13,10 @@ public partial class CopyUI : Node
 	
 	CopyUIState uiState;
 	float uiStateTimer;
-	const int uiMaxOutPosition = 24;
+	const int uiMaxOutPosition = 20;
+	const float uiOutTimer = .2f;
+	const int uiNotSelectedPosterization = -2;
+	const float uiSelectedTimer = 0.3f;
 
 	enum CopyUIState
 	{
@@ -24,6 +27,7 @@ public partial class CopyUI : Node
 		sidesSelected,
 		neutralSelected,
 		downSelected,
+		goingOff,
 	}
 
 	// Called when the node enters the scene tree for the first time.
@@ -54,16 +58,89 @@ public partial class CopyUI : Node
 		switch (uiState)
 		{
 			case CopyUIState.starting:
-				arrowUp.Position = Vector2.Zero.Lerp(Vector2.Up * uiMaxOutPosition,uiStateTimer);
-				arrowRight.Position = Vector2.Zero.Lerp(Vector2.Right * uiMaxOutPosition,uiStateTimer);
-				arrowDown.Position = Vector2.Zero.Lerp(-Vector2.Up * uiMaxOutPosition,uiStateTimer);
-				arrowLeft.Position = Vector2.Zero.Lerp(-Vector2.Right * uiMaxOutPosition,uiStateTimer);
+				arrowUp.Position = Vector2.Zero.Lerp(Vector2.Up * uiMaxOutPosition,uiStateTimer / uiOutTimer);
+				arrowRight.Position = Vector2.Zero.Lerp(Vector2.Right * uiMaxOutPosition,uiStateTimer / uiOutTimer);
+				arrowDown.Position = Vector2.Zero.Lerp(-Vector2.Up * uiMaxOutPosition,uiStateTimer / uiOutTimer);
+				arrowLeft.Position = Vector2.Zero.Lerp(-Vector2.Right * uiMaxOutPosition,uiStateTimer / uiOutTimer);
 				
-				if(uiStateTimer >= 1)
+				if(uiStateTimer >= uiOutTimer)
 				{
 					uiStateTimer = 0;
 					uiState = CopyUIState.finished;
 				}
+			break;
+			case CopyUIState.finished:
+			if (Input.IsActionJustPressed("Attack"))
+			{
+				uiStateTimer = 0;
+
+				if(Input.IsActionPressed("Left") || Input.IsActionPressed("Right"))
+				{
+					uiState = CopyUIState.sidesSelected;
+					break;
+				}
+				if(Input.IsActionPressed("Up"))
+				{
+					uiState = CopyUIState.upSelected;
+					break;
+				}
+				if(Input.IsActionPressed("Down"))
+				{
+					uiState = CopyUIState.downSelected;
+					break;
+				}
+
+				uiState = CopyUIState.neutralSelected;
+			}
+			break;
+			case CopyUIState.upSelected:
+				arrowDown.Posterize(uiNotSelectedPosterization);
+				arrowLeft.Posterize(uiNotSelectedPosterization);
+				arrowRight.Posterize(uiNotSelectedPosterization);
+				if(uiStateTimer >= uiSelectedTimer)
+				{
+					uiStateTimer = 0;
+					uiState = CopyUIState.goingOff;
+				}
+			break;
+			case CopyUIState.downSelected:
+				arrowUp.Posterize(uiNotSelectedPosterization);
+				arrowLeft.Posterize(uiNotSelectedPosterization);
+				arrowRight.Posterize(uiNotSelectedPosterization);
+				if(uiStateTimer >= uiSelectedTimer)
+				{
+					uiStateTimer = 0;
+					uiState = CopyUIState.goingOff;
+				}
+			break;
+			case CopyUIState.sidesSelected:
+				arrowDown.Posterize(uiNotSelectedPosterization);
+				arrowUp.Posterize(uiNotSelectedPosterization);
+				if(uiStateTimer >= uiSelectedTimer)
+				{
+					uiStateTimer = 0;
+					uiState = CopyUIState.goingOff;
+				}
+			break;
+			case CopyUIState.neutralSelected:
+				arrowDown.Posterize(uiNotSelectedPosterization);
+				arrowLeft.Posterize(uiNotSelectedPosterization);
+				arrowRight.Posterize(uiNotSelectedPosterization);
+				arrowUp.Posterize(uiNotSelectedPosterization);
+				if(uiStateTimer >= uiSelectedTimer)
+				{
+					uiStateTimer = 0;
+					uiState = CopyUIState.goingOff;
+				}
+			break;
+			case CopyUIState.goingOff:
+				arrowUp.Visible = false;
+				arrowRight.Visible = false;
+				arrowDown.Visible = false;
+				arrowLeft.Visible = false;
+				buttonB.Visible = false;
+				uiStateTimer = 0;
+				uiState = CopyUIState.off;
 			break;
 			default:
 			break;

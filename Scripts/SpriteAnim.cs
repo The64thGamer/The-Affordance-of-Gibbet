@@ -52,4 +52,9 @@ public partial class SpriteAnim : Sprite2D
 
 		GD.PrintErr("Unknown Sprite '" + name + "'");
 	}
+
+	public void Posterize(int tier)
+	{
+		Visible = false;
+	}
 }
