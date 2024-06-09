@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://etuvmji1fhpm"]
+
+[ext_resource type="Script" path="res://Scripts/GenericEnemy.cs" id="1_aehbl"]
+[ext_resource type="Texture2D" uid="uid://dh0q738112j0p" path="res://Sprites/Sprite Enemy Squid.png" id="2_7bvd7"]
+[ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="3_8c86f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5by4a"]
+size = Vector2(15, 15)
+
+[node name="Blibbly" type="CharacterBody2D"]
+safe_margin = 0.5
+script = ExtResource("1_aehbl")
+walkSpeed = 30.0
+jumpHeight = 5.0
+timeBetweenJumps = 0.0
+AIType = 1
+gravity = 300.0
+walkAnimSpeed = 5.0
+idleAnimSpeed = 6.0
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5by4a")
+one_way_collision_margin = 0.0
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_7bvd7")
+hframes = 10
+vframes = 20
+script = ExtResource("3_8c86f")

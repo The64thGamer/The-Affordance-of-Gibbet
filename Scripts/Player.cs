@@ -5,25 +5,52 @@ public partial class Player : Entity
 {
 	[Export] float Speed = 300.0f;
 	[Export] float JumpVelocity = -400.0f;
+	[Export] Curve JumpHoldCurve;
 
 	[Export] float gravity = 20f;
 	
 	[Export] float walkAnimSpeed;
 	float walkTimer;
+	float jumpTimer;
+	bool isJumping;
 
+	const int initialJumpMult = 3;
 	
 
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
 
-		// Add the gravity.
 		if (!IsOnFloor())
 			velocity.Y += gravity * (float)delta;
 
-		// Handle Jump.
-		if ((Input.IsActionJustPressed("Jump") || Input.IsActionJustPressed("Up")) && IsOnFloor())
-			velocity.Y = JumpVelocity;
+
+		if(isJumping)
+		{
+			if(!Input.IsActionPressed("Up"))
+			{
+				isJumping = false;
+			}
+			else
+			{
+				jumpTimer = Mathf.Min(1,jumpTimer + (float)delta);
+				velocity.Y += JumpVelocity * JumpHoldCurve.SampleBaked(jumpTimer);
+				if(jumpTimer >= 1)
+				{
+					isJumping = false;
+					jumpTimer = 0;
+				}
+			}
+		}
+
+		if (Input.IsActionJustPressed("Up") && IsOnFloor())
+		{
+			isJumping = true;
+			velocity.Y = JumpVelocity * initialJumpMult;
+			jumpTimer = 0;
+		}
+
+		
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.

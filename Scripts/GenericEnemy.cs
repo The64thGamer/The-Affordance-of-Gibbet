@@ -56,24 +56,22 @@ public partial class GenericEnemy : Entity
 
         return properties;
     }
-	
-
 	public override void _PhysicsProcess(double delta)
 	{
 		if (!Engine.IsEditorHint())
 		{
-		switch (AIType)
-		{
-			case AIPattern.walkLeft:
-				GenericMove(-Vector2.Right,false,delta);
-			break;
-			case AIPattern.walkRight:
-				GenericMove(Vector2.Right,false,delta);
-			break;
-			default:
-				GenericMove(Vector2.Zero,false,delta);
-			break;
-		}
+			switch (AIType)
+			{
+				case AIPattern.walkLeft:
+					GenericMove(-Vector2.Right,false,delta);
+					break;
+				case AIPattern.walkRight:
+					GenericMove(Vector2.Right,false,delta);
+					break;
+				default:
+					GenericMove(Vector2.Zero,false,delta);
+					break;
+			}
 		}
 	}
 
@@ -149,7 +147,7 @@ public partial class GenericEnemy : Entity
 		}
 		else
 		{
-			sprite.SetSprite("Jump");
+			//sprite.SetSprite("Jump");
 		}
 	}
 }

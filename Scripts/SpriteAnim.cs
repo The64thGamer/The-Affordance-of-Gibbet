@@ -11,6 +11,8 @@ public partial class SpriteAnim : Sprite2D
 		"Idle",
 		"Walk A","Walk B","Walk C",
 		"Jump",
+		"Roll A","Roll B","Roll C",
+		"Copy B","Copy C","Copy A",
 		};
 	static string[] spriteUI = new string[]{
 		"Button B",
