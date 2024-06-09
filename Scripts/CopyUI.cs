@@ -3,6 +3,7 @@ using System;
 
 public partial class CopyUI : Area2D
 {
+	[Export] Player player;
 	[Export] SpriteAnim buttonB;
 	[Export] SpriteAnim arrowUp;
 	[Export] SpriteAnim arrowRight;
@@ -166,6 +167,7 @@ public partial class CopyUI : Area2D
 				(body as GenericEnemy).Die();
 				GetTree().Paused = true;
 				CreateUI();
+				player.SetCopyAbility(Player.CopyAbility.none,0);
 			}
 		}
     }

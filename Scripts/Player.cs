@@ -17,21 +17,28 @@ public partial class Player : Entity
 	float animTimer;
 	float jumpTimer;
 	float copyTimer;
+	float copyCooldownTimer;
 	bool isJumping;
 
+	const float copyCooldown = 0.25f;
 	const int initialJumpMult = 3;
 	const int slowdownSpeed = 2;
 	const float minCopyTimeHitboxSpawn = 0.1f;
 	Vector2 currentInput;
 
 	PlayerState playerState = PlayerState.standard;
+	CopyAbility currentCopyAbility;
 	
-	enum PlayerState
+	public enum PlayerState
 	{
 		standard,
 		copying,
 		takingAbility,
 		uncopying,
+	}
+	public enum CopyAbility
+	{
+		none,
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -47,12 +54,13 @@ public partial class Player : Entity
 		switch (playerState)
 		{
 			case PlayerState.standard:
-				if(Input.IsActionPressed("Copy"))
+				if(Input.IsActionPressed("Copy") && copyCooldownTimer <= 0)
 				{
 					playerState = PlayerState.copying;
 					animTimer = 0;
 					copyTimer = 0;
 				}
+				copyCooldownTimer = Mathf.Max(0,copyCooldownTimer - (float)delta);
 				break;
 			case PlayerState.copying:
 				copyTimer += (float)delta;
@@ -70,9 +78,15 @@ public partial class Player : Entity
 			break;
 			case PlayerState.uncopying:
 				zapHitbox.Monitoring = false;
+				copyCooldownTimer = copyCooldown;
 			break;
 			case PlayerState.takingAbility:
 				zapHitbox.Monitoring = false;
+				if(currentCopyAbility == CopyAbility.none)
+				{
+					playerState = PlayerState.standard;
+				}
+				copyCooldownTimer = copyCooldown;
 			break;
 			default:
 			break;
@@ -247,5 +261,11 @@ public partial class Player : Entity
 		{
 			sprite.SetSprite("Jump");
 		}
+	}
+
+	public void SetCopyAbility(CopyAbility ability, int slot)
+	{
+		currentCopyAbility = ability;
+		playerState = PlayerState.takingAbility;
 	}
 }

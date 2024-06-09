@@ -1,0 +1,144 @@
+[gd_scene load_steps=14 format=3 uid="uid://curfr1nba6l3j"]
+
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_irf24"]
+[ext_resource type="Curve" uid="uid://dqdcspt38tt2l" path="res://Curves/PlayerJumpHoldCurve.tres" id="2_0c3ag"]
+[ext_resource type="Texture2D" uid="uid://dkcjqj62srcov" path="res://Sprites/Sprite Player.png" id="2_0pa3s"]
+[ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="3_75s47"]
+[ext_resource type="Script" path="res://Scripts/PlayerCam.cs" id="4_i612l"]
+[ext_resource type="Script" path="res://Scripts/CamVisibility.cs" id="5_cr5ag"]
+[ext_resource type="Script" path="res://Scripts/CopyUI.cs" id="6_0bbtl"]
+[ext_resource type="Curve" uid="uid://diyecldnh3x11" path="res://Curves/PlayerZapMoveOutCurve.tres" id="7_c1sip"]
+[ext_resource type="Texture2D" uid="uid://cevs0b6yp1nfw" path="res://Sprites/Sprite UI.png" id="7_mkxei"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5by4a"]
+size = Vector2(15, 15)
+
+[sub_resource type="Curve" id="Curve_g8avy"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.236413, 0.144737), 1.17111, 1.17111, 0, 0, Vector2(0.502717, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wir4g"]
+size = Vector2(336, 272)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_st8b7"]
+size = Vector2(16, 16)
+
+[node name="Gibbet" type="CharacterBody2D" node_paths=PackedStringArray("zapHitbox")]
+position = Vector2(-8, -8)
+collision_layer = 2
+safe_margin = 0.5
+script = ExtResource("1_irf24")
+JumpHoldCurve = ExtResource("2_0c3ag")
+zapHitbox = NodePath("ZapHitbox")
+walkAnimSpeed = 6.0
+copyAnimSpeed = 30.0
+
+[node name="Player Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5by4a")
+one_way_collision_margin = 0.0
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_0pa3s")
+hframes = 10
+vframes = 20
+script = ExtResource("3_75s47")
+
+[node name="Cam & UI" type="Node" parent="."]
+
+[node name="Camera" type="Camera2D" parent="Cam & UI" node_paths=PackedStringArray("player")]
+zoom = Vector2(4, 4)
+script = ExtResource("4_i612l")
+player = NodePath("../..")
+cameraLookaheadMultiplier = 2.5
+cameraSpeed = 0.4
+maxDeadzoneX = 20.0
+camSpeedCurve = SubResource("Curve_g8avy")
+
+[node name="VisibleArea" type="Area2D" parent="Cam & UI/Camera"]
+collision_layer = 0
+collision_mask = 6
+script = ExtResource("5_cr5ag")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cam & UI/Camera/VisibleArea"]
+shape = SubResource("RectangleShape2D_wir4g")
+
+[node name="ZapHitbox" type="Area2D" parent="." node_paths=PackedStringArray("player", "buttonB", "arrowUp", "arrowRight", "arrowDown", "arrowLeft")]
+process_mode = 3
+collision_layer = 2
+collision_mask = 4
+monitoring = false
+script = ExtResource("6_0bbtl")
+player = NodePath("..")
+buttonB = NodePath("B Button")
+arrowUp = NodePath("Arrow Up")
+arrowRight = NodePath("Arrow Right")
+arrowDown = NodePath("Arrow Down")
+arrowLeft = NodePath("Arrow Left")
+moveOutCurve = ExtResource("7_c1sip")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZapHitbox"]
+shape = SubResource("RectangleShape2D_st8b7")
+
+[node name="B Button" type="Sprite2D" parent="ZapHitbox"]
+process_mode = 3
+visible = false
+z_index = 1
+texture_filter = 1
+texture = ExtResource("7_mkxei")
+hframes = 10
+vframes = 20
+script = ExtResource("3_75s47")
+
+[node name="Arrow Up" type="Sprite2D" parent="ZapHitbox"]
+process_mode = 3
+visible = false
+z_index = 1
+texture_filter = 1
+position = Vector2(0, -20)
+texture = ExtResource("7_mkxei")
+hframes = 10
+vframes = 20
+frame = 2
+script = ExtResource("3_75s47")
+
+[node name="Arrow Right" type="Sprite2D" parent="ZapHitbox"]
+process_mode = 3
+visible = false
+z_index = 1
+texture_filter = 1
+position = Vector2(20, 0)
+texture = ExtResource("7_mkxei")
+flip_h = true
+hframes = 10
+vframes = 20
+frame = 1
+script = ExtResource("3_75s47")
+
+[node name="Arrow Down" type="Sprite2D" parent="ZapHitbox"]
+process_mode = 3
+visible = false
+z_index = 1
+texture_filter = 1
+position = Vector2(0, 20)
+texture = ExtResource("7_mkxei")
+hframes = 10
+vframes = 20
+frame = 3
+script = ExtResource("3_75s47")
+
+[node name="Arrow Left" type="Sprite2D" parent="ZapHitbox"]
+process_mode = 3
+visible = false
+z_index = 1
+texture_filter = 1
+position = Vector2(-20, 0)
+texture = ExtResource("7_mkxei")
+hframes = 10
+vframes = 20
+frame = 1
+script = ExtResource("3_75s47")
+
+[connection signal="body_entered" from="Cam & UI/Camera/VisibleArea" to="Cam & UI/Camera/VisibleArea" method="_on_body_entered"]
+[connection signal="body_exited" from="Cam & UI/Camera/VisibleArea" to="Cam & UI/Camera/VisibleArea" method="_on_body_exit"]
+[connection signal="body_entered" from="ZapHitbox" to="ZapHitbox" method="_on_body_entered"]

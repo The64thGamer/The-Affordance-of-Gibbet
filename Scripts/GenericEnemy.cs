@@ -47,6 +47,7 @@ public partial class GenericEnemy : Entity
 	const float deathJump = -1.5f;
 	const float deathLaunch = 1.5f;
 	const float deathGravity = .1f;
+	const float minTimeToDespawn = 0.1f;
 
     public override Godot.Collections.Array<Godot.Collections.Dictionary> _GetPropertyList()
     {
@@ -73,7 +74,7 @@ public partial class GenericEnemy : Entity
 		if (!Engine.IsEditorHint())
 		{
 			timeAlive += (float)delta;
-			if(!isVisibletoCamera && timeAlive > 0.1f)
+			if(!isVisibletoCamera && timeAlive > minTimeToDespawn)
 			{
 				QueueFree();
 			}
