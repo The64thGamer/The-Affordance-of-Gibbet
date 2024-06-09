@@ -1,8 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://etuvmji1fhpm"]
+[gd_scene load_steps=5 format=3 uid="uid://lyauqo0eaxay"]
 
-[ext_resource type="Script" path="res://Scripts/GenericEnemy.cs" id="1_aehbl"]
-[ext_resource type="Texture2D" uid="uid://dh0q738112j0p" path="res://Sprites/Sprite Enemy Squid.png" id="2_7bvd7"]
-[ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="3_8c86f"]
+[ext_resource type="Script" path="res://Scripts/GenericEnemy.cs" id="1_locsh"]
+[ext_resource type="Texture2D" uid="uid://dh0q738112j0p" path="res://Sprites/Sprite Enemy Squid.png" id="2_syhf3"]
+[ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="3_hipf7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5by4a"]
 size = Vector2(15, 15)
@@ -10,7 +10,7 @@ size = Vector2(15, 15)
 [node name="Blibbly" type="CharacterBody2D"]
 collision_layer = 4
 safe_margin = 0.5
-script = ExtResource("1_aehbl")
+script = ExtResource("1_locsh")
 walkSpeed = 30.0
 jumpHeight = 5.0
 timeBetweenJumps = 0.0
@@ -25,7 +25,7 @@ one_way_collision_margin = 0.0
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("2_7bvd7")
+texture = ExtResource("2_syhf3")
 hframes = 10
 vframes = 20
-script = ExtResource("3_8c86f")
+script = ExtResource("3_hipf7")

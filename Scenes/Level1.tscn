@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dwikffoj068ul"]
+[gd_scene load_steps=16 format=3 uid="uid://dwikffoj068ul"]
 
 [ext_resource type="TileSet" uid="uid://dcsalqtqp55os" path="res://Tilesets/Tiles.tres" id="2_gtx7n"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="2_l3dt2"]
@@ -7,7 +7,8 @@
 [ext_resource type="Script" path="res://Scripts/PlayerCam.cs" id="5_7bvo4"]
 [ext_resource type="Script" path="res://Scripts/CopyUI.cs" id="5_aamwq"]
 [ext_resource type="Texture2D" uid="uid://cevs0b6yp1nfw" path="res://Sprites/Sprite UI.png" id="5_lwkgl"]
-[ext_resource type="PackedScene" uid="uid://etuvmji1fhpm" path="res://Prefabs/Blibbly.tscn" id="7_d4168"]
+[ext_resource type="Script" path="res://Scripts/CamVisibility.cs" id="6_c52tm"]
+[ext_resource type="PackedScene" uid="uid://etuvmji1fhpm" path="res://Prefabs/Blibbly Spawner.tscn" id="7_d4168"]
 
 [sub_resource type="Curve" id="Curve_meguc"]
 _data = [Vector2(0, 1), 0.0, -5.92446, 0, 0, Vector2(0.0516304, 0.336316), -2.93754, -2.93754, 0, 0, Vector2(0.375, 0), 0.0, 0.0, 0, 0, Vector2(0.619565, 0), 0.0, 0.0, 0, 0, Vector2(0.994565, 0), 0.0, 0.0, 0, 0]
@@ -19,6 +20,9 @@ size = Vector2(15, 15)
 [sub_resource type="Curve" id="Curve_g8avy"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.236413, 0.144737), 1.17111, 1.17111, 0, 0, Vector2(0.502717, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 4
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wir4g"]
+size = Vector2(336, 272)
 
 [sub_resource type="Curve" id="Curve_jg1gy"]
 _data = [Vector2(0, 0), 0.0, 3.17707, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -67,6 +71,14 @@ cameraLookaheadMultiplier = 2.5
 cameraSpeed = 0.4
 maxDeadzoneX = 20.0
 camSpeedCurve = SubResource("Curve_g8avy")
+
+[node name="VisibleArea" type="Area2D" parent="Gibbet/Cam & UI/Camera"]
+collision_layer = 0
+collision_mask = 6
+script = ExtResource("6_c52tm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Gibbet/Cam & UI/Camera/VisibleArea"]
+shape = SubResource("RectangleShape2D_wir4g")
 
 [node name="ZapHitbox" type="Area2D" parent="Gibbet" node_paths=PackedStringArray("buttonB", "arrowUp", "arrowRight", "arrowDown", "arrowLeft")]
 process_mode = 3
@@ -167,4 +179,6 @@ position = Vector2(760, 24)
 [node name="Blibbly8" parent="." instance=ExtResource("7_d4168")]
 position = Vector2(808, 24)
 
+[connection signal="body_entered" from="Gibbet/Cam & UI/Camera/VisibleArea" to="Gibbet/Cam & UI/Camera/VisibleArea" method="_on_body_entered"]
+[connection signal="body_exited" from="Gibbet/Cam & UI/Camera/VisibleArea" to="Gibbet/Cam & UI/Camera/VisibleArea" method="_on_body_exit"]
 [connection signal="body_entered" from="Gibbet/ZapHitbox" to="Gibbet/ZapHitbox" method="_on_body_entered"]

@@ -101,6 +101,12 @@ public partial class GenericEnemy : Entity
 
 		Velocity = velocity;
 		GlobalPosition += Velocity;
+
+		if(!isVisibletoCamera)
+		{
+			GD.Print("Died");
+			QueueFree();
+		}
 	}
 
 	void GenericMove(Vector2 direction, bool jump, double delta)
