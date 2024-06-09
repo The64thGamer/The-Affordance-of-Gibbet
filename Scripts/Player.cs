@@ -1,58 +1,87 @@
 using Godot;
 using System;
 
-public partial class Player : BoardPiece
+public partial class Player : Entity
 {
-	//Camera
-	[Export] Node3D playerHead;
-	[Export] Node3D fakePlayerHead;
-	public override void _Ready()
+	[Export] float Speed = 300.0f;
+	[Export] float JumpVelocity = -400.0f;
+
+	[Export] float gravity = 20f;
+	
+	[Export] float walkAnimSpeed;
+	float walkTimer;
+
+	
+
+	public override void _PhysicsProcess(double delta)
 	{
-		base._Ready();
-		AddToGroup("Players");
+		Vector2 velocity = Velocity;
+
+		// Add the gravity.
+		if (!IsOnFloor())
+			velocity.Y += gravity * (float)delta;
+
+		// Handle Jump.
+		if ((Input.IsActionJustPressed("Jump") || Input.IsActionJustPressed("Up")) && IsOnFloor())
+			velocity.Y = JumpVelocity;
+
+		// Get the input direction and handle the movement/deceleration.
+		// As good practice, you should replace UI actions with custom gameplay actions.
+		Vector2 direction = Input.GetVector("Left", "Right", "Up", "Down");
+		if (direction != Vector2.Zero)
+		{
+			velocity.X = direction.X * Speed;
+		}
+		else
+		{
+			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+		}
+
+		Velocity = velocity;
+		MoveAndSlide();
+		UpdateSprites(delta);
 	}
-  	public override void _UnhandledInput(InputEvent currentEvent)
-    {
-		//Camera Movement
-		if(currentEvent is InputEventMouseMotion motion)
-		{
-            fakePlayerHead.RotateY(-motion.Relative.X * .001f);
-        }
-    }
 
-	public override void _Process(double delta)
-	{ 
-		if (Input.IsActionJustPressed("Pause"))
-        {
-			GetTree().Root.PropagateNotification((int)NotificationWMCloseRequest);
-			GetTree().Quit();
+	void UpdateSprites(double delta)
+	{
+		if(Velocity.X != 0)
+		{
+			sprite.FlipH = Velocity.X < 0 ? true : false;
 		}
-
-		base._Process(delta);
-
-		if(actionTimeLeft <= 0)
+		
+		if(Velocity.Y == 0)
 		{
-			GetTree().CallGroup("Game Masters", "PlayerReadyForThisTurn");		
-		}
-
-		//Head Rotation
-		playerHead.Basis = playerHead.Basis.Orthonormalized().Slerp(fakePlayerHead.Basis.Orthonormalized(),(float)delta * 6);
-
-		//Player Movement
-		Vector2 inputDir = Input.GetVector("Left", "Right", "Up", "Down");
-		Vector3 direction = (playerHead.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
-
-		if(direction != Vector3.Zero)
-		{
-			if(!currentlyOnTurn)
-			{			
-				if(Move(new Vector2(direction.X,direction.Z)))
+			if(Velocity == Vector2.Zero)
+			{
+				sprite.SetSprite("Idle");
+				walkTimer = 0;
+			}
+			if(Velocity.X != 0)
+			{
+				switch (Mathf.FloorToInt(walkTimer))
 				{
-    				GetTree().CallGroup("Game Masters", "PlayerReadyForThisTurn");	
-				}	
+					case 0:
+						sprite.SetSprite("Walk C");
+					break;
+					case 1:
+						sprite.SetSprite("Walk B");
+					break;
+					case 2:
+						sprite.SetSprite("Walk A");
+					break;
+					case 3:
+						sprite.SetSprite("Walk B");
+					break;
+					default:
+					walkTimer = 0;
+					break;
+				}
+				walkTimer += (float)delta * walkAnimSpeed;
 			}
 		}
+		else
+		{
+			sprite.SetSprite("Jump");
+		}
 	}
-
-	 
 }

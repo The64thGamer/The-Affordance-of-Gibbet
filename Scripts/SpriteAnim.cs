@@ -18,6 +18,9 @@ public partial class SpriteAnim : Sprite2D
 		"Button Up Arrow",
 		"Button Down Arrow",
 	};
+	static string[] spriteEnemySquid = new string[]{
+		"Idle A","Idle B","Die","Walk A", "Walk B",
+	};
 
 	public override void _Ready()
 	{
@@ -29,6 +32,9 @@ public partial class SpriteAnim : Sprite2D
 				break;
 			case "Sprite UI.png":
 				spriteNames = spriteUI;
+				break;
+			case "Sprite Enemy Squid.png":
+				spriteNames = spriteEnemySquid;
 				break;
 			default:
 				GD.PrintErr("Unknown Sprite Set: " + Texture.ResourcePath.GetFile());
@@ -44,6 +50,10 @@ public partial class SpriteAnim : Sprite2D
 
 	public void SetSprite(string name)
 	{
+		if(spriteHash.Count == 0)
+		{
+			return;
+		}
 		if(spriteHash.TryGetValue(name,out int index))
 		{
 			Frame = index;

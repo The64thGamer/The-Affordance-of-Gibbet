@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bufrxc8btjvfr"]
-
-[ext_resource type="Script" path="res://Scripts/Waypoint.cs" id="1_xbm1d"]
-
-[node name="Waypoint" type="Marker3D" node_paths=PackedStringArray("waypoints")]
-gizmo_extents = 0.72
-script = ExtResource("1_xbm1d")
-waypoints = []
