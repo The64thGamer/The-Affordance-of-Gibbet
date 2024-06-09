@@ -3,13 +3,14 @@ using System;
 
 public partial class Player : Entity
 {
-	[Export] float Speed = 300.0f;
-	[Export] float JumpVelocity = -400.0f;
+	float Speed = 80;
+	float JumpVelocity = -37;
+	float gravity = 300;
+
 	[Export] Curve JumpHoldCurve;
 	[Export] float minCopyTime = 1.0f;
 
-	[Export] float gravity = 20f;
-	
+	[Export] CopyUI zapHitbox;
 	[Export] float walkAnimSpeed;
 	[Export] float copyAnimSpeed;
 
@@ -20,6 +21,7 @@ public partial class Player : Entity
 
 	const int initialJumpMult = 3;
 	const int slowdownSpeed = 2;
+	const float minCopyTimeHitboxSpawn = 0.1f;
 	Vector2 currentInput;
 
 	PlayerState playerState = PlayerState.standard;
@@ -60,7 +62,17 @@ public partial class Player : Entity
 					animTimer = 0;
 					copyTimer = 0;
 				}
-
+				if(copyTimer > minCopyTimeHitboxSpawn)
+				{
+					zapHitbox.Position = new Vector2(16 * (sprite.FlipH ? -1 : 1),0);
+					zapHitbox.Monitoring = true;
+				}
+			break;
+			case PlayerState.uncopying:
+				zapHitbox.Monitoring = false;
+			break;
+			case PlayerState.takingAbility:
+				zapHitbox.Monitoring = false;
 			break;
 			default:
 			break;

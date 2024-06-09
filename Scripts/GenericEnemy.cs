@@ -4,7 +4,7 @@ using System;
 [Tool]
 public partial class GenericEnemy : Entity
 {
-
+	EnemyState enemyState = EnemyState.standard;
     [Export]
     public AIPattern AIType
     {
@@ -31,10 +31,21 @@ public partial class GenericEnemy : Entity
 		jump,
 	}
 
+	public enum EnemyState
+	{
+		standard,
+		attacking,
+		dying,
+	}
+
     AIPattern aiType;
     float walkSpeed;
     float jumpHeight;
 	float timeBetweenJumps;
+	
+	const float deathJump = -1.5f;
+	const float deathLaunch = 1.5f;
+	const float deathGravity = .1f;
 
     public override Godot.Collections.Array<Godot.Collections.Dictionary> _GetPropertyList()
     {
@@ -60,19 +71,36 @@ public partial class GenericEnemy : Entity
 	{
 		if (!Engine.IsEditorHint())
 		{
-			switch (AIType)
+			switch (enemyState)
 			{
-				case AIPattern.walkLeft:
-					GenericMove(-Vector2.Right,false,delta);
-					break;
-				case AIPattern.walkRight:
-					GenericMove(Vector2.Right,false,delta);
+				case EnemyState.dying:
+					DieMove(delta);
 					break;
 				default:
-					GenericMove(Vector2.Zero,false,delta);
+					switch (AIType)
+					{
+						case AIPattern.walkLeft:
+							GenericMove(-Vector2.Right,false,delta);
+							break;
+						case AIPattern.walkRight:
+							GenericMove(Vector2.Right,false,delta);
+							break;
+						default:
+							GenericMove(Vector2.Zero,false,delta);
+							break;
+					}
 					break;
-			}
+			}			
 		}
+	}
+ 
+	void DieMove(double delta)
+	{
+		Vector2 velocity = Velocity;
+		velocity.Y += deathGravity;
+
+		Velocity = velocity;
+		GlobalPosition += Velocity;
 	}
 
 	void GenericMove(Vector2 direction, bool jump, double delta)
@@ -109,45 +137,58 @@ public partial class GenericEnemy : Entity
 		{
 			sprite.FlipH = Velocity.X < 0 ? true : false;
 		}
-		
-		if(Velocity.Y == 0)
-		{
-			if(Velocity == Vector2.Zero)
-			{
-				switch (Mathf.FloorToInt(idleTimer))
+
+
+				if(Velocity.Y == 0)
 				{
-					case 0:
-						sprite.SetSprite("Idle A");
-					break;
-					case 1:
-						sprite.SetSprite("Idle B");
-					break;
-					default:
-					idleTimer = 0;
-					break;
+					if(Velocity == Vector2.Zero)
+					{
+						switch (Mathf.FloorToInt(idleTimer))
+						{
+							case 0:
+								sprite.SetSprite("Idle A");
+							break;
+							case 1:
+								sprite.SetSprite("Idle B");
+							break;
+							default:
+							idleTimer = 0;
+							break;
+						}
+						idleTimer += (float)delta * idleAnimSpeed;
+					}
+					if(Velocity.X != 0)
+					{
+						switch (Mathf.FloorToInt(walkTimer))
+						{
+							case 0:
+								sprite.SetSprite("Walk A");
+							break;
+							case 1:
+								sprite.SetSprite("Walk B");
+							break;
+							default:
+							walkTimer = 0;
+							break;
+						}
+						walkTimer += (float)delta * walkAnimSpeed;
+					}
 				}
-				idleTimer += (float)delta * idleAnimSpeed;
-			}
-			if(Velocity.X != 0)
-			{
-				switch (Mathf.FloorToInt(walkTimer))
+				else
 				{
-					case 0:
-						sprite.SetSprite("Walk A");
-					break;
-					case 1:
-						sprite.SetSprite("Walk B");
-					break;
-					default:
-					walkTimer = 0;
-					break;
+					//sprite.SetSprite("Jump");
 				}
-				walkTimer += (float)delta * walkAnimSpeed;
-			}
-		}
-		else
-		{
-			//sprite.SetSprite("Jump");
-		}
+	}
+
+	public void Die()
+	{
+		enemyState = EnemyState.dying;
+		Velocity = new Vector2(sprite.FlipH ? 1 : -1 * deathLaunch,deathJump);
+		sprite.SetSprite("Die");
+	}
+
+	public bool IsDead()
+	{
+		return enemyState == EnemyState.dying;
 	}
 }

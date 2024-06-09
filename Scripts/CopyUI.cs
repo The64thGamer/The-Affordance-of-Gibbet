@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class CopyUI : Node
+public partial class CopyUI : Area2D
 {
 	[Export] SpriteAnim buttonB;
 	[Export] SpriteAnim arrowUp;
@@ -136,6 +136,7 @@ public partial class CopyUI : Node
 				buttonB.Visible = false;
 				uiStateTimer = 0;
 				uiState = CopyUIState.off;
+				GetTree().Paused = false;
 			break;
 			default:
 			break;
@@ -155,4 +156,17 @@ public partial class CopyUI : Node
 			buttonB.Visible = true;
 		}
 	}
+
+	void _on_body_entered(PhysicsBody2D body)
+    {
+		if(body is GenericEnemy)
+		{
+			if(!(body as GenericEnemy).IsDead())
+			{
+				(body as GenericEnemy).Die();
+				GetTree().Paused = true;
+				CreateUI();
+			}
+		}
+    }
 }
