@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dwikffoj068ul"]
+[gd_scene load_steps=12 format=3 uid="uid://dwikffoj068ul"]
 
 [ext_resource type="TileSet" uid="uid://dcsalqtqp55os" path="res://Tilesets/Tiles.tres" id="2_gtx7n"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="2_l3dt2"]
 [ext_resource type="Texture2D" uid="uid://dkcjqj62srcov" path="res://Sprites/Sprite Player.png" id="3_rsto5"]
 [ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="4_onesk"]
+[ext_resource type="Script" path="res://Scripts/PlayerCam.cs" id="5_7bvo4"]
 [ext_resource type="Script" path="res://Scripts/CopyUI.cs" id="5_aamwq"]
 [ext_resource type="Texture2D" uid="uid://cevs0b6yp1nfw" path="res://Sprites/Sprite UI.png" id="5_lwkgl"]
 [ext_resource type="PackedScene" uid="uid://etuvmji1fhpm" path="res://Prefabs/Blibbly.tscn" id="7_d4168"]
@@ -36,6 +37,7 @@ JumpVelocity = -37.0
 JumpHoldCurve = SubResource("Curve_meguc")
 gravity = 300.0
 walkAnimSpeed = 6.0
+copyAnimSpeed = 30.0
 
 [node name="Player Collision" type="CollisionShape2D" parent="Gibbet"]
 shape = SubResource("RectangleShape2D_5by4a")
@@ -48,9 +50,15 @@ hframes = 10
 vframes = 20
 script = ExtResource("4_onesk")
 
-[node name="Camera" type="Camera2D" parent="Gibbet"]
-position = Vector2(6, -51)
+[node name="Cam & UI" type="Node" parent="Gibbet"]
+
+[node name="Camera" type="Camera2D" parent="Gibbet/Cam & UI" node_paths=PackedStringArray("player")]
 zoom = Vector2(4, 4)
+script = ExtResource("5_7bvo4")
+player = NodePath("../..")
+cameraLookaheadMultiplier = 3.0
+cameraSpeed = 0.4
+maxDeadzoneX = 16.0
 
 [node name="Copy UI" type="Node2D" parent="Gibbet" node_paths=PackedStringArray("buttonB", "arrowUp", "arrowRight", "arrowDown", "arrowLeft")]
 script = ExtResource("5_aamwq")

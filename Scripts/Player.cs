@@ -6,24 +6,103 @@ public partial class Player : Entity
 	[Export] float Speed = 300.0f;
 	[Export] float JumpVelocity = -400.0f;
 	[Export] Curve JumpHoldCurve;
+	[Export] float minCopyTime = 1.0f;
 
 	[Export] float gravity = 20f;
 	
 	[Export] float walkAnimSpeed;
-	float walkTimer;
+	[Export] float copyAnimSpeed;
+
+	float animTimer;
 	float jumpTimer;
+	float copyTimer;
 	bool isJumping;
 
 	const int initialJumpMult = 3;
+	const int slowdownSpeed = 2;
+	Vector2 currentInput;
+
+	PlayerState playerState = PlayerState.standard;
 	
+	enum PlayerState
+	{
+		standard,
+		copying,
+		takingAbility,
+		uncopying,
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
+		StateCheck(delta);
+		SetPhysics(delta);
+		MoveAndSlide();
+		UpdateSprites(delta);
+	}
+
+	void StateCheck(double delta)
+	{
+		switch (playerState)
+		{
+			case PlayerState.standard:
+				if(Input.IsActionPressed("Copy"))
+				{
+					playerState = PlayerState.copying;
+					animTimer = 0;
+					copyTimer = 0;
+				}
+				break;
+			case PlayerState.copying:
+				copyTimer += (float)delta;
+				if(copyTimer >= minCopyTime)
+				{
+					playerState = PlayerState.uncopying;
+					animTimer = 0;
+					copyTimer = 0;
+				}
+
+			break;
+			default:
+			break;
+		}
+	}
+
+	void SetPhysics(double delta)
+	{
+		bool jumpInput = false;
+		Vector2 input = Vector2.Zero;
+		switch (playerState)
+		{
+			case PlayerState.copying:
+				if(!IsOnFloor())
+				{
+					input = currentInput.Lerp(Vector2.Zero,Mathf.Min(1,copyTimer * slowdownSpeed));
+					if(Input.GetVector("Left", "Right", "Up", "Down").Dot(currentInput) <= -0.5)
+					{
+						currentInput = Vector2.Zero;
+						input = currentInput;
+					}
+				}
+				else
+				{
+					input = Vector2.Zero;
+				}
+				break;
+			case PlayerState.uncopying:
+				break;
+			default:
+				input = Input.GetVector("Left", "Right", "Up", "Down");
+				jumpInput = CheckJump();
+				currentInput = input;
+				break;
+		}
+
 		Vector2 velocity = Velocity;
 
 		if (!IsOnFloor())
+		{
 			velocity.Y += gravity * (float)delta;
-
+		}
 
 		if(isJumping)
 		{
@@ -43,21 +122,16 @@ public partial class Player : Entity
 			}
 		}
 
-		if (Input.IsActionJustPressed("Up") && IsOnFloor())
+		if(jumpInput)
 		{
 			isJumping = true;
 			velocity.Y = JumpVelocity * initialJumpMult;
 			jumpTimer = 0;
 		}
 
-		
-
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 direction = Input.GetVector("Left", "Right", "Up", "Down");
-		if (direction != Vector2.Zero)
+		if (input != Vector2.Zero)
 		{
-			velocity.X = direction.X * Speed;
+			velocity.X = input.X * Speed;
 		}
 		else
 		{
@@ -65,8 +139,15 @@ public partial class Player : Entity
 		}
 
 		Velocity = velocity;
-		MoveAndSlide();
-		UpdateSprites(delta);
+	}
+	
+	bool CheckJump()
+	{
+		if (Input.IsActionJustPressed("Up") && IsOnFloor())
+		{
+			return true;
+		}	
+		return false;
 	}
 
 	void UpdateSprites(double delta)
@@ -75,17 +156,61 @@ public partial class Player : Entity
 		{
 			sprite.FlipH = Velocity.X < 0 ? true : false;
 		}
+
+		switch (playerState)
+		{
+			case PlayerState.copying:
+				switch (Mathf.FloorToInt(animTimer))
+				{
+					case 0:
+						sprite.SetSprite("Copy A");
+					break;
+					case 1:
+						sprite.SetSprite("Copy A");
+					break;
+					case 2:
+						sprite.SetSprite("Copy B");
+					break;
+					case 3:
+						sprite.SetSprite("Copy C");
+					break;
+					default:
+					animTimer = 2;
+					break;
+				}
+				animTimer += (float)delta * copyAnimSpeed;
+				return;
+			case PlayerState.uncopying:
+				switch (Mathf.FloorToInt(animTimer))
+				{
+					case 0:
+						sprite.SetSprite("Copy A");
+					break;
+					case 1:
+						sprite.SetSprite("Copy A");
+					break;
+					default:
+						playerState = PlayerState.standard;
+						break;
+				}
+				animTimer += (float)delta * copyAnimSpeed;
+				return;
+			default:
+			break;
+		}
+
+
 		
 		if(Velocity.Y == 0)
 		{
 			if(Velocity == Vector2.Zero)
 			{
 				sprite.SetSprite("Idle");
-				walkTimer = 0;
+				animTimer = 0;
 			}
 			if(Velocity.X != 0)
 			{
-				switch (Mathf.FloorToInt(walkTimer))
+				switch (Mathf.FloorToInt(animTimer))
 				{
 					case 0:
 						sprite.SetSprite("Walk C");
@@ -100,10 +225,10 @@ public partial class Player : Entity
 						sprite.SetSprite("Walk B");
 					break;
 					default:
-					walkTimer = 0;
+					animTimer = 0;
 					break;
 				}
-				walkTimer += (float)delta * walkAnimSpeed;
+				animTimer += (float)delta * walkAnimSpeed;
 			}
 		}
 		else

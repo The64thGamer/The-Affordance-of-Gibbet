@@ -80,6 +80,11 @@ Copy={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Tileset"
+2d_physics/layer_2="Objects"
+
 [rendering]
 
 camera/depth_of_field/depth_of_field_bokeh_quality=3
