@@ -8,6 +8,7 @@ public partial class PlayerCam : Camera2D
 	[Export] float cameraSpeed = 0.23f;
 	[Export] float maxDeadzoneX = 10;
 	[Export] Curve camSpeedCurve;
+	[Export] float minDeadzoneRepositionDistance = 16;
 
 	Vector2 deadzonePoint;
 	Vector2 targetPoint;
@@ -43,5 +44,9 @@ public partial class PlayerCam : Camera2D
 		}
 
 		GlobalPosition = GlobalPosition.Lerp(targetPoint,camSpeedCurve.SampleBaked(camRampupTimer) * Mathf.Min(1,Mathf.Abs(targetPoint.X - GlobalPosition.X) * cameraSpeed* (float)delta));
+		if(Mathf.Abs(targetPoint.X - GlobalPosition.X) < minDeadzoneRepositionDistance)
+		{
+			deadzonePoint = deadzonePoint.Lerp(player.GlobalPosition,Mathf.Min(1,Mathf.Abs(player.GlobalPosition.X - deadzonePoint.X)) * (float)delta);
+		}
 	}
 }

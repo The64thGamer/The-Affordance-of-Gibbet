@@ -61,9 +61,9 @@ script = ExtResource("4_onesk")
 zoom = Vector2(4, 4)
 script = ExtResource("5_7bvo4")
 player = NodePath("../..")
-cameraLookaheadMultiplier = 3.0
+cameraLookaheadMultiplier = 2.5
 cameraSpeed = 0.4
-maxDeadzoneX = 16.0
+maxDeadzoneX = 20.0
 camSpeedCurve = SubResource("Curve_g8avy")
 
 [node name="Copy UI" type="Node2D" parent="Gibbet" node_paths=PackedStringArray("buttonB", "arrowUp", "arrowRight", "arrowDown", "arrowLeft")]
