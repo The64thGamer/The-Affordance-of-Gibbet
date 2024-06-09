@@ -22,6 +22,7 @@ public partial class GenericEnemy : Entity
 	
 	float walkTimer;
 	float idleTimer;
+	float timeAlive;
 
 	public enum AIPattern
 	{
@@ -71,6 +72,12 @@ public partial class GenericEnemy : Entity
 	{
 		if (!Engine.IsEditorHint())
 		{
+			timeAlive += (float)delta;
+			if(!isVisibletoCamera && timeAlive > 0.1f)
+			{
+				QueueFree();
+			}
+
 			switch (enemyState)
 			{
 				case EnemyState.dying:
@@ -101,12 +108,6 @@ public partial class GenericEnemy : Entity
 
 		Velocity = velocity;
 		GlobalPosition += Velocity;
-
-		if(!isVisibletoCamera)
-		{
-			GD.Print("Died");
-			QueueFree();
-		}
 	}
 
 	void GenericMove(Vector2 direction, bool jump, double delta)
