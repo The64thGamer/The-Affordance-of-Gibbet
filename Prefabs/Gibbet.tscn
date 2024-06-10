@@ -23,7 +23,7 @@ size = Vector2(336, 272)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_st8b7"]
 size = Vector2(16, 16)
 
-[node name="Gibbet" type="CharacterBody2D" node_paths=PackedStringArray("zapHitbox")]
+[node name="Gibbet" type="CharacterBody2D" node_paths=PackedStringArray("zapHitbox", "playerCam")]
 position = Vector2(-8, -8)
 collision_layer = 2
 safe_margin = 0.5
@@ -32,6 +32,7 @@ JumpHoldCurve = ExtResource("2_0c3ag")
 zapHitbox = NodePath("ZapHitbox")
 walkAnimSpeed = 6.0
 copyAnimSpeed = 30.0
+playerCam = NodePath("Cam & UI/Camera")
 
 [node name="Player Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_5by4a")

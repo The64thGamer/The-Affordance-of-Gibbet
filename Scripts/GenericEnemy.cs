@@ -19,6 +19,8 @@ public partial class GenericEnemy : Entity
 	[Export] float gravity = 20f;
 	[Export] float walkAnimSpeed = 20f;
 	[Export] float idleAnimSpeed = 20f;
+	[Export] float attackDamage = 15f;
+	[Export] bool attackLaunches = true;
 	
 	float walkTimer;
 	float idleTimer;
@@ -199,4 +201,12 @@ public partial class GenericEnemy : Entity
 	{
 		return enemyState == EnemyState.dying;
 	}
+
+	void _on_body_entered(PhysicsBody2D body)
+    {
+		if(body is Player)
+		{
+			(body as Player).ApplyDamage(attackDamage,attackLaunches,GlobalPosition);
+		}
+    }
 }

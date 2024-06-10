@@ -3,6 +3,7 @@ using System;
 
 public partial class Player : Entity
 {
+	float currentDamage = 0;
 	float Speed = 80;
 	float JumpVelocity = -37;
 	float gravity = 300;
@@ -13,10 +14,12 @@ public partial class Player : Entity
 	[Export] CopyUI zapHitbox;
 	[Export] float walkAnimSpeed;
 	[Export] float copyAnimSpeed;
+	[Export] PlayerCam playerCam;
 
 	float animTimer;
 	float jumpTimer;
 	float copyTimer;
+	float flungTimer;
 	float copyCooldownTimer;
 	bool isJumping;
 
@@ -24,6 +27,8 @@ public partial class Player : Entity
 	const int initialJumpMult = 3;
 	const int slowdownSpeed = 2;
 	const float minCopyTimeHitboxSpawn = 0.1f;
+	const float damageToFlungTimeMultiplier = 0.03f;
+	const float damageToFlungVelocityMultiplier = 5f;
 	Vector2 currentInput;
 
 	PlayerState playerState = PlayerState.standard;
@@ -35,10 +40,17 @@ public partial class Player : Entity
 		copying,
 		takingAbility,
 		uncopying,
+		flung,
 	}
 	public enum CopyAbility
 	{
 		none,
+	}
+
+	public override void _Ready()
+	{
+		base._Ready();
+		isVisibletoCamera = true;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -51,6 +63,11 @@ public partial class Player : Entity
 
 	void StateCheck(double delta)
 	{
+		if(!isVisibletoCamera)
+		{
+			GetTree().ChangeSceneToFile("res://Scenes/Level1.tscn");
+		}
+
 		switch (playerState)
 		{
 			case PlayerState.standard:
@@ -88,6 +105,14 @@ public partial class Player : Entity
 				}
 				copyCooldownTimer = copyCooldown;
 			break;
+			case PlayerState.flung:
+				flungTimer -= (float)delta;
+				if(flungTimer <= 0)
+				{
+					playerState = PlayerState.standard;
+					flungTimer = 0;
+				}
+				break;
 			default:
 			break;
 		}
@@ -113,18 +138,25 @@ public partial class Player : Entity
 				{
 					input = Vector2.Zero;
 				}
+				Velocity = CalculateStandardVelocity(input,jumpInput,delta);
 				break;
 			case PlayerState.uncopying:
+				Velocity = CalculateStandardVelocity(currentInput,false,delta);
+				break;
+			case PlayerState.flung:
 				break;
 			default:
 				input = Input.GetVector("Left", "Right", "Up", "Down");
 				jumpInput = CheckJump();
 				currentInput = input;
+				Velocity = CalculateStandardVelocity(input,jumpInput,delta);
 				break;
 		}
+	}
 
+	Vector2 CalculateStandardVelocity(Vector2 input, bool jumpInput, double delta)
+	{
 		Vector2 velocity = Velocity;
-
 		if (!IsOnFloor())
 		{
 			velocity.Y += gravity * (float)delta;
@@ -163,8 +195,7 @@ public partial class Player : Entity
 		{
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 		}
-
-		Velocity = velocity;
+		return velocity;
 	}
 	
 	bool CheckJump()
@@ -267,5 +298,17 @@ public partial class Player : Entity
 	{
 		currentCopyAbility = ability;
 		playerState = PlayerState.takingAbility;
+	}
+
+	public void ApplyDamage(float attackDamage, bool launch, Vector2 globalHitPos)
+	{
+		if(launch)
+		{
+			playerState = PlayerState.flung;
+		}
+		currentDamage += attackDamage;
+		flungTimer = currentDamage * damageToFlungTimeMultiplier;
+		Velocity = (GlobalPosition - globalHitPos).Normalized() * currentDamage * damageToFlungVelocityMultiplier;
+		playerCam.Flung(flungTimer);
 	}
 }

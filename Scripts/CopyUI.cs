@@ -69,12 +69,7 @@ public partial class CopyUI : Area2D
 			if (Input.IsActionJustPressed("Attack"))
 			{
 				uiStateTimer = 0;
-
-				if(Input.IsActionPressed("Left") || Input.IsActionPressed("Right"))
-				{
-					uiState = CopyUIState.sidesSelected;
-					break;
-				}
+				
 				if(Input.IsActionPressed("Up"))
 				{
 					uiState = CopyUIState.upSelected;
@@ -83,6 +78,11 @@ public partial class CopyUI : Area2D
 				if(Input.IsActionPressed("Down"))
 				{
 					uiState = CopyUIState.downSelected;
+					break;
+				}
+				if(Input.IsActionPressed("Left") || Input.IsActionPressed("Right"))
+				{
+					uiState = CopyUIState.sidesSelected;
 					break;
 				}
 

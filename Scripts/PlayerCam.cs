@@ -12,8 +12,10 @@ public partial class PlayerCam : Camera2D
 
 	Vector2 deadzonePoint;
 	Vector2 targetPoint;
+	Vector2 flungPos;
 	bool oldDeadZone = false;
 	float camRampupTimer = 0;
+	float flungTimer;
 
 	public override void _Ready()
 	{
@@ -48,5 +50,18 @@ public partial class PlayerCam : Camera2D
 		{
 			deadzonePoint = deadzonePoint.Lerp(player.GlobalPosition,Mathf.Min(1,Mathf.Abs(player.GlobalPosition.X - deadzonePoint.X)) * (float)delta);
 		}
+
+		flungTimer = Mathf.Max(0,flungTimer - (float)delta);
+
+		if(flungTimer > 0)
+		{
+			GlobalPosition = GlobalPosition.Lerp(flungPos,Mathf.Min(flungTimer,1));
+		}
+	}
+
+	public void Flung(float time)
+	{
+		flungTimer = time;
+		flungPos = GlobalPosition;
 	}
 }

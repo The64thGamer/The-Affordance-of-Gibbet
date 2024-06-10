@@ -29,3 +29,13 @@ texture = ExtResource("2_syhf3")
 hframes = 10
 vframes = 20
 script = ExtResource("3_hipf7")
+
+[node name="HitHurtBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="HitHurtBox"]
+shape = SubResource("RectangleShape2D_5by4a")
+one_way_collision_margin = 0.0
+
+[connection signal="body_entered" from="HitHurtBox" to="." method="_on_body_entered"]

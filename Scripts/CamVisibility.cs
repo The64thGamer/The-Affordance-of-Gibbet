@@ -9,10 +9,6 @@ public partial class CamVisibility : Area2D
 		{
 			(body as Entity).SetCamVisibility(true);
 		}
-		if(body is OnscreenSpawner)
-		{
-			(body as OnscreenSpawner).SetCamVisibility(true);
-		}
     }
 
 	void _on_body_exit(PhysicsBody2D body)
