@@ -18,6 +18,7 @@ public partial class Player : Entity
 	[Export] PlayerCam playerCam;
 
 	float animTimer;
+	int oldAnimTimer;
 	float jumpTimer;
 	float copyTimer;
 	float flungTimer;
@@ -222,60 +223,76 @@ public partial class Player : Entity
 		switch (playerState)
 		{
 			case PlayerState.copying:
-				switch (Mathf.FloorToInt(animTimer))
+				if(oldAnimTimer != Mathf.FloorToInt(animTimer))
 				{
-					case 0:
-						sprite.SetSprite("Copy A");
-					break;
-					case 1:
-						sprite.SetSprite("Copy A");
-					break;
-					case 2:
-						sprite.SetSprite("Copy B");
-					break;
-					case 3:
-						sprite.SetSprite("Copy C");
-					break;
-					default:
-					animTimer = 2;
-					break;
+					switch (Mathf.FloorToInt(animTimer))
+					{
+						case 0:
+							sprite.SetSprite("Copy A");
+						break;
+						case 1:
+							sprite.SetSprite("Copy A");
+						break;
+						case 2:
+							sprite.SetSprite("Copy B");
+						break;
+						case 3:
+							sprite.SetSprite("Copy C");
+						break;
+						default:
+						animTimer = 2;
+						break;
+					}
 				}
+				oldAnimTimer = Mathf.FloorToInt(animTimer);
 				animTimer += (float)delta * copyAnimSpeed;
 				return;
 			case PlayerState.uncopying:
-				switch (Mathf.FloorToInt(animTimer))
+				if(oldAnimTimer != Mathf.FloorToInt(animTimer))
 				{
-					case 0:
-						sprite.SetSprite("Copy A");
-					break;
-					case 1:
-						sprite.SetSprite("Copy A");
-					break;
-					default:
-						playerState = PlayerState.standard;
+					switch (Mathf.FloorToInt(animTimer))
+					{
+						case 0:
+							sprite.SetSprite("Copy A");
 						break;
+						case 1:
+							sprite.SetSprite("Copy A");
+						break;
+						default:
+							playerState = PlayerState.standard;
+							break;
+					}
 				}
+				oldAnimTimer = Mathf.FloorToInt(animTimer);
 				animTimer += (float)delta * copyAnimSpeed;
 				return;
 			case PlayerState.flung:
-				switch (Mathf.FloorToInt(animTimer))
+				if(oldAnimTimer != Mathf.FloorToInt(animTimer))
 				{
-					case 0:
-						sprite.SetSprite("Roll A");
-					break;
-					case 1:
-						sprite.SetSprite("Roll A");
-					break;
-					case 2:
-						sprite.SetSprite("Roll B");
-					break;
-					case 3:
-						sprite.SetSprite("Roll C");
-					break;
-					default:
-					animTimer = 2;
-					break;
+					switch (Mathf.FloorToInt(animTimer))
+					{
+						case 0:
+							sprite.SetSprite("Roll A");
+							CreateGenericEffect(Effect.EffectType.cloud,Effect.EffectMovement.none,GlobalPosition);
+						break;
+						case 1:
+							sprite.SetSprite("Roll A");
+							CreateGenericEffect(Effect.EffectType.cloud,Effect.EffectMovement.none,GlobalPosition);
+						break;
+						case 2:
+							sprite.SetSprite("Roll B");
+							CreateGenericEffect(Effect.EffectType.cloud,Effect.EffectMovement.none,GlobalPosition);
+						break;
+						case 3:
+							sprite.SetSprite("Roll C");
+							CreateGenericEffect(Effect.EffectType.cloud,Effect.EffectMovement.none,GlobalPosition);
+						break;
+						default:
+						animTimer = 2;
+						break;
+					}
 				}
+				oldAnimTimer = Mathf.FloorToInt(animTimer);
 				animTimer += (float)delta * rollAnimSpeed;
 				return;
 			default:

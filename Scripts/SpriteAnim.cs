@@ -23,6 +23,9 @@ public partial class SpriteAnim : Sprite2D
 	static string[] spriteEnemySquid = new string[]{
 		"Idle A","Idle B","Die","Walk A", "Walk B",
 	};
+	static string[] spriteEffects = new string[]{
+		"Cloud A", "Cloud B", "Cloud C", "Cloud D",
+	};
 
 	public override void _Ready()
 	{
@@ -37,6 +40,9 @@ public partial class SpriteAnim : Sprite2D
 				break;
 			case "Sprite Enemy Squid.png":
 				spriteNames = spriteEnemySquid;
+				break;
+			case "Sprite Effects.png":
+				spriteNames = spriteEffects;
 				break;
 			default:
 				GD.PrintErr("Unknown Sprite Set: " + Texture.ResourcePath.GetFile());

@@ -39,4 +39,4 @@ position = Vector2(760, 24)
 position = Vector2(808, 24)
 
 [node name="Gibbet" parent="." instance=ExtResource("3_gmapx")]
-position = Vector2(-16, -32)
+position = Vector2(-16, -33)

@@ -19,4 +19,13 @@ public partial class Entity : CharacterBody2D
 	{
 		isVisibletoCamera = set;
 	}
+
+	public void CreateGenericEffect(Effect.EffectType type, Effect.EffectMovement movement, Vector2 pos)
+	{
+		Effect cloud = GD.Load<PackedScene>("res://Prefabs/Effects/GenericEffect.tscn").Instantiate() as Effect;
+		cloud.effect = type;
+		cloud.movement = movement;
+		cloud.GlobalPosition = pos;
+		GetTree().Root.AddChild(cloud);
+	}
 }
