@@ -204,7 +204,7 @@ public partial class GenericEnemy : Entity
 
 	void _on_body_entered(PhysicsBody2D body)
     {
-		if(body is Player)
+		if(body is Player && enemyState != EnemyState.dying)
 		{
 			(body as Player).ApplyDamage(attackDamage,attackLaunches,GlobalPosition);
 		}

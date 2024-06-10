@@ -32,6 +32,7 @@ JumpHoldCurve = ExtResource("2_0c3ag")
 zapHitbox = NodePath("ZapHitbox")
 walkAnimSpeed = 6.0
 copyAnimSpeed = 30.0
+rollAnimSpeed = 15.0
 playerCam = NodePath("Cam & UI/Camera")
 
 [node name="Player Collision" type="CollisionShape2D" parent="."]

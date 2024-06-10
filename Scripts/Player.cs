@@ -14,6 +14,7 @@ public partial class Player : Entity
 	[Export] CopyUI zapHitbox;
 	[Export] float walkAnimSpeed;
 	[Export] float copyAnimSpeed;
+	[Export] float rollAnimSpeed;
 	[Export] PlayerCam playerCam;
 
 	float animTimer;
@@ -23,7 +24,7 @@ public partial class Player : Entity
 	float copyCooldownTimer;
 	bool isJumping;
 
-	const float copyCooldown = 0.25f;
+	const float copyCooldown = 0.5f;
 	const int initialJumpMult = 3;
 	const int slowdownSpeed = 2;
 	const float minCopyTimeHitboxSpawn = 0.1f;
@@ -144,6 +145,10 @@ public partial class Player : Entity
 				Velocity = CalculateStandardVelocity(currentInput,false,delta);
 				break;
 			case PlayerState.flung:
+				if (!IsOnFloor())
+				{
+					Velocity = new Vector2(Velocity.X, Velocity.Y + (gravity * (float)delta));
+				}
 				break;
 			default:
 				input = Input.GetVector("Left", "Right", "Up", "Down");
@@ -252,6 +257,27 @@ public partial class Player : Entity
 				}
 				animTimer += (float)delta * copyAnimSpeed;
 				return;
+			case PlayerState.flung:
+				switch (Mathf.FloorToInt(animTimer))
+				{
+					case 0:
+						sprite.SetSprite("Roll A");
+					break;
+					case 1:
+						sprite.SetSprite("Roll A");
+					break;
+					case 2:
+						sprite.SetSprite("Roll B");
+					break;
+					case 3:
+						sprite.SetSprite("Roll C");
+					break;
+					default:
+					animTimer = 2;
+					break;
+				}
+				animTimer += (float)delta * rollAnimSpeed;
+				return;
 			default:
 			break;
 		}
@@ -305,6 +331,7 @@ public partial class Player : Entity
 		if(launch)
 		{
 			playerState = PlayerState.flung;
+			animTimer = 0;
 		}
 		currentDamage += attackDamage;
 		flungTimer = currentDamage * damageToFlungTimeMultiplier;
