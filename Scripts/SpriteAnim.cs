@@ -55,6 +55,10 @@ public partial class SpriteAnim : Sprite2D
 			spriteHash.Add(spriteNames[i],e);
 		}
 	}
+	public override void _Process(double delta)
+	{
+		(Material as ShaderMaterial).SetShaderParameter("current_palette", PlayerPrefs.GetValue<int>("Sprite Palette"));
+	}
 
 	public void SetSprite(string name)
 	{

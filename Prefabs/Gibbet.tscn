@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://curfr1nba6l3j"]
+[gd_scene load_steps=15 format=3 uid="uid://curfr1nba6l3j"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_irf24"]
 [ext_resource type="Curve" uid="uid://dqdcspt38tt2l" path="res://Curves/PlayerJumpHoldCurve.tres" id="2_0c3ag"]
 [ext_resource type="Texture2D" uid="uid://dkcjqj62srcov" path="res://Sprites/Sprite Player.png" id="2_0pa3s"]
 [ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="3_75s47"]
+[ext_resource type="Material" uid="uid://c4tu1v615ntye" path="res://Shaders/PixelShader.tres" id="3_mxhlb"]
 [ext_resource type="Script" path="res://Scripts/PlayerCam.cs" id="4_i612l"]
 [ext_resource type="Script" path="res://Scripts/CamVisibility.cs" id="5_cr5ag"]
 [ext_resource type="Script" path="res://Scripts/CopyUI.cs" id="6_0bbtl"]
@@ -41,6 +42,7 @@ one_way_collision_margin = 0.0
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1
+material = ExtResource("3_mxhlb")
 texture = ExtResource("2_0pa3s")
 hframes = 10
 vframes = 20
@@ -64,6 +66,7 @@ script = ExtResource("5_cr5ag")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Cam & UI/Camera/VisibleArea"]
 shape = SubResource("RectangleShape2D_wir4g")
+debug_color = Color(0, 0.6, 0.701961, 0)
 
 [node name="ZapHitbox" type="Area2D" parent="." node_paths=PackedStringArray("player", "buttonB", "arrowUp", "arrowRight", "arrowDown", "arrowLeft")]
 process_mode = 3
@@ -87,6 +90,7 @@ process_mode = 3
 visible = false
 z_index = 1
 texture_filter = 1
+material = ExtResource("3_mxhlb")
 texture = ExtResource("7_mkxei")
 hframes = 10
 vframes = 20
@@ -97,6 +101,7 @@ process_mode = 3
 visible = false
 z_index = 1
 texture_filter = 1
+material = ExtResource("3_mxhlb")
 position = Vector2(0, -20)
 texture = ExtResource("7_mkxei")
 hframes = 10
@@ -109,6 +114,7 @@ process_mode = 3
 visible = false
 z_index = 1
 texture_filter = 1
+material = ExtResource("3_mxhlb")
 position = Vector2(20, 0)
 texture = ExtResource("7_mkxei")
 flip_h = true
@@ -122,6 +128,7 @@ process_mode = 3
 visible = false
 z_index = 1
 texture_filter = 1
+material = ExtResource("3_mxhlb")
 position = Vector2(0, 20)
 texture = ExtResource("7_mkxei")
 hframes = 10
@@ -134,6 +141,7 @@ process_mode = 3
 visible = false
 z_index = 1
 texture_filter = 1
+material = ExtResource("3_mxhlb")
 position = Vector2(-20, 0)
 texture = ExtResource("7_mkxei")
 hframes = 10

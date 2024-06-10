@@ -1,0 +1,76 @@
+[gd_scene load_steps=7 format=3 uid="uid://dfhpm5cnk6jat"]
+
+[ext_resource type="Texture2D" uid="uid://c78hbm2cl45ye" path="res://Waterfall.png" id="1"]
+[ext_resource type="Shader" path="res://GradientShift.gdshader" id="2"]
+[ext_resource type="Texture2D" uid="uid://d1fq16d1eaefn" path="res://WaterfallPalette.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://5t5d0g046th" path="res://LavafallPalette.png" id="4"]
+
+[sub_resource type="ShaderMaterial" id="1"]
+shader = ExtResource("2")
+gradient = ExtResource("3")
+speed_scale = null
+
+[sub_resource type="ShaderMaterial" id="2"]
+shader = ExtResource("2")
+gradient = ExtResource("4")
+speed_scale = null
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Waterfall" type="Sprite2D" parent="."]
+texture_filter = 1
+material = SubResource("1")
+position = Vector2(899, 256)
+texture = ExtResource("1")
+region_rect = Rect2(0, 0, 200, 200)
+
+[node name="Lavafall" type="Sprite2D" parent="."]
+texture_filter = 1
+material = SubResource("2")
+position = Vector2(899, 510)
+texture = ExtResource("1")
+region_rect = Rect2(0, 0, 200, 200)
+
+[node name="Text" type="Node2D" parent="."]
+
+[node name="Gray" type="Sprite2D" parent="Text"]
+texture_filter = 1
+position = Vector2(181, 245)
+texture = ExtResource("1")
+region_rect = Rect2(0, 0, 200, 200)
+
+[node name="Gradient" type="Sprite2D" parent="Text"]
+texture_filter = 1
+position = Vector2(568, 255)
+scale = Vector2(20, 20)
+texture = ExtResource("3")
+
+[node name="Gradient2" type="Sprite2D" parent="Text"]
+texture_filter = 1
+position = Vector2(565, 512)
+scale = Vector2(20, 20)
+texture = ExtResource("4")
+
+[node name="Label" type="Label" parent="Text"]
+offset_left = 74.0
+offset_top = 65.0
+offset_right = 280.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 30
+text = "Original sprite"
+
+[node name="Label2" type="Label" parent="Text"]
+offset_left = 509.0
+offset_top = 65.0
+offset_right = 636.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 30
+text = "Gradient"
+
+[node name="Label3" type="Label" parent="Text"]
+offset_left = 840.0
+offset_top = 65.0
+offset_right = 1015.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 30
+text = "With shader"

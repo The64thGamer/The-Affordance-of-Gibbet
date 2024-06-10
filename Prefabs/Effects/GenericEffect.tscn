@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://llr0tyqv6mkg"]
+[gd_scene load_steps=5 format=3 uid="uid://llr0tyqv6mkg"]
 
 [ext_resource type="Script" path="res://Scripts/Effect.cs" id="1_fh41r"]
 [ext_resource type="Texture2D" uid="uid://ch1rfmha81014" path="res://Sprites/Sprite Effects.png" id="2_p52j1"]
+[ext_resource type="Material" uid="uid://c4tu1v615ntye" path="res://Shaders/PixelShader.tres" id="2_rvh78"]
 [ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="3_mavk3"]
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
@@ -9,6 +10,7 @@ script = ExtResource("1_fh41r")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1
+material = ExtResource("2_rvh78")
 texture = ExtResource("2_p52j1")
 hframes = 10
 vframes = 20

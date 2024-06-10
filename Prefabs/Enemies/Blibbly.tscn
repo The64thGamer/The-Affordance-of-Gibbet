@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://lyauqo0eaxay"]
+[gd_scene load_steps=6 format=3 uid="uid://lyauqo0eaxay"]
 
 [ext_resource type="Script" path="res://Scripts/GenericEnemy.cs" id="1_locsh"]
+[ext_resource type="Material" uid="uid://c4tu1v615ntye" path="res://Shaders/PixelShader.tres" id="2_ieqnh"]
 [ext_resource type="Texture2D" uid="uid://dh0q738112j0p" path="res://Sprites/Sprite Enemy Squid.png" id="2_syhf3"]
 [ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="3_hipf7"]
 
@@ -22,9 +23,11 @@ idleAnimSpeed = 6.0
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_5by4a")
 one_way_collision_margin = 0.0
+debug_color = Color(0, 0.6, 0.701961, 0)
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1
+material = ExtResource("2_ieqnh")
 texture = ExtResource("2_syhf3")
 hframes = 10
 vframes = 20
@@ -37,5 +40,6 @@ collision_mask = 2
 [node name="Collision" type="CollisionShape2D" parent="HitHurtBox"]
 shape = SubResource("RectangleShape2D_5by4a")
 one_way_collision_margin = 0.0
+debug_color = Color(0, 0.6, 0.701961, 0)
 
 [connection signal="body_entered" from="HitHurtBox" to="." method="_on_body_entered"]

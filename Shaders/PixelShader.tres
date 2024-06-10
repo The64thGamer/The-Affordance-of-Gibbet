@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c4tu1v615ntye"]
+
+[ext_resource type="Shader" path="res://addons/Godot-Palette-Swap-Shader-c9cd91a307dc713f89b380320b1a7ec3e962a8f2/PaletteSwap.gdshader" id="1_51nsm"]
+[ext_resource type="Texture2D" uid="uid://bv5uprtlmursr" path="res://Sprites/Palette.png" id="2_jxo48"]
+
+[resource]
+shader = ExtResource("1_51nsm")
+shader_parameter/use_palette_alpha = false
+shader_parameter/current_palette = 8
+shader_parameter/palette = ExtResource("2_jxo48")

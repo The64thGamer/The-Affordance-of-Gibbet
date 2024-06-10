@@ -18,6 +18,7 @@ public partial class CopyUI : Area2D
 	const float uiOutTimer = .2f;
 	const int uiNotSelectedPosterization = -2;
 	const float uiSelectedTimer = 0.3f;
+	const float minNoCopyAbilityTime = 0.3f;
 
 	enum CopyUIState
 	{
@@ -29,6 +30,7 @@ public partial class CopyUI : Area2D
 		neutralSelected,
 		downSelected,
 		goingOff,
+		noCopyAbility,
 	}
 
 	// Called when the node enters the scene tree for the first time.
@@ -139,6 +141,14 @@ public partial class CopyUI : Area2D
 				uiState = CopyUIState.off;
 				GetTree().Paused = false;
 			break;
+			case CopyUIState.noCopyAbility:
+				
+				if(uiStateTimer > minNoCopyAbilityTime)
+				{
+					uiState = CopyUIState.off;
+					GetTree().Paused = false;
+				}
+			break;
 			default:
 			break;
 		}
@@ -166,12 +176,17 @@ public partial class CopyUI : Area2D
 			if(!enemy.IsDead())
 			{
 				enemy.Die();
+				GetTree().Paused = true;
+				player.SetCopyAbility(enemy.copyAbility,0);
 				if(enemy.copyAbility != Player.CopyAbility.none)
 				{
-					GetTree().Paused = true;
 					CreateUI();
 				}
-				player.SetCopyAbility(enemy.copyAbility,0);
+				else
+				{
+					uiState = CopyUIState.noCopyAbility;
+					uiStateTimer = 0;
+				}
 			}
 		}
     }
