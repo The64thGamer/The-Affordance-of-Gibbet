@@ -28,10 +28,11 @@ public partial class Player : Entity
 	const float copyCooldown = 0.5f;
 	const int initialJumpMult = 3;
 	const int slowdownSpeed = 2;
-	const float minCopyTimeHitboxSpawn = 0.1f;
+	const float minCopyTimeHitboxSpawn = 0.15f;
 	const float damageToFlungTimeMultiplier = 0.03f;
 	const float damageToFlungVelocityMultiplier = 5f;
 	Vector2 currentInput;
+	Vector2 previousCloudPlacement;
 
 	PlayerState playerState = PlayerState.standard;
 	CopyAbility currentCopyAbility;
@@ -108,6 +109,11 @@ public partial class Player : Entity
 				copyCooldownTimer = copyCooldown;
 			break;
 			case PlayerState.flung:
+				if(previousCloudPlacement.DistanceTo(GlobalPosition) > 16)
+				{
+					previousCloudPlacement = GlobalPosition;
+					CreateGenericEffect(Effect.EffectType.cloud,Effect.EffectMovement.none,GlobalPosition);
+				}
 				flungTimer -= (float)delta;
 				if(flungTimer <= 0)
 				{
@@ -240,8 +246,9 @@ public partial class Player : Entity
 							sprite.SetSprite("Copy C");
 						break;
 						default:
+						oldAnimTimer = Mathf.FloorToInt(animTimer);
 						animTimer = 2;
-						break;
+						return;
 					}
 				}
 				oldAnimTimer = Mathf.FloorToInt(animTimer);
@@ -273,23 +280,20 @@ public partial class Player : Entity
 					{
 						case 0:
 							sprite.SetSprite("Roll A");
-							CreateGenericEffect(Effect.EffectType.cloud,Effect.EffectMovement.none,GlobalPosition);
 						break;
 						case 1:
 							sprite.SetSprite("Roll A");
-							CreateGenericEffect(Effect.EffectType.cloud,Effect.EffectMovement.none,GlobalPosition);
 						break;
 						case 2:
 							sprite.SetSprite("Roll B");
-							CreateGenericEffect(Effect.EffectType.cloud,Effect.EffectMovement.none,GlobalPosition);
 						break;
 						case 3:
 							sprite.SetSprite("Roll C");
-							CreateGenericEffect(Effect.EffectType.cloud,Effect.EffectMovement.none,GlobalPosition);
 						break;
 						default:
+						oldAnimTimer = Mathf.FloorToInt(animTimer);
 						animTimer = 2;
-						break;
+						return;
 					}
 				}
 				oldAnimTimer = Mathf.FloorToInt(animTimer);
@@ -325,6 +329,7 @@ public partial class Player : Entity
 						sprite.SetSprite("Walk B");
 					break;
 					default:
+					oldAnimTimer = Mathf.FloorToInt(animTimer);
 					animTimer = 0;
 					break;
 				}
@@ -339,7 +344,10 @@ public partial class Player : Entity
 
 	public void SetCopyAbility(CopyAbility ability, int slot)
 	{
-		currentCopyAbility = ability;
+		if(currentCopyAbility != CopyAbility.none)
+		{
+			currentCopyAbility = ability;
+		}	
 		playerState = PlayerState.takingAbility;
 	}
 
@@ -349,6 +357,7 @@ public partial class Player : Entity
 		{
 			playerState = PlayerState.flung;
 			animTimer = 0;
+			previousCloudPlacement = GlobalPosition;
 		}
 		currentDamage += attackDamage;
 		flungTimer = currentDamage * damageToFlungTimeMultiplier;

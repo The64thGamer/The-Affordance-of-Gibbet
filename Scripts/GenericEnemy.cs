@@ -4,6 +4,7 @@ using System;
 [Tool]
 public partial class GenericEnemy : Entity
 {
+	[Export] public Player.CopyAbility copyAbility;
 	EnemyState enemyState = EnemyState.standard;
     [Export]
     public AIPattern AIType

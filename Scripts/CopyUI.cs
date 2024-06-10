@@ -162,12 +162,16 @@ public partial class CopyUI : Area2D
     {
 		if(body is GenericEnemy)
 		{
-			if(!(body as GenericEnemy).IsDead())
+			GenericEnemy enemy = body as GenericEnemy;
+			if(!enemy.IsDead())
 			{
-				(body as GenericEnemy).Die();
-				GetTree().Paused = true;
-				CreateUI();
-				player.SetCopyAbility(Player.CopyAbility.none,0);
+				enemy.Die();
+				if(enemy.copyAbility != Player.CopyAbility.none)
+				{
+					GetTree().Paused = true;
+					CreateUI();
+				}
+				player.SetCopyAbility(enemy.copyAbility,0);
 			}
 		}
     }
