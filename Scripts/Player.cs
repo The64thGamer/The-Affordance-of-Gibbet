@@ -51,6 +51,11 @@ public partial class Player : Entity
 	public enum CopyAbility
 	{
 		none,
+		stargazer,
+		builder,
+		drinker,
+		cowboy,
+
 	}
 
 	public enum FloorState
