@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://lyauqo0eaxay"]
 
-[ext_resource type="Script" path="res://Scripts/GenericEnemy.cs" id="1_locsh"]
-[ext_resource type="Material" uid="uid://c4tu1v615ntye" path="res://Shaders/PixelShader.tres" id="2_ieqnh"]
-[ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="3_hipf7"]
-[ext_resource type="Texture2D" uid="uid://bbsjdfol7cmp8" path="res://Sprites/Sprite Enemy.png" id="3_sqb8d"]
+[ext_resource type="Script" path="res://Scripts/GenericEnemy.cs" id="1_jq2sl"]
+[ext_resource type="Material" uid="uid://c4tu1v615ntye" path="res://Shaders/PixelShader.tres" id="2_uy7x0"]
+[ext_resource type="Texture2D" uid="uid://bbsjdfol7cmp8" path="res://Sprites/Sprite Enemy.png" id="3_btu3y"]
+[ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="4_8vdgl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5by4a"]
 size = Vector2(15, 15)
@@ -11,7 +11,7 @@ size = Vector2(15, 15)
 [node name="Wibbly" type="CharacterBody2D"]
 collision_layer = 4
 safe_margin = 0.5
-script = ExtResource("1_locsh")
+script = ExtResource("1_jq2sl")
 walkSpeed = 30.0
 jumpHeight = 5.0
 timeBetweenJumps = 0.0
@@ -27,11 +27,11 @@ debug_color = Color(0, 0.6, 0.701961, 0)
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1
-material = ExtResource("2_ieqnh")
-texture = ExtResource("3_sqb8d")
+material = ExtResource("2_uy7x0")
+texture = ExtResource("3_btu3y")
 hframes = 10
 vframes = 20
-script = ExtResource("3_hipf7")
+script = ExtResource("4_8vdgl")
 
 [node name="HitHurtBox" type="Area2D" parent="."]
 collision_layer = 0

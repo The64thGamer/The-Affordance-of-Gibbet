@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://etuvmji1fhpm"]
 
-[ext_resource type="PackedScene" uid="uid://lyauqo0eaxay" path="res://Prefabs/Enemies/Blibbly.tscn" id="1_m8maq"]
 [ext_resource type="Script" path="res://Scripts/OnscreenSpawner.cs" id="1_pivxr"]
+[ext_resource type="PackedScene" uid="uid://lyauqo0eaxay" path="res://Prefabs/Enemies/Wibbly.tscn" id="2_jnayp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l1npc"]
 size = Vector2(15, 15)
@@ -11,7 +11,7 @@ collision_layer = 4
 collision_mask = 0
 safe_margin = 0.5
 script = ExtResource("1_pivxr")
-spawntype = ExtResource("1_m8maq")
+spawntype = ExtResource("2_jnayp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_l1npc")

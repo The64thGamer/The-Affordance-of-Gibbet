@@ -22,10 +22,14 @@ public partial class GenericEnemy : Entity
 	[Export] float idleAnimSpeed = 20f;
 	[Export] float attackDamage = 15f;
 	[Export] bool attackLaunches = true;
+	[Export] bool singleIdleFrame = false;
+	[Export] bool noJumpFallFrame = true;
+	[Export] bool facePlayer;	
 	
 	float walkTimer;
 	float idleTimer;
 	float timeAlive;
+	float jumpTimer;
 
 	public enum AIPattern
 	{
@@ -46,11 +50,13 @@ public partial class GenericEnemy : Entity
     float walkSpeed;
     float jumpHeight;
 	float timeBetweenJumps;
+	Vector2 currentInput;
 	
 	const float deathJump = -1.5f;
 	const float deathLaunch = 1.5f;
 	const float deathGravity = .1f;
 	const float minTimeToDespawn = 0.1f;
+	const float minCrouchToJumpAnimTime = 0.3f;
 
     public override Godot.Collections.Array<Godot.Collections.Dictionary> _GetPropertyList()
     {
@@ -95,6 +101,22 @@ public partial class GenericEnemy : Entity
 							break;
 						case AIPattern.walkRight:
 							GenericMove(Vector2.Right,false,delta);
+							break;	
+						case AIPattern.jump:
+							jumpTimer -= (float)delta;
+							if(jumpTimer < minCrouchToJumpAnimTime && jumpTimer > 0)
+							{							
+								GenericMove(-Vector2.Up,false,delta);
+							}
+							else if(jumpTimer <= 0)
+							{
+								jumpTimer = timeBetweenJumps;
+								GenericMove(Vector2.Zero,true,delta);
+							}
+							else
+							{
+								GenericMove(Vector2.Zero,false,delta);
+							}	
 							break;
 						default:
 							GenericMove(Vector2.Zero,false,delta);
@@ -116,6 +138,7 @@ public partial class GenericEnemy : Entity
 
 	void GenericMove(Vector2 direction, bool jump, double delta)
 	{
+		currentInput = direction;
 		Vector2 velocity = Velocity;
 
 		// Add the gravity.
@@ -136,7 +159,6 @@ public partial class GenericEnemy : Entity
 		{
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, walkSpeed);
 		}
-
 		Velocity = velocity;
 		MoveAndSlide();
 		UpdateSprites(delta);
@@ -148,47 +170,59 @@ public partial class GenericEnemy : Entity
 		{
 			sprite.FlipH = Velocity.X < 0 ? true : false;
 		}
+		if(IsOnFloor() && currentInput.Y > 0.1f)
+		{
+			sprite.SetSprite(Name + " Crouch");
+			return;
+		}
 
-
-				if(Velocity.Y == 0)
+		if(Velocity.Y == 0)
+		{
+			
+			if(Velocity == Vector2.Zero)
+			{
+				if(singleIdleFrame)
 				{
-					if(Velocity == Vector2.Zero)
-					{
-						switch (Mathf.FloorToInt(idleTimer))
-						{
-							case 0:
-								sprite.SetSprite(Name +" Idle A");
-							break;
-							case 1:
-								sprite.SetSprite(Name +" Idle B");
-							break;
-							default:
-							idleTimer = 0;
-							break;
-						}
-						idleTimer += (float)delta * idleAnimSpeed;
-					}
-					if(Velocity.X != 0)
-					{
-						switch (Mathf.FloorToInt(walkTimer))
-						{
-							case 0:
-								sprite.SetSprite(Name +" Walk A");
-							break;
-							case 1:
-								sprite.SetSprite(Name +" Walk B");
-							break;
-							default:
-							walkTimer = 0;
-							break;
-						}
-						walkTimer += (float)delta * walkAnimSpeed;
-					}
+					sprite.SetSprite(Name +" Idle A");
 				}
 				else
 				{
-					//sprite.SetSprite("Jump");
+					switch (Mathf.FloorToInt(idleTimer))
+					{
+						case 0:
+							sprite.SetSprite(Name +" Idle A");
+						break;
+						case 1:
+							sprite.SetSprite(Name +" Idle B");
+						break;
+						default:
+						idleTimer = 0;
+						break;
+					}
+					idleTimer += (float)delta * idleAnimSpeed;
 				}
+			}
+			if(Velocity.X != 0)
+			{
+				switch (Mathf.FloorToInt(walkTimer))
+				{
+					case 0:
+						sprite.SetSprite(Name +" Walk A");
+					break;
+					case 1:
+						sprite.SetSprite(Name +" Walk B");
+					break;
+					default:
+					walkTimer = 0;
+					break;
+				}
+				walkTimer += (float)delta * walkAnimSpeed;
+			}
+		}
+		else if(!noJumpFallFrame)
+		{
+			sprite.SetSprite(Name +" Jump");
+		}
 	}
 
 	public void Die()

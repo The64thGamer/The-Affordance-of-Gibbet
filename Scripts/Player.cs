@@ -27,7 +27,7 @@ public partial class Player : Entity
 	bool firstFrameOnGround;
 
 	const float copyCooldown = 0.5f;
-	const int zapHitboxXPosition = 10;
+	const int zapHitboxXPosition = 14;
 	const int initialJumpMult = 3;
 	const int slowdownSpeed = 2;
 	const float minCopyTimeHitboxSpawn = 0.15f;

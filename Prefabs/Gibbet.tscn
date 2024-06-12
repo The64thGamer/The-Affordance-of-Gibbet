@@ -22,7 +22,7 @@ point_count = 4
 size = Vector2(336, 272)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_st8b7"]
-size = Vector2(10, 20)
+size = Vector2(16, 20)
 
 [node name="Gibbet" type="CharacterBody2D" node_paths=PackedStringArray("zapHitbox", "playerCam")]
 position = Vector2(-8, -8)
@@ -54,7 +54,7 @@ script = ExtResource("3_75s47")
 zoom = Vector2(5, 5)
 script = ExtResource("4_i612l")
 player = NodePath("../..")
-cameraLookaheadMultiplier = 2.5
+cameraLookaheadMultiplier = 2.0
 cameraSpeed = 0.4
 maxDeadzoneX = 20.0
 camSpeedCurve = SubResource("Curve_g8avy")
@@ -83,9 +83,6 @@ arrowLeft = NodePath("Arrow Left")
 moveOutCurve = ExtResource("7_c1sip")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ZapHitbox"]
-shape = SubResource("RectangleShape2D_st8b7")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="ZapHitbox"]
 shape = SubResource("RectangleShape2D_st8b7")
 
 [node name="B Button" type="Sprite2D" parent="ZapHitbox"]

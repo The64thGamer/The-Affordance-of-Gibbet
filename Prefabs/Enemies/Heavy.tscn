@@ -13,12 +13,14 @@ collision_layer = 4
 safe_margin = 0.5
 script = ExtResource("1_05ele")
 walkSpeed = 30.0
-jumpHeight = 5.0
+jumpHeight = -200.0
 timeBetweenJumps = 2.0
 AIType = 3
 gravity = 300.0
 walkAnimSpeed = 5.0
 idleAnimSpeed = 6.0
+singleIdleFrame = true
+noJumpFallFrame = false
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_5by4a")
@@ -31,6 +33,7 @@ material = ExtResource("2_4uvag")
 texture = ExtResource("3_lw6xp")
 hframes = 10
 vframes = 20
+frame = 5
 script = ExtResource("4_e4vyp")
 
 [node name="HitHurtBox" type="Area2D" parent="."]

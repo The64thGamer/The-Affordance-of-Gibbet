@@ -60,7 +60,7 @@ position = Vector2(808, 24)
 position = Vector2(-16, -33)
 
 [node name="Blibbly Spawner" parent="." instance=ExtResource("7_nq1x1")]
-position = Vector2(136, -40)
+position = Vector2(136, -48)
 
 [node name="Blibbly Spawner2" parent="." instance=ExtResource("7_nq1x1")]
 position = Vector2(1064, -88)
