@@ -20,8 +20,8 @@ public partial class SpriteAnim : Sprite2D
 		"Button Up Arrow",
 		"Button Down Arrow",
 	};
-	static string[] spriteEnemySquid = new string[]{
-		"Idle A","Idle B","Die","Walk A", "Walk B",
+	static string[] spriteEnemy = new string[]{
+		"Wibbly Idle A","Wibbly Idle B","Wibbly Die","Wibbly Walk A", "Wibbly Walk B", "Heavy Idle A", "Heavy Duck", "Heavy Jump", "Heavy Die"
 	};
 	static string[] spriteEffects = new string[]{
 		"Cloud A", "Cloud B", "Cloud C", "Cloud D",
@@ -38,8 +38,8 @@ public partial class SpriteAnim : Sprite2D
 			case "Sprite UI.png":
 				spriteNames = spriteUI;
 				break;
-			case "Sprite Enemy Squid.png":
-				spriteNames = spriteEnemySquid;
+			case "Sprite Enemy.png":
+				spriteNames = spriteEnemy;
 				break;
 			case "Sprite Effects.png":
 				spriteNames = spriteEffects;

@@ -157,10 +157,10 @@ public partial class GenericEnemy : Entity
 						switch (Mathf.FloorToInt(idleTimer))
 						{
 							case 0:
-								sprite.SetSprite("Idle A");
+								sprite.SetSprite(Name +" Idle A");
 							break;
 							case 1:
-								sprite.SetSprite("Idle B");
+								sprite.SetSprite(Name +" Idle B");
 							break;
 							default:
 							idleTimer = 0;
@@ -173,10 +173,10 @@ public partial class GenericEnemy : Entity
 						switch (Mathf.FloorToInt(walkTimer))
 						{
 							case 0:
-								sprite.SetSprite("Walk A");
+								sprite.SetSprite(Name +" Walk A");
 							break;
 							case 1:
-								sprite.SetSprite("Walk B");
+								sprite.SetSprite(Name +" Walk B");
 							break;
 							default:
 							walkTimer = 0;
@@ -195,7 +195,7 @@ public partial class GenericEnemy : Entity
 	{
 		enemyState = EnemyState.dying;
 		Velocity = new Vector2(sprite.FlipH ? 1 : -1 * deathLaunch,deathJump);
-		sprite.SetSprite("Die");
+		sprite.SetSprite(Name + " Die");
 	}
 
 	public bool IsDead()

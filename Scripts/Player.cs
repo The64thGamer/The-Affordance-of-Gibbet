@@ -27,6 +27,7 @@ public partial class Player : Entity
 	bool firstFrameOnGround;
 
 	const float copyCooldown = 0.5f;
+	const int zapHitboxXPosition = 10;
 	const int initialJumpMult = 3;
 	const int slowdownSpeed = 2;
 	const float minCopyTimeHitboxSpawn = 0.15f;
@@ -108,7 +109,7 @@ public partial class Player : Entity
 				}
 				if(copyTimer > minCopyTimeHitboxSpawn)
 				{
-					zapHitbox.Position = new Vector2(16 * (sprite.FlipH ? -1 : 1),0);
+					zapHitbox.Position = new Vector2(zapHitboxXPosition * (sprite.FlipH ? -1 : 1),0);
 					zapHitbox.Monitoring = true;
 				}
 			break;
@@ -394,6 +395,7 @@ public partial class Player : Entity
 
 	public void SetCopyAbility(CopyAbility ability, int slot)
 	{
+		zapHitbox.Monitoring = false;
 		Input.StartJoyVibration(0,0.5f,1,0.3f);
 		if(currentCopyAbility != CopyAbility.none)
 		{
@@ -404,6 +406,7 @@ public partial class Player : Entity
 
 	public void ApplyDamage(float attackDamage, bool launch, Vector2 globalHitPos)
 	{
+		zapHitbox.Monitoring = false;
 		if(launch)
 		{
 			playerState = PlayerState.flung;
