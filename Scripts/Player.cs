@@ -24,6 +24,7 @@ public partial class Player : Entity
 	float flungTimer;
 	float copyCooldownTimer;
 	bool isJumping;
+	bool firstFrameOnGround;
 
 	const float copyCooldown = 0.5f;
 	const int initialJumpMult = 3;
@@ -31,11 +32,13 @@ public partial class Player : Entity
 	const float minCopyTimeHitboxSpawn = 0.15f;
 	const float damageToFlungTimeMultiplier = 0.03f;
 	const float damageToFlungVelocityMultiplier = 5f;
+	const float horizontalMoveDeadzone = 0.2f;
 	Vector2 currentInput;
 	Vector2 previousCloudPlacement;
 
 	PlayerState playerState = PlayerState.standard;
 	CopyAbility currentCopyAbility;
+	FloorState floorState;
 	
 	public enum PlayerState
 	{
@@ -48,6 +51,14 @@ public partial class Player : Entity
 	public enum CopyAbility
 	{
 		none,
+	}
+
+	public enum FloorState
+	{
+		onFloor,
+		firstFrameOffFloor,
+		offFloor,
+		firstFrameOnFloor,
 	}
 
 	public override void _Ready()
@@ -168,6 +179,30 @@ public partial class Player : Entity
 
 	Vector2 CalculateStandardVelocity(Vector2 input, bool jumpInput, double delta)
 	{
+		switch (floorState)
+		{
+			case FloorState.firstFrameOnFloor:
+			floorState = FloorState.onFloor;
+			Input.StartJoyVibration(0,0.3f,0,0.15f);
+			break;
+			case FloorState.firstFrameOffFloor:
+			floorState = FloorState.offFloor;
+			Input.StartJoyVibration(0,0.01f,0,0.1f);
+			break;
+			case FloorState.offFloor:
+			if(IsOnFloor())
+			{
+				floorState = FloorState.firstFrameOnFloor;
+			}
+			break;
+			case FloorState.onFloor:
+			if(!IsOnFloor())
+			{
+				floorState = FloorState.firstFrameOffFloor;
+			}
+			break;
+		}
+
 		Vector2 velocity = Velocity;
 		if (!IsOnFloor())
 		{
@@ -199,7 +234,7 @@ public partial class Player : Entity
 			jumpTimer = 0;
 		}
 
-		if (input != Vector2.Zero)
+		if (input.X > horizontalMoveDeadzone || input.X < -horizontalMoveDeadzone)
 		{
 			velocity.X = input.X * Speed;
 		}
@@ -235,15 +270,24 @@ public partial class Player : Entity
 					{
 						case 0:
 							sprite.SetSprite("Copy A");
+							Input.StartJoyVibration(0,0.1f,0,minCopyTime);
 						break;
 						case 1:
 							sprite.SetSprite("Copy A");
+							Input.StartJoyVibration(0,0.1f,1,0.1f);
 						break;
 						case 2:
 							sprite.SetSprite("Copy B");
 						break;
 						case 3:
 							sprite.SetSprite("Copy C");
+						break;
+						case 4:
+							sprite.SetSprite("Copy B");
+						break;
+						case 5:
+							sprite.SetSprite("Copy C");
+							Input.StartJoyVibration(0,0.1f,1,0.1f);
 						break;
 						default:
 						oldAnimTimer = Mathf.FloorToInt(animTimer);
@@ -261,6 +305,7 @@ public partial class Player : Entity
 					{
 						case 0:
 							sprite.SetSprite("Copy A");
+							Input.StopJoyVibration(0);
 						break;
 						case 1:
 							sprite.SetSprite("Copy A");
@@ -344,6 +389,7 @@ public partial class Player : Entity
 
 	public void SetCopyAbility(CopyAbility ability, int slot)
 	{
+		Input.StartJoyVibration(0,0.5f,1,0.3f);
 		if(currentCopyAbility != CopyAbility.none)
 		{
 			currentCopyAbility = ability;
@@ -363,5 +409,6 @@ public partial class Player : Entity
 		flungTimer = currentDamage * damageToFlungTimeMultiplier;
 		Velocity = (GlobalPosition - globalHitPos).Normalized() * currentDamage * damageToFlungVelocityMultiplier;
 		playerCam.Flung(flungTimer);
+		Input.StartJoyVibration(0,1,1,Mathf.Clamp(currentDamage/75.0f,0.2f,1.0f));
 	}
 }
