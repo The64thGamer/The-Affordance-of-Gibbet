@@ -268,8 +268,6 @@ public partial class Player : Entity
 			sprite.FlipH = Velocity.X < 0 ? true : false;
 		}
 
-		
-
 		switch (playerState)
 		{
 			case PlayerState.copying:
@@ -360,19 +358,24 @@ public partial class Player : Entity
 
 		
 		if(IsOnFloor())
-		{
-				
+		{			
 			if(Velocity == Vector2.Zero)
 			{
 				if(currentInput.Y > 0.1f)
 				{
-					sprite.SetSprite("Crouch");
+					if(animTimer != -1)
+					{
+						sprite.SetSprite("Crouch");
+						Input.StartJoyVibration(0,0.7f,0,0.15f);
+						animTimer = -1;
+					}
+					
 				}
 				else
 				{
 					sprite.SetSprite("Idle");
+					animTimer = 0;
 				}
-				animTimer = 0;
 			}
 			else if(Velocity.X != 0)
 			{
