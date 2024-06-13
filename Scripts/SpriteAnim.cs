@@ -13,6 +13,7 @@ public partial class SpriteAnim : Sprite2D
 		"Jump",
 		"Roll A","Roll B","Roll C",
 		"Copy B","Copy C","Copy A",
+		"Crouch"
 		};
 	static string[] spriteUI = new string[]{
 		"Button B",

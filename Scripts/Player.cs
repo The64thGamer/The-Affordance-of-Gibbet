@@ -242,7 +242,7 @@ public partial class Player : Entity
 
 		if (input.X > horizontalMoveDeadzone || input.X < -horizontalMoveDeadzone)
 		{
-			velocity.X = input.X * Speed;
+			velocity.X = Speed * Mathf.Sign(input.X);
 		}
 		else
 		{
@@ -266,6 +266,8 @@ public partial class Player : Entity
 		{
 			sprite.FlipH = Velocity.X < 0 ? true : false;
 		}
+
+		
 
 		switch (playerState)
 		{
@@ -356,14 +358,22 @@ public partial class Player : Entity
 
 
 		
-		if(Velocity.Y == 0)
+		if(IsOnFloor())
 		{
+				
 			if(Velocity == Vector2.Zero)
 			{
-				sprite.SetSprite("Idle");
+				if(currentInput.Y > 0.1f)
+				{
+					sprite.SetSprite("Crouch");
+				}
+				else
+				{
+					sprite.SetSprite("Idle");
+				}
 				animTimer = 0;
 			}
-			if(Velocity.X != 0)
+			else if(Velocity.X != 0)
 			{
 				switch (Mathf.FloorToInt(animTimer))
 				{
