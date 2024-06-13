@@ -83,10 +83,7 @@ public partial class Player : Entity
 
 	void StateCheck(double delta)
 	{
-		if(!isVisibletoCamera)
-		{
-			GetTree().ChangeSceneToFile("res://Scenes/Level1.tscn");
-		}
+		
 
 		switch (playerState)
 		{
@@ -136,6 +133,10 @@ public partial class Player : Entity
 				{
 					playerState = PlayerState.standard;
 					flungTimer = 0;
+				}
+				if(!isVisibletoCamera)
+				{
+					GetTree().ChangeSceneToFile("res://Scenes/Level1.tscn");
 				}
 				break;
 			default:
@@ -429,4 +430,5 @@ public partial class Player : Entity
 		playerCam.Flung(flungTimer);
 		Input.StartJoyVibration(0,1,1,Mathf.Clamp(currentDamage/75.0f,0.2f,1.0f));
 	}
+
 }
