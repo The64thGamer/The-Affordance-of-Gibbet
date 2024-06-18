@@ -23,7 +23,9 @@ public partial class SpriteAnim : Sprite2D
 		"Button Down Arrow",
 	};
 	static string[] spriteEnemy = new string[]{
-		"Wibbly Idle A","Wibbly Idle B","Wibbly Die","Wibbly Walk A", "Wibbly Walk B", "Heavy Idle A", "Heavy Crouch", "Heavy Jump", "Heavy Die"
+		"Wibbly Idle A","Wibbly Idle B","Wibbly Die","Wibbly Walk A", "Wibbly Walk B", 
+		"Heavy Idle A", "Heavy Crouch", "Heavy Jump", "Heavy Die",
+		"Tipsy Idle A", "Tipsy Walk A", "Tipsy Walk B", "Tipsy Die"
 	};
 	static string[] spriteEffects = new string[]{
 		"Cloud A", "Cloud B", "Cloud C", "Cloud D",

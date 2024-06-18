@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://v6j1pwi0aiyo"]
+
+[ext_resource type="Script" path="res://Scripts/OnscreenSpawner.cs" id="1_16f5h"]
+[ext_resource type="PackedScene" uid="uid://diegbiicomrwr" path="res://Prefabs/Enemies/Tipsy.tscn" id="2_0lhon"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l1npc"]
+size = Vector2(15, 15)
+
+[node name="Tipsy Spawner" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 0
+safe_margin = 0.5
+script = ExtResource("1_16f5h")
+spawntype = ExtResource("2_0lhon")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_l1npc")

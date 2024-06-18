@@ -51,12 +51,10 @@ script = ExtResource("3_75s47")
 [node name="Cam & UI" type="Node" parent="."]
 
 [node name="Camera" type="Camera2D" parent="Cam & UI" node_paths=PackedStringArray("player")]
-zoom = Vector2(5, 5)
 script = ExtResource("4_i612l")
 player = NodePath("../..")
 cameraLookaheadMultiplier = 2.0
 cameraSpeed = 0.4
-maxDeadzoneX = 20.0
 camSpeedCurve = SubResource("Curve_g8avy")
 
 [node name="VisibleArea" type="Area2D" parent="Cam & UI/Camera"]
