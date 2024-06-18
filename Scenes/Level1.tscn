@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://dwikffoj068ul"]
+[gd_scene load_steps=12 format=3 uid="uid://dwikffoj068ul"]
 
 [ext_resource type="Shader" path="res://addons/Godot-Palette-Swap-Shader-c9cd91a307dc713f89b380320b1a7ec3e962a8f2/PaletteSwap.gdshader" id="1_is7e8"]
+[ext_resource type="Script" path="res://Scripts/IntegerScaleScreen.cs" id="1_yho5d"]
 [ext_resource type="TileSet" uid="uid://dcsalqtqp55os" path="res://Tilesets/Tiles.tres" id="2_gtx7n"]
 [ext_resource type="Texture2D" uid="uid://bv5uprtlmursr" path="res://Sprites/Palette.png" id="2_vf32f"]
 [ext_resource type="PackedScene" uid="uid://curfr1nba6l3j" path="res://Prefabs/Gibbet.tscn" id="3_gmapx"]
@@ -43,6 +44,7 @@ pivot_offset = Vector2(80, 72)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
+script = ExtResource("1_yho5d")
 
 [node name="Level Renderer" type="SubViewport" parent="Control2/SubViewportContainer"]
 handle_input_locally = false

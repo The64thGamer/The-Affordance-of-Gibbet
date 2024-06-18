@@ -26,6 +26,6 @@ public partial class Entity : CharacterBody2D
 		cloud.effect = type;
 		cloud.movement = movement;
 		cloud.GlobalPosition = pos;
-		GetTree().Root.AddChild(cloud);
+		GetParent().AddChild(cloud);
 	}
 }
