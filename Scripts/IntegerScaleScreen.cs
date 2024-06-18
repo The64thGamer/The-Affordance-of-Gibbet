@@ -7,6 +7,7 @@ public partial class IntegerScaleScreen : SubViewportContainer
 
 	public override void _Ready()
 	{
+		Visible = true;
 		last_size = DisplayServer.WindowGetSize();
 	}
  

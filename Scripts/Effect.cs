@@ -55,5 +55,6 @@ public partial class Effect : Entity
 			default:
 				break;
 		}
+		base._Process(delta);
 	}
 }

@@ -16,9 +16,11 @@ public partial class PlayerCam : Camera2D
 	bool oldDeadZone = false;
 	float camRampupTimer = 0;
 	float flungTimer;
+	Vector2 oldCamPos;
 
 	public override void _Ready()
 	{
+		oldCamPos = GlobalPosition;
 		deadzonePoint = player.GlobalPosition;
 		targetPoint = deadzonePoint;
 	}
@@ -26,7 +28,7 @@ public partial class PlayerCam : Camera2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-
+		GlobalPosition = oldCamPos;
 		Vector2 distance = new Vector2(player.GlobalPosition.X - deadzonePoint.X,player.GlobalPosition.Y - deadzonePoint.Y);
 		camRampupTimer += (float)delta;
 
@@ -57,6 +59,9 @@ public partial class PlayerCam : Camera2D
 		{
 			GlobalPosition = GlobalPosition.Lerp(flungPos,Mathf.Min(flungTimer,1));
 		}
+
+		oldCamPos = GlobalPosition;
+		GlobalPosition = new Vector2(Mathf.FloorToInt(GlobalPosition.X),Mathf.FloorToInt(GlobalPosition.Y));
 	}
 
 	public void Flung(float time)

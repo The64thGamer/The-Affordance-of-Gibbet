@@ -83,8 +83,6 @@ public partial class Player : Entity
 
 	void StateCheck(double delta)
 	{
-		
-
 		switch (playerState)
 		{
 			case PlayerState.standard:

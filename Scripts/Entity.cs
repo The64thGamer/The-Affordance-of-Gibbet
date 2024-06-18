@@ -14,6 +14,14 @@ public partial class Entity : CharacterBody2D
 			Velocity = Vector2.Zero;
 		}
 	}
+
+	public override void _Process(double delta)
+	{
+		sprite.Offset = new Vector2(
+			-(GlobalPosition.X - Mathf.FloorToInt(GlobalPosition.X)),
+			-(GlobalPosition.Y - Mathf.FloorToInt(GlobalPosition.Y))
+		);
+	}
 		
 	public void SetCamVisibility(bool set)
 	{
