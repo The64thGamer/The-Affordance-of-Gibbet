@@ -418,6 +418,11 @@ public partial class Player : Entity
 		playerState = PlayerState.takingAbility;
 	}
 
+	public PlayerState GetPlayerState()
+	{
+		return playerState;
+	}
+
 	public void ApplyDamage(float attackDamage, bool launch, Vector2 globalHitPos)
 	{
 		zapHitbox.Monitoring = false;

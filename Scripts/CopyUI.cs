@@ -176,16 +176,20 @@ public partial class CopyUI : Area2D
 			if(!enemy.IsDead())
 			{
 				enemy.Die();
-				GetTree().Paused = true;
-				player.SetCopyAbility(enemy.copyAbility,0);
-				if(enemy.copyAbility != Player.CopyAbility.none)
+
+				if(player.GetPlayerState() != Player.PlayerState.takingAbility)
 				{
-					CreateUI();
-				}
-				else
-				{
-					uiState = CopyUIState.noCopyAbility;
-					uiStateTimer = 0;
+					GetTree().Paused = true;
+					player.SetCopyAbility(enemy.copyAbility,0);
+					if(enemy.copyAbility != Player.CopyAbility.none)
+					{
+						CreateUI();
+					}
+					else
+					{
+						uiState = CopyUIState.noCopyAbility;
+						uiStateTimer = 0;
+					}
 				}
 			}
 		}
