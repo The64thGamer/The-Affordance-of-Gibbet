@@ -38,7 +38,8 @@ public partial class Player : Entity
 	Vector2 previousCloudPlacement;
 
 	PlayerState playerState = PlayerState.standard;
-	CopyAbility currentCopyAbility;
+	CopyAbility[] copyAbility = new CopyAbility[4];
+
 	FloorState floorState;
 	
 	public enum PlayerState
@@ -114,10 +115,6 @@ public partial class Player : Entity
 			break;
 			case PlayerState.takingAbility:
 				zapHitbox.Monitoring = false;
-				if(currentCopyAbility == CopyAbility.none)
-				{
-					playerState = PlayerState.standard;
-				}
 				copyCooldownTimer = copyCooldown;
 			break;
 			case PlayerState.flung:
@@ -409,11 +406,15 @@ public partial class Player : Entity
 	{
 		zapHitbox.Monitoring = false;
 		Input.StartJoyVibration(0,0.5f,1,0.3f);
-		if(currentCopyAbility != CopyAbility.none)
+		if(ability != CopyAbility.none)
 		{
-			currentCopyAbility = ability;
+			copyAbility[slot] = ability;
+			playerState = PlayerState.takingAbility;
+		}
+		else
+		{
+			playerState = PlayerState.uncopying;
 		}	
-		playerState = PlayerState.takingAbility;
 	}
 
 	public PlayerState GetPlayerState()
