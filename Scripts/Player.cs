@@ -249,7 +249,7 @@ public partial class Player : Entity
 	
 	bool CheckJump()
 	{
-		if (Input.IsActionJustPressed("Up") && IsOnFloor())
+		if ((Input.IsActionJustPressed("Up")||Input.IsActionPressed("Up")) && IsOnFloor())
 		{
 			return true;
 		}	
