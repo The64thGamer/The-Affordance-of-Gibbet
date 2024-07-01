@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://xxx28ukqkfm0"]
+[gd_scene load_steps=4 format=3 uid="uid://xxx28ukqkfm0"]
 
 [ext_resource type="Texture2D" uid="uid://d1rjpavf3gnrj" path="res://Sprites/Titlescreen.png" id="1_rdftd"]
 [ext_resource type="Theme" uid="uid://dg2iqjcuw44gs" path="res://UI/Styles/new_theme.tres" id="2_c8ius"]
+[ext_resource type="Script" path="res://Scripts/UIButton.cs" id="3_eoy8h"]
 
 [node name="Title" type="Node2D"]
 
@@ -23,7 +24,6 @@ offset_bottom = 40.0
 texture = ExtResource("1_rdftd")
 
 [node name="Main" type="Control" parent="Control"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,6 +40,7 @@ offset_right = 76.0
 offset_bottom = 72.0
 theme = ExtResource("2_c8ius")
 text = "Start Game"
+script = ExtResource("3_eoy8h")
 
 [node name="Label2" type="Label" parent="Control/Main"]
 texture_filter = 1
@@ -50,6 +51,7 @@ offset_right = 76.0
 offset_bottom = 80.0
 theme = ExtResource("2_c8ius")
 text = "Options"
+script = ExtResource("3_eoy8h")
 
 [node name="Label3" type="Label" parent="Control/Main"]
 texture_filter = 1
@@ -60,6 +62,7 @@ offset_right = 76.0
 offset_bottom = 88.0
 theme = ExtResource("2_c8ius")
 text = "Manual"
+script = ExtResource("3_eoy8h")
 
 [node name="File Select" type="Control" parent="Control"]
 visible = false
@@ -70,7 +73,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label4" type="Label" parent="Control/File Select"]
+[node name="Label9" type="Label" parent="Control/File Select"]
 texture_filter = 1
 layout_mode = 0
 offset_left = 16.0
@@ -79,6 +82,18 @@ offset_right = 76.0
 offset_bottom = 72.0
 theme = ExtResource("2_c8ius")
 text = "File A: 0%"
+script = ExtResource("3_eoy8h")
+
+[node name="Label4" type="Label" parent="Control/File Select"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 48.0
+offset_right = 76.0
+offset_bottom = 56.0
+theme = ExtResource("2_c8ius")
+text = "File Select"
+script = ExtResource("3_eoy8h")
 
 [node name="Label2" type="Label" parent="Control/File Select"]
 texture_filter = 1
@@ -89,6 +104,7 @@ offset_right = 76.0
 offset_bottom = 80.0
 theme = ExtResource("2_c8ius")
 text = "File B: 0%"
+script = ExtResource("3_eoy8h")
 
 [node name="Label3" type="Label" parent="Control/File Select"]
 texture_filter = 1
@@ -99,6 +115,7 @@ offset_right = 76.0
 offset_bottom = 88.0
 theme = ExtResource("2_c8ius")
 text = "File C: 0%"
+script = ExtResource("3_eoy8h")
 
 [node name="Label5" type="Label" parent="Control/File Select"]
 texture_filter = 1
@@ -109,6 +126,7 @@ offset_right = 76.0
 offset_bottom = 96.0
 theme = ExtResource("2_c8ius")
 text = "File D: 0%"
+script = ExtResource("3_eoy8h")
 
 [node name="Label8" type="Label" parent="Control/File Select"]
 texture_filter = 1
@@ -119,6 +137,7 @@ offset_right = 76.0
 offset_bottom = 120.0
 theme = ExtResource("2_c8ius")
 text = "New Game"
+script = ExtResource("3_eoy8h")
 
 [node name="Label6" type="Label" parent="Control/File Select"]
 texture_filter = 1
@@ -129,6 +148,7 @@ offset_right = 76.0
 offset_bottom = 128.0
 theme = ExtResource("2_c8ius")
 text = "Delete"
+script = ExtResource("3_eoy8h")
 
 [node name="Label7" type="Label" parent="Control/File Select"]
 texture_filter = 1
@@ -139,8 +159,10 @@ offset_right = 76.0
 offset_bottom = 136.0
 theme = ExtResource("2_c8ius")
 text = "Back"
+script = ExtResource("3_eoy8h")
 
 [node name="Options" type="Control" parent="Control"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -148,7 +170,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label4" type="Label" parent="Control/Options"]
+[node name="Label6" type="Label" parent="Control/Options"]
 texture_filter = 1
 layout_mode = 0
 offset_left = 16.0
@@ -156,7 +178,19 @@ offset_top = 64.0
 offset_right = 76.0
 offset_bottom = 72.0
 theme = ExtResource("2_c8ius")
-text = "Palette"
+text = "Palettes"
+script = ExtResource("3_eoy8h")
+
+[node name="Label4" type="Label" parent="Control/Options"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 48.0
+offset_right = 76.0
+offset_bottom = 56.0
+theme = ExtResource("2_c8ius")
+text = "Options"
+script = ExtResource("3_eoy8h")
 
 [node name="Label2" type="Label" parent="Control/Options"]
 texture_filter = 1
@@ -167,6 +201,7 @@ offset_right = 76.0
 offset_bottom = 80.0
 theme = ExtResource("2_c8ius")
 text = "Video"
+script = ExtResource("3_eoy8h")
 
 [node name="Label3" type="Label" parent="Control/Options"]
 texture_filter = 1
@@ -177,6 +212,7 @@ offset_right = 76.0
 offset_bottom = 88.0
 theme = ExtResource("2_c8ius")
 text = "Audio"
+script = ExtResource("3_eoy8h")
 
 [node name="Label5" type="Label" parent="Control/Options"]
 texture_filter = 1
@@ -187,6 +223,7 @@ offset_right = 76.0
 offset_bottom = 96.0
 theme = ExtResource("2_c8ius")
 text = "Hotkeys"
+script = ExtResource("3_eoy8h")
 
 [node name="Label7" type="Label" parent="Control/Options"]
 texture_filter = 1
@@ -197,3 +234,112 @@ offset_right = 76.0
 offset_bottom = 136.0
 theme = ExtResource("2_c8ius")
 text = "Back"
+script = ExtResource("3_eoy8h")
+
+[node name="Palette" type="Control" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label8" type="Label" parent="Control/Palette"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 48.0
+offset_right = 76.0
+offset_bottom = 56.0
+theme = ExtResource("2_c8ius")
+text = "Palettes"
+script = ExtResource("3_eoy8h")
+
+[node name="Label9" type="Label" parent="Control/Palette"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 76.0
+offset_bottom = 72.0
+theme = ExtResource("2_c8ius")
+text = "Palettes"
+script = ExtResource("3_eoy8h")
+
+[node name="Label10" type="Label" parent="Control/Palette"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 72.0
+offset_right = 76.0
+offset_bottom = 80.0
+theme = ExtResource("2_c8ius")
+text = "Palettes"
+script = ExtResource("3_eoy8h")
+
+[node name="Label11" type="Label" parent="Control/Palette"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 80.0
+offset_right = 76.0
+offset_bottom = 88.0
+theme = ExtResource("2_c8ius")
+text = "Palettes"
+script = ExtResource("3_eoy8h")
+
+[node name="Label12" type="Label" parent="Control/Palette"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 88.0
+offset_right = 76.0
+offset_bottom = 96.0
+theme = ExtResource("2_c8ius")
+text = "Palettes"
+script = ExtResource("3_eoy8h")
+
+[node name="Label13" type="Label" parent="Control/Palette"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 96.0
+offset_right = 76.0
+offset_bottom = 104.0
+theme = ExtResource("2_c8ius")
+text = "Palettes"
+script = ExtResource("3_eoy8h")
+
+[node name="Label14" type="Label" parent="Control/Palette"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 104.0
+offset_right = 76.0
+offset_bottom = 112.0
+theme = ExtResource("2_c8ius")
+text = "Palettes"
+script = ExtResource("3_eoy8h")
+
+[node name="Label15" type="Label" parent="Control/Palette"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 112.0
+offset_right = 76.0
+offset_bottom = 120.0
+theme = ExtResource("2_c8ius")
+text = "Palettes"
+script = ExtResource("3_eoy8h")
+
+[node name="Label7" type="Label" parent="Control/Palette"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 128.0
+offset_right = 76.0
+offset_bottom = 136.0
+theme = ExtResource("2_c8ius")
+text = "Back"
+script = ExtResource("3_eoy8h")

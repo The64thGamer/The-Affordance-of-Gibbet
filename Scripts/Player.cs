@@ -104,7 +104,7 @@ public partial class Player : Entity
 				{
 					ChangeState(PlayerState.copying);
 				}
-				if(Input.IsActionPressed("Attack") && attackCooldownTimer <= 0 && currentInput.X != 0)
+				if(Input.IsActionPressed("Attack") && attackCooldownTimer <= 0 && currentInput.X != 0 && copyAbility[1] != CopyAbility.none)
 				{
 					ChangeState(PlayerState.sideAttack);
 				}
@@ -215,6 +215,7 @@ public partial class Player : Entity
 						}
 					break;
 					default:
+					ChangeState(PlayerState.standard);
 					break;
 				}
 			break;
@@ -403,10 +404,10 @@ public partial class Player : Entity
 								switch (Mathf.FloorToInt(animTimer))
 								{
 									case 0:
-										sprite.SetSprite("Soda Side A");
+										sprite.SetSprite("Soda Side C");
 									break;
 									case 1:
-										sprite.SetSprite("Soda Side A");
+										sprite.SetSprite("Soda Side C");
 									break;
 									case 2:
 										sprite.SetSprite("Soda Side B");
@@ -437,6 +438,9 @@ public partial class Player : Entity
 									break;
 									case 11:
 										sprite.SetSprite("Soda Side B");
+									break;
+									case 12:
+										sprite.SetSprite("Soda Side C");
 									break;
 									default:
 									ChangeState(PlayerState.standard);

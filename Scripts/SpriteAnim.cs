@@ -14,7 +14,7 @@ public partial class SpriteAnim : Sprite2D
 		"Roll A","Roll B","Roll C",
 		"Copy B","Copy C","Copy A",
 		"Crouch",
-		"Soda Side A","Soda Side B","Soda Side Air",
+		"Soda Side A","Soda Side B","Soda Side C",
 		};
 	static string[] spriteUI = new string[]{
 		"Button B",
