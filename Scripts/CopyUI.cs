@@ -19,6 +19,7 @@ public partial class CopyUI : Area2D
 	const int uiNotSelectedPosterization = -2;
 	const float uiSelectedTimer = 0.3f;
 	const float minNoCopyAbilityTime = 0.3f;
+	Player.CopyAbility heldAbility;
 
 	enum CopyUIState
 	{
@@ -74,20 +75,24 @@ public partial class CopyUI : Area2D
 				
 				if(Input.IsActionPressed("Up"))
 				{
+					player.SetCopyAbility(heldAbility,2);
 					uiState = CopyUIState.upSelected;
 					break;
 				}
 				if(Input.IsActionPressed("Down"))
 				{
+					player.SetCopyAbility(heldAbility,3);
 					uiState = CopyUIState.downSelected;
 					break;
 				}
 				if(Input.IsActionPressed("Left") || Input.IsActionPressed("Right"))
 				{
+					player.SetCopyAbility(heldAbility,1);
 					uiState = CopyUIState.sidesSelected;
 					break;
 				}
-
+				
+				player.SetCopyAbility(heldAbility,0);
 				uiState = CopyUIState.neutralSelected;
 			}
 			break;
@@ -177,12 +182,16 @@ public partial class CopyUI : Area2D
 			{
 				enemy.Die();
 
-				if(player.GetPlayerState() != Player.PlayerState.takingAbility)
+				if(player.GetPlayerState() != Player.PlayerState.neutralAttack 
+				&& player.GetPlayerState() != Player.PlayerState.sideAttack 
+				&& player.GetPlayerState() != Player.PlayerState.downAttack 
+				&& player.GetPlayerState() != Player.PlayerState.upAttack 
+				)
 				{
 					GetTree().Paused = true;
-					player.SetCopyAbility(enemy.copyAbility,0);
 					if(enemy.copyAbility != Player.CopyAbility.none)
 					{
+						heldAbility = enemy.copyAbility;
 						CreateUI();
 					}
 					else

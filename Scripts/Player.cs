@@ -4,7 +4,7 @@ using System;
 public partial class Player : Entity
 {
 	float currentDamage = 0;
-	float Speed = 80;
+	float currentSpeed = 80;
 	float JumpVelocity = -37;
 	float gravity = 300;
 
@@ -17,16 +17,21 @@ public partial class Player : Entity
 	[Export] float rollAnimSpeed;
 	[Export] PlayerCam playerCam;
 
-	float animTimer;
-	int oldAnimTimer;
-	float jumpTimer;
-	float copyTimer;
-	float flungTimer;
-	float copyCooldownTimer;
-	bool isJumping;
-	bool firstFrameOnGround;
+	[Export] float animTimer;
+	[Export] int oldAnimTimer;
+	[Export] float jumpTimer;
+	[Export] float copyTimer;
+	[Export] float physicsTimer;
+	[Export] float flungTimer;
+	[Export] float copyCooldownTimer;
+	[Export] float attackCooldownTimer;
+	[Export] bool isJumping;
+	[Export] bool firstFrameOnGround;
 
+	const float standardSpeed = 80;
+	const float sodaSideAnimSpeed = 20;
 	const float copyCooldown = 0.5f;
+	const float attackCooldown = 0.3f;
 	const int zapHitboxXPosition = 14;
 	const int initialJumpMult = 3;
 	const int slowdownSpeed = 2;
@@ -34,10 +39,14 @@ public partial class Player : Entity
 	const float damageToFlungTimeMultiplier = 0.03f;
 	const float damageToFlungVelocityMultiplier = 5f;
 	const float horizontalMoveDeadzone = 0.2f;
+	const float attackMaxVerticalVelocity = 50;
+	const float attackDashSpeed = 200;
+	const float attackDashDeceleration = 3;
+	const float velocityRedirectPenalty = 0.5f;
 	Vector2 currentInput;
 	Vector2 previousCloudPlacement;
 
-	PlayerState playerState = PlayerState.standard;
+	[Export] PlayerState playerState = PlayerState.standard;
 	CopyAbility[] copyAbility = new CopyAbility[4];
 
 	FloorState floorState;
@@ -46,9 +55,12 @@ public partial class Player : Entity
 	{
 		standard,
 		copying,
-		takingAbility,
 		uncopying,
 		flung,
+		sideAttack,
+		neutralAttack,
+		upAttack,
+		downAttack,
 	}
 	public enum CopyAbility
 	{
@@ -57,6 +69,7 @@ public partial class Player : Entity
 		builder,
 		drinker,
 		cowboy,
+		gambler,
 
 	}
 
@@ -89,19 +102,21 @@ public partial class Player : Entity
 			case PlayerState.standard:
 				if(Input.IsActionPressed("Copy") && copyCooldownTimer <= 0)
 				{
-					playerState = PlayerState.copying;
-					animTimer = 0;
-					copyTimer = 0;
+					ChangeState(PlayerState.copying);
 				}
+				if(Input.IsActionPressed("Attack") && attackCooldownTimer <= 0 && currentInput.X != 0)
+				{
+					ChangeState(PlayerState.sideAttack);
+				}
+				attackCooldownTimer = Mathf.Max(0,attackCooldownTimer - (float)delta);
 				copyCooldownTimer = Mathf.Max(0,copyCooldownTimer - (float)delta);
 				break;
 			case PlayerState.copying:
 				copyTimer += (float)delta;
 				if(copyTimer >= minCopyTime)
 				{
-					playerState = PlayerState.uncopying;
-					animTimer = 0;
 					copyTimer = 0;
+					ChangeState(PlayerState.uncopying);
 				}
 				if(copyTimer > minCopyTimeHitboxSpawn)
 				{
@@ -110,11 +125,7 @@ public partial class Player : Entity
 				}
 			break;
 			case PlayerState.uncopying:
-				zapHitbox.Monitoring = false;
-				copyCooldownTimer = copyCooldown;
-			break;
-			case PlayerState.takingAbility:
-				zapHitbox.Monitoring = false;
+				zapHitbox.SetDeferred("monitoring",false);
 				copyCooldownTimer = copyCooldown;
 			break;
 			case PlayerState.flung:
@@ -126,7 +137,7 @@ public partial class Player : Entity
 				flungTimer -= (float)delta;
 				if(flungTimer <= 0)
 				{
-					playerState = PlayerState.standard;
+					ChangeState(PlayerState.standard);
 					flungTimer = 0;
 				}
 				if(!isVisibletoCamera)
@@ -159,9 +170,11 @@ public partial class Player : Entity
 				{
 					input = Vector2.Zero;
 				}
+				currentSpeed = standardSpeed;
 				Velocity = CalculateStandardVelocity(input,jumpInput,delta);
 				break;
 			case PlayerState.uncopying:
+				currentSpeed = standardSpeed;
 				Velocity = CalculateStandardVelocity(currentInput,false,delta);
 				break;
 			case PlayerState.flung:
@@ -170,13 +183,51 @@ public partial class Player : Entity
 					Velocity = new Vector2(Velocity.X, Velocity.Y + (gravity * (float)delta));
 				}
 				break;
+			case PlayerState.sideAttack:
+				switch (copyAbility[1])
+				{
+					case CopyAbility.drinker:
+						input = Input.GetVector("Left", "Right", "Up", "Down");
+						if((input.X < 0 && !sprite.FlipH) || (input.X > 0 && sprite.FlipH))
+						{
+							currentSpeed = standardSpeed * velocityRedirectPenalty;
+						}
+						else
+						{
+							currentSpeed = standardSpeed;
+						}
+						currentInput = input;
+						Velocity = CalculateStandardVelocity(input,false,delta);
+						if(IsOnFloor())
+						{
+							Velocity = new Vector2(
+							Mathf.Lerp(attackDashSpeed * input.X,0,Mathf.Min(physicsTimer * attackDashDeceleration,1))
+							,Velocity.Y
+							);
+						}
+						else
+						{
+							
+							Velocity = new Vector2(
+							Velocity.X,
+							Mathf.Lerp(Velocity.Y,Mathf.Clamp(Velocity.Y,-attackMaxVerticalVelocity,attackMaxVerticalVelocity),Mathf.Min(physicsTimer,1))
+							);
+						}
+					break;
+					default:
+					break;
+				}
+			break;
 			default:
+				currentSpeed = standardSpeed;
 				input = Input.GetVector("Left", "Right", "Up", "Down");
 				jumpInput = CheckJump();
 				currentInput = input;
 				Velocity = CalculateStandardVelocity(input,jumpInput,delta);
 				break;
 		}
+		physicsTimer += (float)delta;
+
 	}
 
 	Vector2 CalculateStandardVelocity(Vector2 input, bool jumpInput, double delta)
@@ -238,11 +289,11 @@ public partial class Player : Entity
 
 		if (input.X > horizontalMoveDeadzone || input.X < -horizontalMoveDeadzone)
 		{
-			velocity.X = Speed * Mathf.Sign(input.X);
+			velocity.X = currentSpeed * Mathf.Sign(input.X);
 		}
 		else
 		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+			velocity.X = Mathf.MoveToward(Velocity.X, 0, currentSpeed);
 		}
 		return velocity;
 	}
@@ -258,10 +309,7 @@ public partial class Player : Entity
 
 	void UpdateSprites(double delta)
 	{
-		if(Velocity.X != 0)
-		{
-			sprite.FlipH = Velocity.X < 0 ? true : false;
-		}
+
 
 		switch (playerState)
 		{
@@ -313,7 +361,7 @@ public partial class Player : Entity
 							sprite.SetSprite("Copy A");
 						break;
 						default:
-							playerState = PlayerState.standard;
+							ChangeState(PlayerState.standard);
 							break;
 					}
 				}
@@ -346,8 +394,69 @@ public partial class Player : Entity
 				oldAnimTimer = Mathf.FloorToInt(animTimer);
 				animTimer += (float)delta * rollAnimSpeed;
 				return;
+			case PlayerState.sideAttack:
+				switch (copyAbility[1])
+				{
+					case CopyAbility.drinker:
+						if(oldAnimTimer != Mathf.FloorToInt(animTimer))
+							{
+								switch (Mathf.FloorToInt(animTimer))
+								{
+									case 0:
+										sprite.SetSprite("Soda Side A");
+									break;
+									case 1:
+										sprite.SetSprite("Soda Side A");
+									break;
+									case 2:
+										sprite.SetSprite("Soda Side B");
+									break;
+									case 3:
+										sprite.SetSprite("Soda Side A");
+									break;
+									case 4:
+										sprite.SetSprite("Soda Side A");
+									break;
+									case 5:
+										sprite.SetSprite("Soda Side B");
+									break;
+									case 6:
+										sprite.SetSprite("Soda Side A");
+									break;
+									case 7:
+										sprite.SetSprite("Soda Side A");
+									break;
+									case 8:
+										sprite.SetSprite("Soda Side B");
+									break;
+									case 9:
+										sprite.SetSprite("Soda Side A");
+									break;
+									case 10:
+										sprite.SetSprite("Soda Side A");
+									break;
+									case 11:
+										sprite.SetSprite("Soda Side B");
+									break;
+									default:
+									ChangeState(PlayerState.standard);
+									attackCooldownTimer = attackCooldown;
+									return;
+								}
+							}
+						oldAnimTimer = Mathf.FloorToInt(animTimer);
+						animTimer += (float)delta * sodaSideAnimSpeed;
+						break;
+					default:
+					break;
+				}
+				return;
 			default:
-			break;
+				if(Velocity.X != 0)
+				{
+					sprite.FlipH = Velocity.X < 0 ? true : false;
+				}
+				break;
 		}
 
 
@@ -402,18 +511,43 @@ public partial class Player : Entity
 		}
 	}
 
+	public void ChangeState(PlayerState state)
+	{
+		physicsTimer = 0;
+		animTimer = 0;
+		playerState = state;
+	}
+
 	public void SetCopyAbility(CopyAbility ability, int slot)
 	{
-		zapHitbox.Monitoring = false;
+		zapHitbox.SetDeferred("monitoring",false);
 		Input.StartJoyVibration(0,0.5f,1,0.3f);
 		if(ability != CopyAbility.none)
 		{
+			GD.Print("Player got " + ability + " ability in slot " + slot + "!");
 			copyAbility[slot] = ability;
-			playerState = PlayerState.takingAbility;
+			switch (slot)
+			{
+				case 0:
+					ChangeState(PlayerState.neutralAttack);
+					break;
+				case 1:
+					ChangeState(PlayerState.sideAttack);
+					break;
+				case 2:
+					ChangeState(PlayerState.upAttack);
+					break;
+				case 3:
+					ChangeState(PlayerState.downAttack);
+					break;
+				default:
+					ChangeState(PlayerState.uncopying);
+				break;
+			}
 		}
 		else
 		{
-			playerState = PlayerState.uncopying;
+			ChangeState(PlayerState.uncopying);
 		}	
 	}
 
@@ -427,8 +561,7 @@ public partial class Player : Entity
 		zapHitbox.Monitoring = false;
 		if(launch)
 		{
-			playerState = PlayerState.flung;
-			animTimer = 0;
+			ChangeState(PlayerState.flung);
 			previousCloudPlacement = GlobalPosition;
 		}
 		currentDamage += attackDamage;
