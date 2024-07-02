@@ -5,6 +5,7 @@ public partial class PlayerAttackBox : Node2D
 {
 	public float timer = 999;
 	bool firstFrame = false;
+	bool alreadyPaused = false;
 	public override void _Process(double delta)
 	{
 		timer -= (float)delta;
@@ -15,7 +16,10 @@ public partial class PlayerAttackBox : Node2D
 		}
 		if(timer <= 0)
 		{
-			GetTree().Paused = false;
+			if(GetTree().Paused)
+			{
+				(GetNode("/root/PauseBufferHandler") as PauseBufferHandler).RemovePause(GetInstanceId());
+			}
 			QueueFree();
 		}
 	}
@@ -28,7 +32,12 @@ public partial class PlayerAttackBox : Node2D
 			{
 				Input.StartJoyVibration(0,0,0.85f,0.2f);
 				enemy.Die();
-				GetTree().Paused = true;
+				if(!alreadyPaused)
+				{
+					alreadyPaused = true;
+					(GetNode("/root/PauseBufferHandler") as PauseBufferHandler).AddPause(GetInstanceId());
+				}
+				
 				timer = Mathf.Max(timer,0.1f);
 			}
 		}

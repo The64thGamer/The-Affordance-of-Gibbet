@@ -27,11 +27,22 @@ public partial class Player : Entity
 	[Export] float attackCooldownTimer;
 	[Export] bool isJumping;
 	[Export] bool firstFrameOnGround;
+	[Export] bool inInvincibilityFrames = false;
+	[Export] Vector2 currentInput;
+	[Export] Vector2 previousCloudPlacement;
+	[Export] Vector2 turnaroundLerp;
+	[Export] float turnaroundCooldownTimer;
+
+	[Export] PlayerState playerState = PlayerState.standard;
+	CopyAbility[] copyAbility = new CopyAbility[4];
+
+	FloorState floorState;
 
 	const float standardSpeed = 80;
 	const float sodaSideAnimSpeed = 20;
 	const float copyCooldown = 0.5f;
 	const float attackCooldown = 0.3f;
+	const float turnaroundCooldown = 0.3f;
 	const int zapHitboxXPosition = 14;
 	const int initialJumpMult = 3;
 	const int slowdownSpeed = 2;
@@ -43,14 +54,7 @@ public partial class Player : Entity
 	const float attackDashSpeed = 200;
 	const float attackDashDeceleration = 3;
 	const float velocityRedirectPenalty = 0.5f;
-	Vector2 currentInput;
-	Vector2 previousCloudPlacement;
-	bool inInvincibilityFrames = false;
 
-	[Export] PlayerState playerState = PlayerState.standard;
-	CopyAbility[] copyAbility = new CopyAbility[4];
-
-	FloorState floorState;
 	
 	public enum PlayerState
 	{
@@ -113,8 +117,16 @@ public partial class Player : Entity
 				attackCooldownTimer = Mathf.Max(0,attackCooldownTimer - (float)delta);
 				copyCooldownTimer = Mathf.Max(0,copyCooldownTimer - (float)delta);
 				Vector2 input = Input.GetVector("Left", "Right", "Up", "Down");
-				if(Mathf.Abs(Mathf.Sign(input.X) + Mathf.Sign(Velocity.X)) != 2 && input.X != 0 && Velocity.X != 0 && IsOnFloor())
+
+				turnaroundCooldownTimer = Mathf.Max(0,turnaroundCooldownTimer-(float)delta);
+				turnaroundLerp = turnaroundLerp.Lerp(Velocity,(float)delta*50);
+				if(Mathf.Abs(Mathf.Sign(input.X) + Mathf.Sign(turnaroundLerp.X)) != 2 
+				&& input.X != 0 
+				&& turnaroundLerp.X != 0 
+				&& IsOnFloor() 
+				&& turnaroundCooldownTimer <= 0)
 				{
+					turnaroundCooldownTimer = turnaroundCooldown;
 					ChangeState(PlayerState.turningAround);
 				}
 				break;
@@ -163,13 +175,13 @@ public partial class Player : Entity
 		}
 	}
 
-	void CreateDashEffect()
+	void CreateDashEffect(bool flipSprite)
 	{
 		if(!IsOnFloor())
 		{
 			return;
 		}
-		if(Velocity.X < 0)
+		if(sprite.FlipH ^ flipSprite)
 		{
 			CreateGenericEffect(Effect.EffectType.dash,Effect.EffectMovement.moveSlightlyRight,GlobalPosition,Effect.SpriteDirection.flipped);
 		}
@@ -250,7 +262,7 @@ public partial class Player : Entity
 			case PlayerState.turningAround:
 				if(physicsTimer == 0)
 				{
-					CreateDashEffect();
+					CreateDashEffect(true);
 				}
 				currentSpeed = standardSpeed;
 				jumpInput = CheckJump();
@@ -454,7 +466,7 @@ public partial class Player : Entity
 								{
 									case 0:
 										inInvincibilityFrames = true;
-										CreateDashEffect();
+										CreateDashEffect(false);
 										Input.StartJoyVibration(0,0.4f,0,0.025f);
 										sprite.SetSprite("Soda Side C");
 									break;
@@ -516,6 +528,16 @@ public partial class Player : Entity
 				return;
 				case PlayerState.turningAround:
 					sprite.SetSprite("Turn Around");
+					Input.StartJoyVibration(0,0.2f,0,0.1f);
+					return;
+				case PlayerState.upAttack:
+					ChangeState(PlayerState.standard);
+					return;
+				case PlayerState.neutralAttack:
+					ChangeState(PlayerState.standard);
+					return;
+				case PlayerState.downAttack:
+					ChangeState(PlayerState.standard);
 					return;
 			default:
 				if(Velocity.X != 0)

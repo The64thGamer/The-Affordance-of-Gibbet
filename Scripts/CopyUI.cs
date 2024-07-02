@@ -144,14 +144,14 @@ public partial class CopyUI : Area2D
 				buttonB.Visible = false;
 				uiStateTimer = 0;
 				uiState = CopyUIState.off;
-				GetTree().Paused = false;
+				(GetNode("/root/PauseBufferHandler") as PauseBufferHandler).RemovePause(GetInstanceId());
 			break;
 			case CopyUIState.noCopyAbility:
 				
 				if(uiStateTimer > minNoCopyAbilityTime)
 				{
 					uiState = CopyUIState.off;
-					GetTree().Paused = false;
+					(GetNode("/root/PauseBufferHandler") as PauseBufferHandler).RemovePause(GetInstanceId());
 				}
 			break;
 			default:
@@ -186,9 +186,10 @@ public partial class CopyUI : Area2D
 				&& player.GetPlayerState() != Player.PlayerState.sideAttack 
 				&& player.GetPlayerState() != Player.PlayerState.downAttack 
 				&& player.GetPlayerState() != Player.PlayerState.upAttack 
+				&& uiState == CopyUIState.off
 				)
 				{
-					GetTree().Paused = true;
+					(GetNode("/root/PauseBufferHandler") as PauseBufferHandler).AddPause(GetInstanceId());
 					if(enemy.copyAbility != Player.CopyAbility.none)
 					{
 						heldAbility = enemy.copyAbility;
