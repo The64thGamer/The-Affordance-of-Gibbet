@@ -112,10 +112,10 @@ public partial class Player : Entity
 				}
 				attackCooldownTimer = Mathf.Max(0,attackCooldownTimer - (float)delta);
 				copyCooldownTimer = Mathf.Max(0,copyCooldownTimer - (float)delta);
-				GD.Print(Mathf.Sign(currentInput.X) + Mathf.Sign(Velocity.X));
-				if(Mathf.Sign(currentInput.X) + Mathf.Sign(Velocity.X) == 0 && currentInput.X != 0 && Velocity.X != 0)
+				Vector2 input = Input.GetVector("Left", "Right", "Up", "Down");
+				if(Mathf.Abs(Mathf.Sign(input.X) + Mathf.Sign(Velocity.X)) != 2 && input.X != 0 && Velocity.X != 0 && IsOnFloor())
 				{
-					CreateDashEffect();
+					ChangeState(PlayerState.turningAround);
 				}
 				break;
 			case PlayerState.copying:
@@ -150,6 +150,12 @@ public partial class Player : Entity
 				if(!isVisibletoCamera)
 				{
 					GetTree().ChangeSceneToFile("res://Scenes/Level1.tscn");
+				}
+				break;
+			case PlayerState.turningAround:
+				if(physicsTimer >= 0.2f || !IsOnFloor())
+				{
+					ChangeState(PlayerState.standard);
 				}
 				break;
 			default:
@@ -230,7 +236,6 @@ public partial class Player : Entity
 						}
 						else
 						{
-							
 							Velocity = new Vector2(
 							Velocity.X,
 							Mathf.Lerp(Velocity.Y,Mathf.Clamp(Velocity.Y,-attackMaxVerticalVelocity,attackMaxVerticalVelocity),Mathf.Min(physicsTimer,1))
@@ -241,7 +246,25 @@ public partial class Player : Entity
 					ChangeState(PlayerState.standard);
 					break;
 				}
-			break;
+				break;
+			case PlayerState.turningAround:
+				if(physicsTimer == 0)
+				{
+					CreateDashEffect();
+				}
+				currentSpeed = standardSpeed;
+				jumpInput = CheckJump();
+				if(jumpInput)
+				{
+					ChangeState(PlayerState.standard);
+				}
+				currentInput = Vector2.Zero;
+				Velocity = CalculateStandardVelocity(currentInput,jumpInput,delta);
+				Velocity = new Vector2(
+					Mathf.Lerp(Velocity.X,0,Mathf.Min(physicsTimer,1))
+					,Velocity.Y
+				);
+				break;
 			default:
 				currentSpeed = standardSpeed;
 				input = Input.GetVector("Left", "Right", "Up", "Down");
@@ -487,6 +510,9 @@ public partial class Player : Entity
 					break;
 				}
 				return;
+				case PlayerState.turningAround:
+					sprite.SetSprite("Turn Around");
+					return;
 			default:
 				if(Velocity.X != 0)
 				{
