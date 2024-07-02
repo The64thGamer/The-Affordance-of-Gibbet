@@ -15,6 +15,7 @@ public partial class SpriteAnim : Sprite2D
 		"Copy B","Copy C","Copy A",
 		"Crouch",
 		"Soda Side A","Soda Side B","Soda Side C",
+		"Turn Around",
 		};
 	static string[] spriteUI = new string[]{
 		"Button B",
@@ -29,6 +30,13 @@ public partial class SpriteAnim : Sprite2D
 	};
 	static string[] spriteEffects = new string[]{
 		"Cloud A", "Cloud B", "Cloud C", "Cloud D",
+		"Speed Lines A", "Speed Lines B",
+		"Glaggle",
+		"Star Tiny",
+		"Explosion A", "Explosion B",
+		"Land Ripple",
+		"Dash Lines",
+		"None",
 	};
 
 	public override void _Ready()

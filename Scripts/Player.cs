@@ -45,6 +45,7 @@ public partial class Player : Entity
 	const float velocityRedirectPenalty = 0.5f;
 	Vector2 currentInput;
 	Vector2 previousCloudPlacement;
+	bool inInvincibilityFrames = false;
 
 	[Export] PlayerState playerState = PlayerState.standard;
 	CopyAbility[] copyAbility = new CopyAbility[4];
@@ -61,6 +62,7 @@ public partial class Player : Entity
 		neutralAttack,
 		upAttack,
 		downAttack,
+		turningAround,
 	}
 	public enum CopyAbility
 	{
@@ -110,6 +112,11 @@ public partial class Player : Entity
 				}
 				attackCooldownTimer = Mathf.Max(0,attackCooldownTimer - (float)delta);
 				copyCooldownTimer = Mathf.Max(0,copyCooldownTimer - (float)delta);
+				GD.Print(Mathf.Sign(currentInput.X) + Mathf.Sign(Velocity.X));
+				if(Mathf.Sign(currentInput.X) + Mathf.Sign(Velocity.X) == 0 && currentInput.X != 0 && Velocity.X != 0)
+				{
+					CreateDashEffect();
+				}
 				break;
 			case PlayerState.copying:
 				copyTimer += (float)delta;
@@ -132,7 +139,7 @@ public partial class Player : Entity
 				if(previousCloudPlacement.DistanceTo(GlobalPosition) > 16)
 				{
 					previousCloudPlacement = GlobalPosition;
-					CreateGenericEffect(Effect.EffectType.cloud,Effect.EffectMovement.none,GlobalPosition);
+					CreateGenericEffect(Effect.EffectType.cloud,Effect.EffectMovement.none,GlobalPosition,Effect.SpriteDirection.notFlipped);
 				}
 				flungTimer -= (float)delta;
 				if(flungTimer <= 0)
@@ -147,6 +154,22 @@ public partial class Player : Entity
 				break;
 			default:
 			break;
+		}
+	}
+
+	void CreateDashEffect()
+	{
+		if(!IsOnFloor())
+		{
+			return;
+		}
+		if(Velocity.X < 0)
+		{
+			CreateGenericEffect(Effect.EffectType.dash,Effect.EffectMovement.moveSlightlyRight,GlobalPosition,Effect.SpriteDirection.flipped);
+		}
+		else
+		{
+			CreateGenericEffect(Effect.EffectType.dash,Effect.EffectMovement.moveSlightlyLeft,GlobalPosition,Effect.SpriteDirection.notFlipped);
 		}
 	}
 
@@ -247,6 +270,7 @@ public partial class Player : Entity
 			if(IsOnFloor())
 			{
 				floorState = FloorState.firstFrameOnFloor;
+				CreateGenericEffect(Effect.EffectType.landing,Effect.EffectMovement.none,GlobalPosition,Effect.SpriteDirection.notFlipped);
 			}
 			break;
 			case FloorState.onFloor:
@@ -286,11 +310,13 @@ public partial class Player : Entity
 			isJumping = true;
 			velocity.Y = JumpVelocity * initialJumpMult;
 			jumpTimer = 0;
+			CreateGenericEffect(Effect.EffectType.jumping,Effect.EffectMovement.none,GlobalPosition,Effect.SpriteDirection.notFlipped);
 		}
 
 		if (input.X > horizontalMoveDeadzone || input.X < -horizontalMoveDeadzone)
 		{
-			velocity.X = currentSpeed * Mathf.Sign(input.X);
+			float newDelta = (float)delta * 7;
+			velocity.X = velocity.X * (1 - newDelta) + (currentSpeed * Mathf.Sign(input.X)) * newDelta;
 		}
 		else
 		{
@@ -404,6 +430,8 @@ public partial class Player : Entity
 								switch (Mathf.FloorToInt(animTimer))
 								{
 									case 0:
+										inInvincibilityFrames = true;
+										CreateDashEffect();
 										sprite.SetSprite("Soda Side C");
 									break;
 									case 1:
@@ -414,9 +442,10 @@ public partial class Player : Entity
 									break;
 									case 3:
 										sprite.SetSprite("Soda Side A");
-										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 16,0),1 / sodaSideAnimSpeed,true);
+										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,true);
 									break;
 									case 4:
+										inInvincibilityFrames = false;
 										sprite.SetSprite("Soda Side A");
 									break;
 									case 5:
@@ -424,7 +453,7 @@ public partial class Player : Entity
 									break;
 									case 6:
 										sprite.SetSprite("Soda Side A");
-										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 16,0),1 / sodaSideAnimSpeed,true);
+										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,true);
 									break;
 									case 7:
 										sprite.SetSprite("Soda Side A");
@@ -434,7 +463,7 @@ public partial class Player : Entity
 									break;
 									case 9:
 										sprite.SetSprite("Soda Side A");
-										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 16,0),1 / sodaSideAnimSpeed,true);
+										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,true);
 									break;
 									case 10:
 										sprite.SetSprite("Soda Side A");
@@ -518,9 +547,10 @@ public partial class Player : Entity
 		}
 	}
 
-	public void SpawnHitbox(Vector2 position, float time, bool stuckToPlayer)
+	public void SpawnHitbox(Vector2 position, Vector2 size, float time, bool stuckToPlayer)
 	{
 		PlayerAttackBox attackBox = GD.Load<PackedScene>("res://Prefabs/Triggers/Hurtbox From Player.tscn").Instantiate() as PlayerAttackBox;
+		((attackBox.GetChild(0) as CollisionShape2D).Shape as RectangleShape2D).Size = size;
 		attackBox.timer = time;
 		if(stuckToPlayer)
 		{
@@ -540,6 +570,7 @@ public partial class Player : Entity
 		physicsTimer = 0;
 		animTimer = 0;
 		playerState = state;
+		inInvincibilityFrames = false;
 	}
 
 	public void SetCopyAbility(CopyAbility ability, int slot)
@@ -582,17 +613,21 @@ public partial class Player : Entity
 
 	public void ApplyDamage(float attackDamage, bool launch, Vector2 globalHitPos)
 	{
+		if(inInvincibilityFrames)
+		{
+			return;
+		}
 		zapHitbox.Monitoring = false;
+		currentDamage += attackDamage;
 		if(launch)
 		{
 			ChangeState(PlayerState.flung);
 			previousCloudPlacement = GlobalPosition;
+			flungTimer = currentDamage * damageToFlungTimeMultiplier;
+			Velocity = (GlobalPosition - globalHitPos).Normalized() * currentDamage * damageToFlungVelocityMultiplier;
+			Input.StartJoyVibration(0,1,1,Mathf.Clamp(currentDamage/75.0f,0.2f,1.0f));
+			playerCam.Flung(flungTimer);
 		}
-		currentDamage += attackDamage;
-		flungTimer = currentDamage * damageToFlungTimeMultiplier;
-		Velocity = (GlobalPosition - globalHitPos).Normalized() * currentDamage * damageToFlungVelocityMultiplier;
-		playerCam.Flung(flungTimer);
-		Input.StartJoyVibration(0,1,1,Mathf.Clamp(currentDamage/75.0f,0.2f,1.0f));
+		
 	}
-
 }
