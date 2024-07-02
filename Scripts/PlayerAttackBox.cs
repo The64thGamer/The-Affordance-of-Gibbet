@@ -15,6 +15,7 @@ public partial class PlayerAttackBox : Node2D
 		}
 		if(timer <= 0)
 		{
+			GetTree().Paused = false;
 			QueueFree();
 		}
 	}
@@ -25,7 +26,10 @@ public partial class PlayerAttackBox : Node2D
 			GenericEnemy enemy = body as GenericEnemy;
 			if(!enemy.IsDead())
 			{
+				Input.StartJoyVibration(0,0,0.85f,0.2f);
 				enemy.Die();
+				GetTree().Paused = true;
+				timer = Mathf.Max(timer,0.1f);
 			}
 		}
     }

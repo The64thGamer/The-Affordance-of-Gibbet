@@ -455,6 +455,7 @@ public partial class Player : Entity
 									case 0:
 										inInvincibilityFrames = true;
 										CreateDashEffect();
+										Input.StartJoyVibration(0,0.4f,0,0.025f);
 										sprite.SetSprite("Soda Side C");
 									break;
 									case 1:
@@ -465,6 +466,7 @@ public partial class Player : Entity
 									break;
 									case 3:
 										sprite.SetSprite("Soda Side A");
+										Input.StartJoyVibration(0,0,0.75f,0.05f);
 										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,true);
 									break;
 									case 4:
@@ -476,6 +478,7 @@ public partial class Player : Entity
 									break;
 									case 6:
 										sprite.SetSprite("Soda Side A");
+										Input.StartJoyVibration(0,0,0.75f,0.05f);
 										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,true);
 									break;
 									case 7:
@@ -486,6 +489,7 @@ public partial class Player : Entity
 									break;
 									case 9:
 										sprite.SetSprite("Soda Side A");
+										Input.StartJoyVibration(0,0,0.75f,0.05f);
 										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,true);
 									break;
 									case 10:
