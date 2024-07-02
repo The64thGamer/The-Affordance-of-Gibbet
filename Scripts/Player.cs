@@ -414,6 +414,7 @@ public partial class Player : Entity
 									break;
 									case 3:
 										sprite.SetSprite("Soda Side A");
+										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 16,0),1 / sodaSideAnimSpeed,true);
 									break;
 									case 4:
 										sprite.SetSprite("Soda Side A");
@@ -423,6 +424,7 @@ public partial class Player : Entity
 									break;
 									case 6:
 										sprite.SetSprite("Soda Side A");
+										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 16,0),1 / sodaSideAnimSpeed,true);
 									break;
 									case 7:
 										sprite.SetSprite("Soda Side A");
@@ -432,6 +434,7 @@ public partial class Player : Entity
 									break;
 									case 9:
 										sprite.SetSprite("Soda Side A");
+										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 16,0),1 / sodaSideAnimSpeed,true);
 									break;
 									case 10:
 										sprite.SetSprite("Soda Side A");
@@ -513,6 +516,23 @@ public partial class Player : Entity
 		{
 			sprite.SetSprite("Jump");
 		}
+	}
+
+	public void SpawnHitbox(Vector2 position, float time, bool stuckToPlayer)
+	{
+		PlayerAttackBox attackBox = GD.Load<PackedScene>("res://Prefabs/Triggers/Hurtbox From Player.tscn").Instantiate() as PlayerAttackBox;
+		attackBox.timer = time;
+		if(stuckToPlayer)
+		{
+			AddChild(attackBox);
+		}
+		else
+		{
+			GetParent().AddChild(attackBox);
+		}
+
+		attackBox.GlobalPosition = position;
+
 	}
 
 	public void ChangeState(PlayerState state)

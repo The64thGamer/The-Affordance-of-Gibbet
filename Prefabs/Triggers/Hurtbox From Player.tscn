@@ -3,13 +3,13 @@
 [ext_resource type="Script" path="res://Scripts/PlayerAttackBox.cs" id="1_jcw1i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_st8b7"]
-size = Vector2(16, 20)
+size = Vector2(16, 16)
 
-[node name="PlayerHitbox" type="Area2D"]
+[node name="Hurtbox From Player" type="Area2D"]
 process_mode = 3
 collision_layer = 2
 collision_mask = 4
-monitoring = false
+monitorable = false
 script = ExtResource("1_jcw1i")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
