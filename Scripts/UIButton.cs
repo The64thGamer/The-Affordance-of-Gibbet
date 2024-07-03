@@ -173,7 +173,6 @@ public partial class UIButton : Label
 					buttonList[i].Visible = false;
 				}
 				buttonList[i].GlobalPosition = new Vector2(16,64+((i - (index-3)) * 8));
-				GD.Print(index-3);
 			}
 		}
 		

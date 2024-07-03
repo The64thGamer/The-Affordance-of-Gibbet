@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://xxx28ukqkfm0"]
+[gd_scene load_steps=15 format=3 uid="uid://xxx28ukqkfm0"]
 
 [ext_resource type="Script" path="res://Scripts/TitleScreen.cs" id="1_ty4yb"]
 [ext_resource type="Theme" uid="uid://dg2iqjcuw44gs" path="res://UI/Styles/new_theme.tres" id="2_c8ius"]
@@ -14,7 +14,6 @@
 [ext_resource type="Texture2D" uid="uid://cevs0b6yp1nfw" path="res://Sprites/Sprite UI.png" id="6_1u04f"]
 [ext_resource type="Texture2D" uid="uid://dkcjqj62srcov" path="res://Sprites/Sprite Player.png" id="6_3c3ld"]
 [ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="8_1rieu"]
-[ext_resource type="PackedScene" uid="uid://curfr1nba6l3j" path="res://Prefabs/Gibbet.tscn" id="13_pa2gd"]
 
 [node name="Camera2D2" type="Camera2D"]
 anchor_mode = 0
@@ -384,6 +383,3 @@ size = Vector2i(160, 144)
 render_target_update_mode = 0
 script = ExtResource("5_8fk6p")
 level = NodePath("../../../Title")
-
-[node name="Gibbet" parent="." instance=ExtResource("13_pa2gd")]
-position = Vector2(-444, -157)
