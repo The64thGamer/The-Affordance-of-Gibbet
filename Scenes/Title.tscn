@@ -1,12 +1,52 @@
-[gd_scene load_steps=4 format=3 uid="uid://xxx28ukqkfm0"]
+[gd_scene load_steps=16 format=3 uid="uid://xxx28ukqkfm0"]
 
-[ext_resource type="Texture2D" uid="uid://d1rjpavf3gnrj" path="res://Sprites/Titlescreen.png" id="1_rdftd"]
+[ext_resource type="Script" path="res://Scripts/TitleScreen.cs" id="1_ty4yb"]
 [ext_resource type="Theme" uid="uid://dg2iqjcuw44gs" path="res://UI/Styles/new_theme.tres" id="2_c8ius"]
+[ext_resource type="TileSet" uid="uid://dcsalqtqp55os" path="res://Tilesets/Tiles.tres" id="2_cl78o"]
+[ext_resource type="PackedScene" uid="uid://ca6xbmjmmm0ok" path="res://Prefabs/Menus/Text Button.tscn" id="2_jebn7"]
+[ext_resource type="Material" uid="uid://c4tu1v615ntye" path="res://Shaders/PixelShader.tres" id="2_v40an"]
+[ext_resource type="Material" uid="uid://dqnlne22d5wug" path="res://Shaders/TilemapShader.tres" id="3_5sy5q"]
 [ext_resource type="Script" path="res://Scripts/UIButton.cs" id="3_eoy8h"]
+[ext_resource type="Script" path="res://Scripts/TileMapSprites.cs" id="3_usqhs"]
+[ext_resource type="PackedScene" uid="uid://dwikffoj068ul" path="res://Scenes/Level1.tscn" id="4_0tg6g"]
+[ext_resource type="Script" path="res://Scripts/IntegerScaleScreen.cs" id="4_06ea0"]
+[ext_resource type="Script" path="res://Scripts/LevelRootMover.cs" id="5_8fk6p"]
+[ext_resource type="Texture2D" uid="uid://cevs0b6yp1nfw" path="res://Sprites/Sprite UI.png" id="6_1u04f"]
+[ext_resource type="Texture2D" uid="uid://dkcjqj62srcov" path="res://Sprites/Sprite Player.png" id="6_3c3ld"]
+[ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="8_1rieu"]
+[ext_resource type="PackedScene" uid="uid://curfr1nba6l3j" path="res://Prefabs/Gibbet.tscn" id="13_pa2gd"]
 
-[node name="Title" type="Node2D"]
+[node name="Camera2D2" type="Camera2D"]
+anchor_mode = 0
+editor_draw_limits = true
 
-[node name="Control" type="Control" parent="."]
+[node name="Title" type="Node2D" parent="." node_paths=PackedStringArray("startingMenu", "cursor", "paletteMenu", "palleteGoButton", "palleteBackButton")]
+script = ExtResource("1_ty4yb")
+startingMenu = NodePath("Control/Main/Start Game")
+cursor = NodePath("Cursor")
+paletteMenu = NodePath("Control/Palette")
+palleteGoButton = NodePath("Control/Options/Palettes")
+palleteBackButton = NodePath("Control/Palette/Back")
+uiButton = ExtResource("2_jebn7")
+
+[node name="TileMap" type="TileMap" parent="Title"]
+texture_filter = 1
+material = ExtResource("3_5sy5q")
+tile_set = ExtResource("2_cl78o")
+format = 2
+layer_0/tile_data = PackedInt32Array(524296, 589824, 0, 524295, 589824, 0, 524294, 589824, 0, 524293, 524288, 0, 524292, 262144, 1, 524291, 262144, 1, 524290, 262144, 1, 524289, 262144, 1, 524288, 262144, 1, 524297, 589824, 0, 458752, 262144, 1, 458753, 262144, 1, 458754, 262144, 1, 458755, 262144, 1, 458756, 262144, 1, 458757, 1441792, 0, 458758, 1441792, 1, 458759, 1376256, 1, 458760, 1441792, 1, 458761, 1376256, 1, 0, 262144, 1, 65536, 262144, 1, 131072, 262144, 1, 196608, 262144, 1, 262144, 262144, 1, 327680, 262144, 1, 393216, 262144, 1, 1, 262144, 1, 65537, 262144, 1, 131073, 262144, 1, 196609, 262144, 1, 262145, 262144, 1, 327681, 262144, 1, 393217, 262144, 1, 2, 262144, 1, 65538, 262144, 1, 131074, 262144, 1, 196610, 262144, 1, 262146, 262144, 1, 327682, 262144, 1, 393218, 262144, 1, 3, 1703936, 1, 65539, 262144, 1, 131075, 262144, 1, 196611, 262144, 1, 262147, 262144, 1, 327683, 262144, 1, 393219, 262144, 1, 4, 1703936, 0, 65540, 1703936, 1, 131076, 262144, 1, 196612, 262144, 1, 262148, 262144, 1, 327684, 262144, 1, 393220, 262144, 1, 5, 262144, 1, 65541, 1835008, 0, 131077, 262144, 1, 196613, 262144, 1, 262149, 262144, 1, 327685, 262144, 1, 393221, 262144, 1, 6, 1703936, 1, 65542, 262144, 1, 131078, 1703936, 1, 196614, 262144, 1, 262150, 262144, 1, 327686, 262144, 1, 393222, 262144, 1, 7, 1835008, 0, 65543, 1835008, 0, 131079, 1376256, 0, 196615, 1376256, 0, 262151, 1376256, 0, 327687, 1376256, 0, 393223, 1376256, 0, 8, 1835008, 0, 65544, 262144, 1, 131080, 1769472, 1, 196616, 1703936, 1, 262152, 262144, 1, 327688, 262144, 1, 393224, 262144, 1, 9, 1769472, 1, 65545, 1835008, 0, 131081, 1376256, 0, 196617, 1376256, 0, 262153, 1376256, 0, 327689, 1376256, 0, 393225, 1376256, 0)
+script = ExtResource("3_usqhs")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Title"]
+texture_filter = 1
+material = ExtResource("2_v40an")
+position = Vector2(131, 120)
+texture = ExtResource("6_3c3ld")
+hframes = 10
+vframes = 20
+script = ExtResource("8_1rieu")
+
+[node name="Control" type="Control" parent="Title"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,14 +56,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TextureRect" type="TextureRect" parent="Control"]
-texture_filter = 1
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("1_rdftd")
-
-[node name="Main" type="Control" parent="Control"]
+[node name="Main" type="Control" parent="Title/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,8 +64,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label4" type="Label" parent="Control/Main"]
+[node name="Start Game" type="Label" parent="Title/Control/Main" node_paths=PackedStringArray("downMenu")]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 64.0
@@ -41,9 +75,12 @@ offset_bottom = 72.0
 theme = ExtResource("2_c8ius")
 text = "Start Game"
 script = ExtResource("3_eoy8h")
+downMenu = NodePath("../Options")
+scene = ExtResource("4_0tg6g")
 
-[node name="Label2" type="Label" parent="Control/Main"]
+[node name="Options" type="Label" parent="Title/Control/Main" node_paths=PackedStringArray("subMenu", "upMenu", "downMenu")]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 72.0
@@ -52,9 +89,13 @@ offset_bottom = 80.0
 theme = ExtResource("2_c8ius")
 text = "Options"
 script = ExtResource("3_eoy8h")
+subMenu = NodePath("../../Options/Palettes")
+upMenu = NodePath("../Start Game")
+downMenu = NodePath("../Manual")
 
-[node name="Label3" type="Label" parent="Control/Main"]
+[node name="Manual" type="Label" parent="Title/Control/Main" node_paths=PackedStringArray("upMenu")]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 80.0
@@ -63,8 +104,9 @@ offset_bottom = 88.0
 theme = ExtResource("2_c8ius")
 text = "Manual"
 script = ExtResource("3_eoy8h")
+upMenu = NodePath("../Options")
 
-[node name="File Select" type="Control" parent="Control"]
+[node name="File Select" type="Control" parent="Title/Control"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -73,8 +115,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label9" type="Label" parent="Control/File Select"]
+[node name="Label9" type="Label" parent="Title/Control/File Select"]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 64.0
@@ -84,8 +127,9 @@ theme = ExtResource("2_c8ius")
 text = "File A: 0%"
 script = ExtResource("3_eoy8h")
 
-[node name="Label4" type="Label" parent="Control/File Select"]
+[node name="Label4" type="Label" parent="Title/Control/File Select"]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 48.0
@@ -95,8 +139,9 @@ theme = ExtResource("2_c8ius")
 text = "File Select"
 script = ExtResource("3_eoy8h")
 
-[node name="Label2" type="Label" parent="Control/File Select"]
+[node name="Label2" type="Label" parent="Title/Control/File Select"]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 72.0
@@ -106,8 +151,9 @@ theme = ExtResource("2_c8ius")
 text = "File B: 0%"
 script = ExtResource("3_eoy8h")
 
-[node name="Label3" type="Label" parent="Control/File Select"]
+[node name="Label3" type="Label" parent="Title/Control/File Select"]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 80.0
@@ -117,8 +163,9 @@ theme = ExtResource("2_c8ius")
 text = "File C: 0%"
 script = ExtResource("3_eoy8h")
 
-[node name="Label5" type="Label" parent="Control/File Select"]
+[node name="Label5" type="Label" parent="Title/Control/File Select"]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 88.0
@@ -128,8 +175,9 @@ theme = ExtResource("2_c8ius")
 text = "File D: 0%"
 script = ExtResource("3_eoy8h")
 
-[node name="Label8" type="Label" parent="Control/File Select"]
+[node name="Label8" type="Label" parent="Title/Control/File Select"]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 112.0
@@ -139,8 +187,9 @@ theme = ExtResource("2_c8ius")
 text = "New Game"
 script = ExtResource("3_eoy8h")
 
-[node name="Label6" type="Label" parent="Control/File Select"]
+[node name="Label6" type="Label" parent="Title/Control/File Select"]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 120.0
@@ -150,8 +199,9 @@ theme = ExtResource("2_c8ius")
 text = "Delete"
 script = ExtResource("3_eoy8h")
 
-[node name="Label7" type="Label" parent="Control/File Select"]
+[node name="Label7" type="Label" parent="Title/Control/File Select"]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 128.0
@@ -161,7 +211,7 @@ theme = ExtResource("2_c8ius")
 text = "Back"
 script = ExtResource("3_eoy8h")
 
-[node name="Options" type="Control" parent="Control"]
+[node name="Options" type="Control" parent="Title/Control"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -170,8 +220,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label6" type="Label" parent="Control/Options"]
+[node name="Label Options" type="Label" parent="Title/Control/Options"]
 texture_filter = 1
+material = ExtResource("2_v40an")
+layout_mode = 0
+offset_left = 16.0
+offset_top = 48.0
+offset_right = 76.0
+offset_bottom = 56.0
+theme = ExtResource("2_c8ius")
+text = "Options"
+
+[node name="Palettes" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("subMenu", "downMenu")]
+texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 64.0
@@ -180,20 +242,12 @@ offset_bottom = 72.0
 theme = ExtResource("2_c8ius")
 text = "Palettes"
 script = ExtResource("3_eoy8h")
+subMenu = NodePath("../../Palette/Back")
+downMenu = NodePath("../Video")
 
-[node name="Label4" type="Label" parent="Control/Options"]
+[node name="Video" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("upMenu", "downMenu")]
 texture_filter = 1
-layout_mode = 0
-offset_left = 16.0
-offset_top = 48.0
-offset_right = 76.0
-offset_bottom = 56.0
-theme = ExtResource("2_c8ius")
-text = "Options"
-script = ExtResource("3_eoy8h")
-
-[node name="Label2" type="Label" parent="Control/Options"]
-texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 72.0
@@ -202,9 +256,12 @@ offset_bottom = 80.0
 theme = ExtResource("2_c8ius")
 text = "Video"
 script = ExtResource("3_eoy8h")
+upMenu = NodePath("../Palettes")
+downMenu = NodePath("../Audio")
 
-[node name="Label3" type="Label" parent="Control/Options"]
+[node name="Audio" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("upMenu", "downMenu")]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 80.0
@@ -213,9 +270,12 @@ offset_bottom = 88.0
 theme = ExtResource("2_c8ius")
 text = "Audio"
 script = ExtResource("3_eoy8h")
+upMenu = NodePath("../Video")
+downMenu = NodePath("../Hotkeys")
 
-[node name="Label5" type="Label" parent="Control/Options"]
+[node name="Hotkeys" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("upMenu", "downMenu")]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 88.0
@@ -224,9 +284,12 @@ offset_bottom = 96.0
 theme = ExtResource("2_c8ius")
 text = "Hotkeys"
 script = ExtResource("3_eoy8h")
+upMenu = NodePath("../Audio")
+downMenu = NodePath("../Back")
 
-[node name="Label7" type="Label" parent="Control/Options"]
+[node name="Back" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("subMenu", "upMenu")]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 128.0
@@ -235,8 +298,10 @@ offset_bottom = 136.0
 theme = ExtResource("2_c8ius")
 text = "Back"
 script = ExtResource("3_eoy8h")
+subMenu = NodePath("../../Main/Options")
+upMenu = NodePath("../Hotkeys")
 
-[node name="Palette" type="Control" parent="Control"]
+[node name="Palette" type="Control" parent="Title/Control"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -245,8 +310,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label8" type="Label" parent="Control/Palette"]
+[node name="Label Palettes" type="Label" parent="Title/Control/Palette"]
 texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 48.0
@@ -254,87 +320,10 @@ offset_right = 76.0
 offset_bottom = 56.0
 theme = ExtResource("2_c8ius")
 text = "Palettes"
-script = ExtResource("3_eoy8h")
 
-[node name="Label9" type="Label" parent="Control/Palette"]
+[node name="Back" type="Label" parent="Title/Control/Palette" node_paths=PackedStringArray("subMenu")]
 texture_filter = 1
-layout_mode = 0
-offset_left = 16.0
-offset_top = 64.0
-offset_right = 76.0
-offset_bottom = 72.0
-theme = ExtResource("2_c8ius")
-text = "Palettes"
-script = ExtResource("3_eoy8h")
-
-[node name="Label10" type="Label" parent="Control/Palette"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 16.0
-offset_top = 72.0
-offset_right = 76.0
-offset_bottom = 80.0
-theme = ExtResource("2_c8ius")
-text = "Palettes"
-script = ExtResource("3_eoy8h")
-
-[node name="Label11" type="Label" parent="Control/Palette"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 16.0
-offset_top = 80.0
-offset_right = 76.0
-offset_bottom = 88.0
-theme = ExtResource("2_c8ius")
-text = "Palettes"
-script = ExtResource("3_eoy8h")
-
-[node name="Label12" type="Label" parent="Control/Palette"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 16.0
-offset_top = 88.0
-offset_right = 76.0
-offset_bottom = 96.0
-theme = ExtResource("2_c8ius")
-text = "Palettes"
-script = ExtResource("3_eoy8h")
-
-[node name="Label13" type="Label" parent="Control/Palette"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 16.0
-offset_top = 96.0
-offset_right = 76.0
-offset_bottom = 104.0
-theme = ExtResource("2_c8ius")
-text = "Palettes"
-script = ExtResource("3_eoy8h")
-
-[node name="Label14" type="Label" parent="Control/Palette"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 16.0
-offset_top = 104.0
-offset_right = 76.0
-offset_bottom = 112.0
-theme = ExtResource("2_c8ius")
-text = "Palettes"
-script = ExtResource("3_eoy8h")
-
-[node name="Label15" type="Label" parent="Control/Palette"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 16.0
-offset_top = 112.0
-offset_right = 76.0
-offset_bottom = 120.0
-theme = ExtResource("2_c8ius")
-text = "Palettes"
-script = ExtResource("3_eoy8h")
-
-[node name="Label7" type="Label" parent="Control/Palette"]
-texture_filter = 1
+material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
 offset_top = 128.0
@@ -343,3 +332,58 @@ offset_bottom = 136.0
 theme = ExtResource("2_c8ius")
 text = "Back"
 script = ExtResource("3_eoy8h")
+subMenu = NodePath("../../Options/Palettes")
+
+[node name="Cursor" type="Control" parent="Title"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Title/Cursor"]
+texture_filter = 1
+material = ExtResource("2_v40an")
+position = Vector2(-8, 8)
+texture = ExtResource("6_1u04f")
+hframes = 10
+vframes = 20
+frame = 4
+script = ExtResource("8_1rieu")
+
+[node name="Camera" type="Camera2D" parent="Title"]
+position = Vector2(80, 72)
+
+[node name="Control2" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Control2"]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(160, 144)
+layout_mode = 1
+offset_right = 160.0
+offset_bottom = 144.0
+scale = Vector2(6, 6)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+script = ExtResource("4_06ea0")
+
+[node name="Level Renderer" type="SubViewport" parent="Control2/SubViewportContainer" node_paths=PackedStringArray("level")]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(160, 144)
+render_target_update_mode = 0
+script = ExtResource("5_8fk6p")
+level = NodePath("../../../Title")
+
+[node name="Gibbet" parent="." instance=ExtResource("13_pa2gd")]
+position = Vector2(-444, -157)

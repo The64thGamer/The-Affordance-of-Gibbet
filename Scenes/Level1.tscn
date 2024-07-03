@@ -1,9 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://dwikffoj068ul"]
+[gd_scene load_steps=11 format=3 uid="uid://dwikffoj068ul"]
 
-[ext_resource type="Shader" path="res://addons/Godot-Palette-Swap-Shader-c9cd91a307dc713f89b380320b1a7ec3e962a8f2/PaletteSwap.gdshader" id="1_is7e8"]
+[ext_resource type="Material" uid="uid://dqnlne22d5wug" path="res://Shaders/TilemapShader.tres" id="1_sfb8x"]
 [ext_resource type="Script" path="res://Scripts/IntegerScaleScreen.cs" id="1_yho5d"]
 [ext_resource type="TileSet" uid="uid://dcsalqtqp55os" path="res://Tilesets/Tiles.tres" id="2_gtx7n"]
-[ext_resource type="Texture2D" uid="uid://bv5uprtlmursr" path="res://Sprites/Palette.png" id="2_vf32f"]
 [ext_resource type="PackedScene" uid="uid://curfr1nba6l3j" path="res://Prefabs/Gibbet.tscn" id="3_gmapx"]
 [ext_resource type="Script" path="res://Scripts/TileMapSprites.cs" id="4_k6v8o"]
 [ext_resource type="PackedScene" uid="uid://etuvmji1fhpm" path="res://Prefabs/Spawners/Wibbly Spawner.tscn" id="7_d4168"]
@@ -11,12 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://4vyn2kvs3kpr" path="res://Prefabs/Triggers/Hurtbox.tscn" id="8_c6u1j"]
 [ext_resource type="PackedScene" uid="uid://v6j1pwi0aiyo" path="res://Prefabs/Spawners/Tipsy Spawner.tscn" id="9_2tk7c"]
 [ext_resource type="Script" path="res://Scripts/LevelRootMover.cs" id="11_okubx"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8huk5"]
-shader = ExtResource("1_is7e8")
-shader_parameter/use_palette_alpha = false
-shader_parameter/current_palette = 0
-shader_parameter/palette = ExtResource("2_vf32f")
 
 [node name="Camera2D" type="Camera2D"]
 anchor_mode = 0
@@ -27,7 +20,7 @@ editor_draw_limits = true
 [node name="TileMap" type="TileMap" parent="Level"]
 texture_filter = 1
 texture_repeat = 1
-material = SubResource("ShaderMaterial_8huk5")
+material = ExtResource("1_sfb8x")
 position = Vector2(8, 8)
 tile_set = ExtResource("2_gtx7n")
 format = 2
@@ -142,6 +135,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Control2"]
 visible = false

@@ -11,9 +11,11 @@ config_version=5
 [application]
 
 config/name="The Affordance of Gibbet"
-run/main_scene="res://Scenes/Level1.tscn"
+config/version="0.1"
+run/main_scene="res://Scenes/Title.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/show_image=false
+config/icon="res://Sprites/Icon.png"
 
 [autoload]
 
@@ -95,6 +97,10 @@ Copy={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://Translations/translations.en.translation")
 
 [layer_names]
 

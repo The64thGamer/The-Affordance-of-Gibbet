@@ -22,6 +22,7 @@ public partial class SpriteAnim : Sprite2D
 		"Button Left Arrow",
 		"Button Up Arrow",
 		"Button Down Arrow",
+		"Menu Cursor"
 	};
 	static string[] spriteEnemy = new string[]{
 		"Wibbly Idle A","Wibbly Idle B","Wibbly Die","Wibbly Walk A", "Wibbly Walk B", 

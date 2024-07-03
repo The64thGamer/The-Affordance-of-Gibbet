@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://ca6xbmjmmm0ok"]
+
+[ext_resource type="Material" uid="uid://c4tu1v615ntye" path="res://Shaders/PixelShader.tres" id="1_50340"]
+[ext_resource type="Theme" uid="uid://dg2iqjcuw44gs" path="res://UI/Styles/new_theme.tres" id="2_cjkdb"]
+[ext_resource type="Script" path="res://Scripts/UIButton.cs" id="3_nfita"]
+
+[node name="Label15" type="Label"]
+texture_filter = 1
+material = ExtResource("1_50340")
+offset_left = 16.0
+offset_top = 112.0
+offset_right = 76.0
+offset_bottom = 120.0
+theme = ExtResource("2_cjkdb")
+text = "Palettes"
+script = ExtResource("3_nfita")
