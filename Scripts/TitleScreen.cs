@@ -43,6 +43,8 @@ public partial class TitleScreen : Node
 			button.setPalette = true;
 			button.setSpritePalette = Convert.ToInt32(Tr("PALETTE_" + i + "_SPRITES"));
 			button.setTilemapPalette = Convert.ToInt32(Tr("PALETTE_" + i + "_TILEMAP"));
+			button.index = i;
+			button.maxList = paletteCount;
 			if(prevButton == null)
 			{
 				palleteGoButton.subMenu = button;

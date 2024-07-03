@@ -11,6 +11,8 @@ public partial class UIButton : Label
 	[Export] public int setTilemapPalette;
 	[Export] public bool setPalette;
 	[Export] Control cursor;
+	public int index = -1;
+	public int maxList = -1;
 	bool stopMovement;
 	public override void _Process(double delta)
 	{
@@ -72,7 +74,7 @@ public partial class UIButton : Label
 		{
 			if(CheckLabels())
 			{
-				ShiftLabels(8);
+				ShiftLabels(8,2,3);
 			}
 
 			(this.GetParent() as Control).Visible = false;
@@ -92,7 +94,7 @@ public partial class UIButton : Label
 		{
 			if(CheckLabels())
 			{
-				ShiftLabels(-8);
+				ShiftLabels(-8,3,2);
 			}
 
 			(this.GetParent() as Control).Visible = false;
@@ -103,49 +105,14 @@ public partial class UIButton : Label
 
 	bool CheckLabels()
 	{
-		bool firstCheck = false;
-		bool abort = false;
-		if(downMenu != null)
-		{	
-			UIButton button = downMenu;
-			for (int i = 0; i < 2; i++)
-			{
-				UIButton test = button.downMenu;
-				if(test == null)
-				{
-					abort = true;
-					break;
-				}
-				button = test;
-			}
-			if((button.downMenu == null || !button.downMenu.Visible) && !abort)
-			{
-				firstCheck = true;
-			}
-		}
-		abort = false;
-		if(upMenu != null)
+		if(index > 2 && index < maxList-2)
 		{
-			UIButton button = upMenu;
-			for (int i = 0; i < 2; i++)
-			{
-				UIButton test = button.upMenu;
-				if(test == null)
-				{
-					abort = true;
-					break;
-				}
-				button = test;
-			}
-			if((button.upMenu == null || !button.upMenu.Visible) && firstCheck && !abort)
-			{
-				return true;
-			}
+			return true;
 		}
 		return false;
 	}
 
-	void ShiftLabels(int shift)
+	void ShiftLabels(int shift, int lowIndex, int highIndex)
 	{
 		Godot.Collections.Array<UIButton> buttonList = new Godot.Collections.Array<UIButton>
         {
@@ -153,15 +120,52 @@ public partial class UIButton : Label
         };
 		UIButton button = downMenu;
 		int indexPath = 0;
+		bool abortVis = false;
+
+		if (index == 0)
+		{
+    		lowIndex = 6;
+    		highIndex = 0;
+		}
+		else if (index == 1)
+		{
+			lowIndex = 5;
+			highIndex = 1;
+		}
+		else if (index == 2)
+		{
+			lowIndex = 4;
+			highIndex = 2;
+		}
+		else if (index == maxList - 1)
+		{
+			lowIndex = 0;
+			highIndex = 6;
+		}
+		else if (index == maxList - 2)
+		{
+			lowIndex = 1;
+			highIndex = 5;
+		}
+		else if (index == maxList - 3)
+		{
+			lowIndex = 2;
+			highIndex = 4;
+		}
+
 		while(true)
 		{
 			if(button == null || button.downMenu == null)
 			{
 				break;
 			}
-			if(indexPath < 3)
+			if(indexPath < lowIndex)
 			{
 				button.Visible = true;
+				if(button.index == maxList-1)
+				{
+					abortVis = true;
+				}
 			}
 			else
 			{
@@ -179,9 +183,13 @@ public partial class UIButton : Label
 			{
 				break;
 			}
-			if(indexPath < 3)
+			if(indexPath < highIndex)
 			{
 				button.Visible = true;
+				if(button.index == 0)
+				{
+					abortVis = true;
+				}
 			}
 			else
 			{
@@ -191,9 +199,12 @@ public partial class UIButton : Label
 			button = button.upMenu;
 			indexPath++;
 		}
+		if(!abortVis)
+		{
 		for (int i = 0; i < buttonList.Count; i++)
 		{
 			buttonList[i].GlobalPosition += new Vector2(0,shift);
+		}
 		}
 	}
 }
