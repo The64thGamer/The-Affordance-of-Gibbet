@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class UIButton : Label
 {
@@ -39,8 +41,14 @@ public partial class UIButton : Label
 	{
 		(this.GetParent() as Control).Visible = true;
 		cursor = newCursor;
+		if(index != -1)
+		{
+			AdjustList();
+		}
 		cursor.GlobalPosition = GlobalPosition;
 		stopMovement = true;
+
+
 	}
 	public void GiveCursor()
 	{
@@ -72,11 +80,6 @@ public partial class UIButton : Label
 		}
 		if(upMenu != null)
 		{
-			if(CheckLabels())
-			{
-				ShiftLabels(8,2,3);
-			}
-
 			(this.GetParent() as Control).Visible = false;
 			upMenu.GetCursor(cursor);
 			cursor = null;
@@ -92,15 +95,88 @@ public partial class UIButton : Label
 
 		if(downMenu != null)
 		{
-			if(CheckLabels())
-			{
-				ShiftLabels(-8,3,2);
-			}
-
 			(this.GetParent() as Control).Visible = false;
 			downMenu.GetCursor(cursor);
 			cursor = null;
 		}
+	}
+
+	void AdjustList()
+	{
+
+		List<UIButton> buttonList = new List<UIButton>()
+        {
+            this
+        };
+		UIButton button = downMenu;
+		while(true)
+		{
+			if(button == null || button.downMenu == null)
+			{
+				break;
+			}
+			buttonList.Add(button);
+			button = button.downMenu;
+		}
+		button = upMenu;
+		while(true)
+		{
+			if(button == null)
+			{
+				break;
+			}
+			buttonList.Add(button);
+			button = button.upMenu;
+		}
+
+		buttonList = buttonList.OrderBy(f => f.index).ToList();
+
+		if(index < 3)
+		{
+			for (int i = 0; i < buttonList.Count; i++)
+			{
+				if(i < 7)
+				{
+					buttonList[i].Visible = true;
+				}	
+				else
+				{
+					buttonList[i].Visible = false;
+				}
+				buttonList[i].GlobalPosition = new Vector2(16,64+(i * 8));
+			}
+		}
+		else if(index > maxList-4)
+		{
+			for (int i = 0; i < buttonList.Count; i++)
+			{
+				if(i > maxList-8)
+				{
+					buttonList[i].Visible = true;
+				}	
+				else
+				{
+					buttonList[i].Visible = false;
+				}
+			}		
+		}
+		else
+		{
+			for (int i = 0; i < buttonList.Count; i++)
+			{
+				if(i >= index-3 && i <= index+3)
+				{
+					buttonList[i].Visible = true;
+				}	
+				else
+				{
+					buttonList[i].Visible = false;
+				}
+				buttonList[i].GlobalPosition = new Vector2(16,64+((i - (index-3)) * 8));
+				GD.Print(index-3);
+			}
+		}
+		
 	}
 
 	bool CheckLabels()
@@ -110,101 +186,5 @@ public partial class UIButton : Label
 			return true;
 		}
 		return false;
-	}
-
-	void ShiftLabels(int shift, int lowIndex, int highIndex)
-	{
-		Godot.Collections.Array<UIButton> buttonList = new Godot.Collections.Array<UIButton>
-        {
-            this
-        };
-		UIButton button = downMenu;
-		int indexPath = 0;
-		bool abortVis = false;
-
-		if (index == 0)
-		{
-    		lowIndex = 6;
-    		highIndex = 0;
-		}
-		else if (index == 1)
-		{
-			lowIndex = 5;
-			highIndex = 1;
-		}
-		else if (index == 2)
-		{
-			lowIndex = 4;
-			highIndex = 2;
-		}
-		else if (index == maxList - 1)
-		{
-			lowIndex = 0;
-			highIndex = 6;
-		}
-		else if (index == maxList - 2)
-		{
-			lowIndex = 1;
-			highIndex = 5;
-		}
-		else if (index == maxList - 3)
-		{
-			lowIndex = 2;
-			highIndex = 4;
-		}
-
-		while(true)
-		{
-			if(button == null || button.downMenu == null)
-			{
-				break;
-			}
-			if(indexPath < lowIndex)
-			{
-				button.Visible = true;
-				if(button.index == maxList-1)
-				{
-					abortVis = true;
-				}
-			}
-			else
-			{
-				button.Visible = false;
-			}
-			buttonList.Add(button);
-			button = button.downMenu;
-			indexPath++;
-		}
-		button = upMenu;
-		indexPath = 0;
-		while(true)
-		{
-			if(button == null)
-			{
-				break;
-			}
-			if(indexPath < highIndex)
-			{
-				button.Visible = true;
-				if(button.index == 0)
-				{
-					abortVis = true;
-				}
-			}
-			else
-			{
-				button.Visible = false;
-			}
-			buttonList.Add(button);
-			button = button.upMenu;
-			indexPath++;
-		}
-		if(!abortVis)
-		{
-		for (int i = 0; i < buttonList.Count; i++)
-		{
-			buttonList[i].GlobalPosition += new Vector2(0,shift);
-		}
-		}
 	}
 }

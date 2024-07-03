@@ -38,7 +38,7 @@ public partial class TitleScreen : Node
 			}
 			button = uiButton.Instantiate() as UIButton;
 			paletteMenu.AddChild(button);
-			button.GlobalPosition = paletteMenu.GlobalPosition + new Vector2(16,64+(i * 8));
+			button.GlobalPosition = new Vector2(16,64+(i * 8));
 			button.Text = translation;
 			button.setPalette = true;
 			button.setSpritePalette = Convert.ToInt32(Tr("PALETTE_" + i + "_SPRITES"));
