@@ -219,9 +219,14 @@ public partial class Player : Entity
 				Velocity = CalculateStandardVelocity(currentInput,false,delta);
 				break;
 			case PlayerState.flung:
+				input = Input.GetVector("Left", "Right", "Up", "Down");
 				if (!IsOnFloor())
 				{
-					Velocity = new Vector2(Velocity.X, Velocity.Y + (gravity * (float)delta));
+					Velocity = new Vector2(Velocity.X, Velocity.Y + (gravity * (float)delta)).Lerp(CalculateStandardVelocity(input,false,delta),physicsTimer/2);
+				}
+				else
+				{
+					//-2*(Velocity dot Normal)*Normal + Velocity
 				}
 				break;
 			case PlayerState.sideAttack:
@@ -239,20 +244,30 @@ public partial class Player : Entity
 						}
 						currentInput = input;
 						Velocity = CalculateStandardVelocity(input,false,delta);
-						if(IsOnFloor())
+						switch (floorState)
 						{
-							Velocity = new Vector2(
-							Mathf.Lerp(attackDashSpeed * input.X,0,Mathf.Min(physicsTimer * attackDashDeceleration,1))
-							,Velocity.Y
-							);
-						}
-						else
-						{
-							Velocity = new Vector2(
+							case FloorState.firstFrameOnFloor:
+								attackCooldownTimer = attackCooldown;
+								ChangeState(PlayerState.standard);
+								break;
+							case FloorState.firstFrameOffFloor:
+								attackCooldownTimer = attackCooldown;
+								ChangeState(PlayerState.standard);
+								break;
+							case FloorState.offFloor:
+								Velocity = new Vector2(
 							Velocity.X,
 							Mathf.Lerp(Velocity.Y,Mathf.Clamp(Velocity.Y,-attackMaxVerticalVelocity,attackMaxVerticalVelocity),Mathf.Min(physicsTimer,1))
 							);
+								break;
+							case FloorState.onFloor:
+								Velocity = new Vector2(
+								Mathf.Lerp(attackDashSpeed * input.X,0,Mathf.Min(physicsTimer * attackDashDeceleration,1))
+								,Velocity.Y
+								);
+								break;
 						}
+						CheckFloorState();
 					break;
 					default:
 					ChangeState(PlayerState.standard);
@@ -289,7 +304,7 @@ public partial class Player : Entity
 
 	}
 
-	Vector2 CalculateStandardVelocity(Vector2 input, bool jumpInput, double delta)
+	void CheckFloorState()
 	{
 		switch (floorState)
 		{
@@ -315,6 +330,11 @@ public partial class Player : Entity
 			}
 			break;
 		}
+	}
+
+	Vector2 CalculateStandardVelocity(Vector2 input, bool jumpInput, double delta)
+	{
+		CheckFloorState();
 
 		Vector2 velocity = Velocity;
 		if (!IsOnFloor())
