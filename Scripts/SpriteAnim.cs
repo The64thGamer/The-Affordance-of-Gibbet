@@ -16,6 +16,8 @@ public partial class SpriteAnim : Sprite2D
 		"Crouch",
 		"Soda Side A","Soda Side B","Soda Side C",
 		"Turn Around",
+		"Soda Shake A", "Soda Shake B", "Soda Shake B Air",
+		"Toss",
 		};
 	static string[] spriteUI = new string[]{
 		"Button B",
@@ -38,6 +40,9 @@ public partial class SpriteAnim : Sprite2D
 		"Land Ripple",
 		"Dash Lines",
 		"None",
+		"Dice A", "Dice B", "Dice C",
+		"Soda Toss A", "Soda Toss B",
+		"Soda Gush A", "Soda Gush B",
 	};
 
 	public override void _Ready()
