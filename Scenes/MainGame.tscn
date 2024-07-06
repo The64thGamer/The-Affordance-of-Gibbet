@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://dwikffoj068ul"]
+
+[ext_resource type="Script" path="res://Scripts/GameState.cs" id="1_43usm"]
+[ext_resource type="Script" path="res://Scripts/IntegerScaleScreen.cs" id="1_yho5d"]
+[ext_resource type="PackedScene" uid="uid://curfr1nba6l3j" path="res://Prefabs/Gibbet.tscn" id="3_gmapx"]
+[ext_resource type="Script" path="res://Scripts/LevelRootMover.cs" id="11_okubx"]
+
+[node name="Camera2D" type="Camera2D" node_paths=PackedStringArray("level", "Player")]
+anchor_mode = 0
+editor_draw_limits = true
+script = ExtResource("1_43usm")
+level = NodePath("Level")
+Player = NodePath("Level/Gibbet")
+
+[node name="Level" type="Node2D" parent="."]
+
+[node name="Gibbet" parent="Level" instance=ExtResource("3_gmapx")]
+position = Vector2(0, 0)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="UI"]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(160, 144)
+layout_mode = 1
+offset_right = 160.0
+offset_bottom = 144.0
+scale = Vector2(6, 6)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+script = ExtResource("1_yho5d")
+
+[node name="Level Renderer" type="SubViewport" parent="UI/SubViewportContainer" node_paths=PackedStringArray("level")]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(160, 144)
+render_target_update_mode = 0
+script = ExtResource("11_okubx")
+level = NodePath("../../../Level")

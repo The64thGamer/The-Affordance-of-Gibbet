@@ -67,6 +67,7 @@ public partial class Player : Entity
 		upAttack,
 		downAttack,
 		turningAround,
+		enteringDoor,
 	}
 	public enum CopyAbility
 	{
@@ -161,7 +162,7 @@ public partial class Player : Entity
 				}
 				if(!isVisibletoCamera)
 				{
-					GetTree().ChangeSceneToFile("res://Scenes/Level1.tscn");
+					GetTree().ChangeSceneToFile("res://Scenes/MainGame.tscn");
 				}
 				break;
 			case PlayerState.turningAround:
@@ -169,6 +170,9 @@ public partial class Player : Entity
 				{
 					ChangeState(PlayerState.standard);
 				}
+				break;
+			case PlayerState.enteringDoor:
+				inInvincibilityFrames = true;
 				break;
 			default:
 			break;
@@ -291,6 +295,9 @@ public partial class Player : Entity
 					Mathf.Lerp(Velocity.X,0,Mathf.Min(physicsTimer,1))
 					,Velocity.Y
 				);
+				break;
+				case PlayerState.enteringDoor:
+				Velocity = Vector2.Zero;
 				break;
 			default:
 				currentSpeed = standardSpeed;
@@ -549,6 +556,9 @@ public partial class Player : Entity
 				case PlayerState.turningAround:
 					sprite.SetSprite("Turn Around");
 					Input.StartJoyVibration(0,0.2f,0,0.1f);
+					return;
+				case PlayerState.enteringDoor:
+					sprite.SetSprite("Turn Around");
 					return;
 				case PlayerState.upAttack:
 					ChangeState(PlayerState.standard);

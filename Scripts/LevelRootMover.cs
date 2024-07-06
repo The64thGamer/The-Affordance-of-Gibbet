@@ -7,8 +7,7 @@ public partial class LevelRootMover : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		level.GetParent().CallDeferred("remove_child",level);
-		
+		level.GetParent().CallDeferred("remove_child",level);	
 	}
 
 	public override void _Process(double delta)

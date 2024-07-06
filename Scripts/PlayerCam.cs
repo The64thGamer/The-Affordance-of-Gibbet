@@ -17,6 +17,7 @@ public partial class PlayerCam : Camera2D
 	float camRampupTimer = 0;
 	float flungTimer;
 	Vector2 oldCamPos;
+	bool camReset;
 
 	public override void _Ready()
 	{
@@ -62,6 +63,18 @@ public partial class PlayerCam : Camera2D
 
 		oldCamPos = GlobalPosition;
 		GlobalPosition = new Vector2(Mathf.FloorToInt(GlobalPosition.X),Mathf.FloorToInt(GlobalPosition.Y));
+
+		Player.PlayerState state = player.GetPlayerState();
+		if(state == Player.PlayerState.enteringDoor)
+		{
+			camReset = true;
+		}
+		else if(camReset)
+		{
+			camReset = false;
+			GlobalPosition = player.GlobalPosition;
+			oldCamPos = GlobalPosition;
+		}
 	}
 
 	public void Flung(float time)

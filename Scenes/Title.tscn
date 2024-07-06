@@ -8,7 +8,7 @@
 [ext_resource type="Material" uid="uid://dqnlne22d5wug" path="res://Shaders/TilemapShader.tres" id="3_5sy5q"]
 [ext_resource type="Script" path="res://Scripts/UIButton.cs" id="3_eoy8h"]
 [ext_resource type="Script" path="res://Scripts/TileMapSprites.cs" id="3_usqhs"]
-[ext_resource type="PackedScene" uid="uid://dwikffoj068ul" path="res://Scenes/Level1.tscn" id="4_0tg6g"]
+[ext_resource type="PackedScene" uid="uid://dwikffoj068ul" path="res://Scenes/MainGame.tscn" id="4_0tg6g"]
 [ext_resource type="Script" path="res://Scripts/IntegerScaleScreen.cs" id="4_06ea0"]
 [ext_resource type="Script" path="res://Scripts/LevelRootMover.cs" id="5_8fk6p"]
 [ext_resource type="Texture2D" uid="uid://cevs0b6yp1nfw" path="res://Sprites/Sprite UI.png" id="6_1u04f"]
