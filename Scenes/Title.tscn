@@ -230,7 +230,7 @@ offset_bottom = 56.0
 theme = ExtResource("2_c8ius")
 text = "Options"
 
-[node name="Palettes" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("subMenu", "downMenu")]
+[node name="Palettes" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("subMenu", "downMenu", "backMenu")]
 texture_filter = 1
 material = ExtResource("2_v40an")
 layout_mode = 0
@@ -243,8 +243,9 @@ text = "Palettes"
 script = ExtResource("3_eoy8h")
 subMenu = NodePath("../../Palette/Back")
 downMenu = NodePath("../Video")
+backMenu = NodePath("../../Main/Options")
 
-[node name="Video" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("upMenu", "downMenu")]
+[node name="Video" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("upMenu", "downMenu", "backMenu")]
 texture_filter = 1
 material = ExtResource("2_v40an")
 layout_mode = 0
@@ -257,8 +258,9 @@ text = "Video"
 script = ExtResource("3_eoy8h")
 upMenu = NodePath("../Palettes")
 downMenu = NodePath("../Audio")
+backMenu = NodePath("../../Main/Options")
 
-[node name="Audio" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("upMenu", "downMenu")]
+[node name="Audio" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("upMenu", "downMenu", "backMenu")]
 texture_filter = 1
 material = ExtResource("2_v40an")
 layout_mode = 0
@@ -271,8 +273,9 @@ text = "Audio"
 script = ExtResource("3_eoy8h")
 upMenu = NodePath("../Video")
 downMenu = NodePath("../Hotkeys")
+backMenu = NodePath("../../Main/Options")
 
-[node name="Hotkeys" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("upMenu", "downMenu")]
+[node name="Hotkeys" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("upMenu", "downMenu", "backMenu")]
 texture_filter = 1
 material = ExtResource("2_v40an")
 layout_mode = 0
@@ -285,8 +288,9 @@ text = "Hotkeys"
 script = ExtResource("3_eoy8h")
 upMenu = NodePath("../Audio")
 downMenu = NodePath("../Back")
+backMenu = NodePath("../../Main/Options")
 
-[node name="Back" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("subMenu", "upMenu")]
+[node name="Back" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("subMenu", "upMenu", "backMenu")]
 texture_filter = 1
 material = ExtResource("2_v40an")
 layout_mode = 0
@@ -299,6 +303,7 @@ text = "Back"
 script = ExtResource("3_eoy8h")
 subMenu = NodePath("../../Main/Options")
 upMenu = NodePath("../Hotkeys")
+backMenu = NodePath("../../Main/Options")
 
 [node name="Palette" type="Control" parent="Title/Control"]
 visible = false
@@ -320,7 +325,7 @@ offset_bottom = 56.0
 theme = ExtResource("2_c8ius")
 text = "Palettes"
 
-[node name="Back" type="Label" parent="Title/Control/Palette" node_paths=PackedStringArray("subMenu")]
+[node name="Back" type="Label" parent="Title/Control/Palette" node_paths=PackedStringArray("subMenu", "backMenu")]
 texture_filter = 1
 material = ExtResource("2_v40an")
 layout_mode = 0
@@ -332,6 +337,7 @@ theme = ExtResource("2_c8ius")
 text = "Back"
 script = ExtResource("3_eoy8h")
 subMenu = NodePath("../../Options/Palettes")
+backMenu = NodePath("../../Options/Palettes")
 
 [node name="Cursor" type="Control" parent="Title"]
 layout_mode = 3

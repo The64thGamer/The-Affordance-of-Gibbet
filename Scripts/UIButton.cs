@@ -8,6 +8,7 @@ public partial class UIButton : Label
 	[Export] public UIButton subMenu;
 	[Export] public UIButton upMenu;
 	[Export] public UIButton downMenu;
+	[Export] public UIButton backMenu;
 	[Export] PackedScene scene;
 	[Export] public int setSpritePalette;
 	[Export] public int setTilemapPalette;
@@ -24,19 +25,26 @@ public partial class UIButton : Label
 			stopMovement = false;
 			return;
 		}
-		if(Input.IsActionJustPressed("Attack"))
+		if(Input.IsActionJustPressed("Menu Accept"))
 		{
 			GiveCursor();
 		}
-		if(Input.IsActionJustPressed("Up"))
+		if(Input.IsActionJustPressed("Menu Up"))
 		{
 			MoveUp();
 		}
-		if(Input.IsActionJustPressed("Down"))
+		if(Input.IsActionJustPressed("Menu Down"))
 		{
 			MoveDown();
 		}
+		if(Input.IsActionJustPressed("Menu Back"))
+		{
+			MoveBack();
+		}
 	}
+
+
+
 	public void GetCursor(Control newCursor)
 	{
 		(this.GetParent() as Control).Visible = true;
@@ -99,6 +107,21 @@ public partial class UIButton : Label
 			downMenu.GetCursor(cursor);
 			cursor = null;
 		}
+	}
+
+	void MoveBack()
+	{
+		if(cursor == null)
+			{
+				return;
+			}
+
+			if(backMenu != null)
+			{
+				(this.GetParent() as Control).Visible = false;
+				backMenu.GetCursor(cursor);
+				cursor = null;
+			}
 	}
 
 	void AdjustList()
