@@ -7,6 +7,7 @@ public partial class PlayerCam : Camera2D
 	[Export] float cameraLookaheadMultiplier = 1;
 	[Export] float cameraSpeed = 0.23f;
 	[Export] float maxDeadzoneX = 10;
+	[Export] float maxDeadzoneY = 20;
 	[Export] Curve camSpeedCurve;
 	[Export] float minDeadzoneRepositionDistance = 16;
 	public TileMap tileMap;
@@ -48,6 +49,8 @@ public partial class PlayerCam : Camera2D
 			deadzonePoint.X = player.GlobalPosition.X + maxDeadzoneX-1;
 			targetPoint.X = player.GlobalPosition.X + (-maxDeadzoneX * cameraLookaheadMultiplier);
 		}
+
+		targetPoint.Y = player.GlobalPosition.Y;
 
 		GlobalPosition = GlobalPosition.Lerp(targetPoint,camSpeedCurve.SampleBaked(camRampupTimer) * Mathf.Min(1,Mathf.Abs(targetPoint.X - GlobalPosition.X) * cameraSpeed* (float)delta));
 		if(Mathf.Abs(targetPoint.X - GlobalPosition.X) < minDeadzoneRepositionDistance)
