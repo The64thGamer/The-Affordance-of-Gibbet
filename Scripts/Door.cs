@@ -7,13 +7,19 @@ public partial class Door : Area2D
 	[Export] Vector2 toPosition;
 	Godot.Collections.Array<Player> players = new Godot.Collections.Array<Player>();
 	const float doorTimer = 0.5f;
+	const float coolDownTime = 1.0f;
 	float timer;
 	bool doorGo;
+
+	public override void _Ready()
+	{
+		timer = coolDownTime;
+	}
+
 	public override void _Process(double delta)
 	{
 		if(doorGo)
 		{
-			timer -= (float)delta;
 			if(timer <= 0)
 			{
 				for (int i = 0; i < players.Count; i++)
@@ -24,7 +30,7 @@ public partial class Door : Area2D
 			}
 		}
 
-		if(Input.IsActionJustPressed("Menu Up") && players.Count > 0)
+		if(Input.IsActionJustPressed("Menu Up") && players.Count > 0 && timer <= 0)
 		{
 			for (int i = 0; i < players.Count; i++)
 			{
@@ -33,6 +39,8 @@ public partial class Door : Area2D
 				timer = doorTimer;
 			}
 		}
+
+		timer -= (float)delta;
 	}
 
 	void _on_body_entered(PhysicsBody2D body)
