@@ -9,6 +9,7 @@ public partial class PlayerCam : Camera2D
 	[Export] float maxDeadzoneX = 10;
 	[Export] Curve camSpeedCurve;
 	[Export] float minDeadzoneRepositionDistance = 16;
+	public TileMap tileMap;
 
 	Vector2 deadzonePoint;
 	Vector2 targetPoint;
@@ -75,6 +76,25 @@ public partial class PlayerCam : Camera2D
 			GlobalPosition = player.GlobalPosition;
 			oldCamPos = GlobalPosition;
 		}
+
+		if(tileMap != null)
+		{
+			Rect2I rect = tileMap.GetUsedRect();
+			float size = tileMap.TileSet.TileSize.X;
+			GlobalPosition = new Vector2(
+					Mathf.Clamp(
+						GlobalPosition.X,
+						(rect.Position.X * size) + (160 * 0.5f),
+						(rect.Position.X * size) + (rect.Size.X * size) - (160 * 0.5f)
+						),
+					Mathf.Clamp(
+						GlobalPosition.Y,
+						(rect.Position.Y * size) + (144 * 0.5f),
+						(rect.Position.Y * size) + (rect.Size.Y * size) - (144 * 0.5f)
+						)
+			);
+		}
+		
 	}
 
 	public void Flung(float time)

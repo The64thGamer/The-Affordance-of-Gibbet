@@ -26,5 +26,17 @@ public partial class GameState : Node
 		level.RemoveChild(Player);
 		level.AddChild(Player);
 		Player.GlobalPosition = position;
+
+		int childCount = area.GetChildCount();
+
+        for (int i = 0; i < childCount; i++)
+        {
+            Node child = area.GetChild(i);
+            if (child is TileMap)
+                Player.ChangeLevel(child as TileMap);
+        }
+
+		
 	}
+
 }

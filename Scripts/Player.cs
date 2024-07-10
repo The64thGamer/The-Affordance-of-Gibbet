@@ -693,6 +693,12 @@ public partial class Player : Entity
 		return playerState;
 	}
 
+	public void ChangeLevel(TileMap newMap)
+	{
+		playerCam.tileMap = newMap;
+		playerCam.GlobalPosition = GlobalPosition;
+	}
+
 	public void ApplyDamage(float attackDamage, bool launch, Vector2 globalHitPos)
 	{
 		if(inInvincibilityFrames)

@@ -19,4 +19,4 @@ script = ExtResource("3_qw6t5")
 
 [node name="Door" parent="." instance=ExtResource("8_0h3k4")]
 position = Vector2(48, 8)
-toPosition = Vector2(992, 40)
+toPosition = Vector2(984, 32)
