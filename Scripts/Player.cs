@@ -37,6 +37,7 @@ public partial class Player : Entity
 	CopyAbility[] copyAbility = new CopyAbility[4];
 
 	FloorState floorState;
+	TileMap tileMap;
 
 	const float standardSpeed = 80;
 	const float sodaSideAnimSpeed = 20;
@@ -97,6 +98,7 @@ public partial class Player : Entity
 	public override void _PhysicsProcess(double delta)
 	{
 		StateCheck(delta);
+		CheckFallout();
 		SetPhysics(delta);
 		MoveAndSlide();
 		UpdateSprites(delta);
@@ -176,6 +178,21 @@ public partial class Player : Entity
 				break;
 			default:
 			break;
+		}
+	}
+
+	void CheckFallout()
+	{
+		if(tileMap == null)
+		{
+			return;
+		}
+
+		Rect2I rect = tileMap.GetUsedRect();
+		float size = tileMap.TileSet.TileSize.X;
+		if(GlobalPosition.Y > (rect.Position.Y * size) + (rect.Size.Y * size) + 16)
+		{
+			ChangeState(PlayerState.flung);
 		}
 	}
 
@@ -398,8 +415,6 @@ public partial class Player : Entity
 
 	void UpdateSprites(double delta)
 	{
-
-
 		switch (playerState)
 		{
 			case PlayerState.copying:
@@ -695,6 +710,7 @@ public partial class Player : Entity
 
 	public void ChangeLevel(TileMap newMap)
 	{
+		tileMap = newMap;
 		playerCam.tileMap = newMap;
 		playerCam.GlobalPosition = GlobalPosition;
 	}
