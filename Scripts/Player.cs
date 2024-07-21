@@ -247,11 +247,9 @@ public partial class Player : Entity
 				}
 				
 				KinematicCollision2D collision = GetLastSlideCollision();
-				if(collision != null)
+				if(collision != null)// && Velocity.Dot(collision.GetNormal()) != 0)
 				{
-					GD.Print(Velocity.Dot(collision.GetNormal()));
-					Velocity = -2 * (Velocity.Dot(collision.GetNormal()) * collision.GetNormal() + Velocity);
-					//-2*(Velocity dot Normal)*Normal + Velocity
+					Velocity = Velocity.Bounce(collision.GetNormal());
 				}
 
 				break;
