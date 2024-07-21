@@ -245,10 +245,15 @@ public partial class Player : Entity
 				{
 					Velocity = new Vector2(Velocity.X, Velocity.Y + (gravity * (float)delta)).Lerp(CalculateStandardVelocity(input,false,delta),physicsTimer/2);
 				}
-				else
+				
+				KinematicCollision2D collision = GetLastSlideCollision();
+				if(collision != null)
 				{
+					GD.Print(Velocity.Dot(collision.GetNormal()));
+					Velocity = -2 * (Velocity.Dot(collision.GetNormal()) * collision.GetNormal() + Velocity);
 					//-2*(Velocity dot Normal)*Normal + Velocity
 				}
+
 				break;
 			case PlayerState.sideAttack:
 				switch (copyAbility[1])
