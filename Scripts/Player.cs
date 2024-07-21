@@ -38,6 +38,7 @@ public partial class Player : Entity
 
 	FloorState floorState;
 	TileMap tileMap;
+	Vector2 oldVelocity;
 
 	const float standardSpeed = 80;
 	const float sodaSideAnimSpeed = 20;
@@ -246,10 +247,21 @@ public partial class Player : Entity
 					Velocity = new Vector2(Velocity.X, Velocity.Y + (gravity * (float)delta)).Lerp(CalculateStandardVelocity(input,false,delta),physicsTimer/2);
 				}
 				
-				KinematicCollision2D collision = GetLastSlideCollision();
-				if(collision != null)// && Velocity.Dot(collision.GetNormal()) != 0)
+
+				if(GetSlideCollisionCount() > 0)// && Velocity.Dot(collision.GetNormal()) != 0)
 				{
-					Velocity = Velocity.Bounce(collision.GetNormal());
+					KinematicCollision2D collision = GetSlideCollision(0);
+					Vector2 normVec = oldVelocity.Normalized();
+					GD.Print(normVec.Dot(collision.GetNormal()));
+
+					for (int i = 0; i < GetSlideCollisionCount(); i++)
+					{
+						if(normVec.Dot(collision.GetNormal()) > normVec.Dot(GetSlideCollision(i).GetNormal()))
+						{
+							collision = GetSlideCollision(i);
+						}
+					}
+					Velocity = oldVelocity.Bounce(collision.GetNormal());
 				}
 
 				break;
@@ -328,10 +340,10 @@ public partial class Player : Entity
 				break;
 		}
 		physicsTimer += (float)delta;
+		oldVelocity = Velocity;
 
 		Rect2I rect = tileMap.GetUsedRect();
 		float size = tileMap.TileSet.TileSize.X;
-
 		GlobalPosition = new Vector2(Mathf.Clamp(GlobalPosition.X,rect.Position.X * size + (size /2),(rect.Position.X * size) + (rect.Size.X * size) - (size /2)),GlobalPosition.Y);
 	}
 
@@ -736,6 +748,7 @@ public partial class Player : Entity
 			previousCloudPlacement = GlobalPosition;
 			flungTimer = currentDamage * damageToFlungTimeMultiplier;
 			Velocity = (GlobalPosition - globalHitPos).Normalized() * currentDamage * damageToFlungVelocityMultiplier;
+			oldVelocity = Velocity;
 			Input.StartJoyVibration(0,1*PlayerPrefs.GetFloat("RumbleIntensity"),1*PlayerPrefs.GetFloat("RumbleIntensity"),Mathf.Clamp(currentDamage/75.0f,0.2f,1.0f)*PlayerPrefs.GetFloat("RumbleTime"));
 			playerCam.Flung(flungTimer);
 		}
