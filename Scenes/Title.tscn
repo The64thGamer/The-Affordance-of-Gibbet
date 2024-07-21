@@ -56,6 +56,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Main" type="Control" parent="Title/Control"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -272,10 +273,10 @@ theme = ExtResource("2_c8ius")
 text = "Audio"
 script = ExtResource("3_eoy8h")
 upMenu = NodePath("../Video")
-downMenu = NodePath("../Hotkeys")
+downMenu = NodePath("../Input")
 backMenu = NodePath("../../Main/Options")
 
-[node name="Hotkeys" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("upMenu", "downMenu", "backMenu")]
+[node name="Input" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("subMenu", "upMenu", "downMenu", "backMenu")]
 texture_filter = 1
 material = ExtResource("2_v40an")
 layout_mode = 0
@@ -284,11 +285,28 @@ offset_top = 88.0
 offset_right = 76.0
 offset_bottom = 96.0
 theme = ExtResource("2_c8ius")
-text = "Hotkeys"
+text = "Input"
 script = ExtResource("3_eoy8h")
+subMenu = NodePath("../../Input/Rumble")
 upMenu = NodePath("../Audio")
+downMenu = NodePath("../Misc")
+backMenu = NodePath(".")
+
+[node name="Misc" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("subMenu", "upMenu", "downMenu", "backMenu")]
+texture_filter = 1
+material = ExtResource("2_v40an")
+layout_mode = 0
+offset_left = 16.0
+offset_top = 96.0
+offset_right = 76.0
+offset_bottom = 104.0
+theme = ExtResource("2_c8ius")
+text = "Misc"
+script = ExtResource("3_eoy8h")
+subMenu = NodePath("../../Misc/Reset")
+upMenu = NodePath("../Input")
 downMenu = NodePath("../Back")
-backMenu = NodePath("../../Main/Options")
+backMenu = NodePath("../Input")
 
 [node name="Back" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("subMenu", "upMenu", "backMenu")]
 texture_filter = 1
@@ -302,8 +320,129 @@ theme = ExtResource("2_c8ius")
 text = "Back"
 script = ExtResource("3_eoy8h")
 subMenu = NodePath("../../Main/Options")
-upMenu = NodePath("../Hotkeys")
+upMenu = NodePath("../Input")
 backMenu = NodePath("../../Main/Options")
+
+[node name="Input" type="Control" parent="Title/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label Options" type="Label" parent="Title/Control/Input"]
+texture_filter = 1
+material = ExtResource("2_v40an")
+layout_mode = 0
+offset_left = 16.0
+offset_top = 48.0
+offset_right = 76.0
+offset_bottom = 56.0
+theme = ExtResource("2_c8ius")
+text = "Input"
+
+[node name="Rumble" type="Label" parent="Title/Control/Input" node_paths=PackedStringArray("downMenu", "backMenu")]
+texture_filter = 1
+material = ExtResource("2_v40an")
+layout_mode = 0
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 76.0
+offset_bottom = 72.0
+theme = ExtResource("2_c8ius")
+text = "Rumble"
+script = ExtResource("3_eoy8h")
+downMenu = NodePath("../Rumble Time")
+backMenu = NodePath("../../Options/Input")
+savePrefName = "RumbleIntensity"
+savePrefNotches = 5
+savePrefRemapMax = 1.0
+
+[node name="Rumble Time" type="Label" parent="Title/Control/Input" node_paths=PackedStringArray("upMenu", "downMenu", "backMenu")]
+texture_filter = 1
+material = ExtResource("2_v40an")
+layout_mode = 0
+offset_left = 16.0
+offset_top = 72.0
+offset_right = 76.0
+offset_bottom = 80.0
+theme = ExtResource("2_c8ius")
+text = "Rmbl Time"
+script = ExtResource("3_eoy8h")
+upMenu = NodePath("../Rumble")
+downMenu = NodePath("../Back")
+backMenu = NodePath("../../Options/Input")
+savePrefName = "RumbleTime"
+savePrefNotches = 5
+savePrefRemapMin = 0.01
+savePrefRemapMax = 1.0
+
+[node name="Back" type="Label" parent="Title/Control/Input" node_paths=PackedStringArray("subMenu", "upMenu", "backMenu")]
+texture_filter = 1
+material = ExtResource("2_v40an")
+layout_mode = 0
+offset_left = 16.0
+offset_top = 128.0
+offset_right = 76.0
+offset_bottom = 136.0
+theme = ExtResource("2_c8ius")
+text = "Back"
+script = ExtResource("3_eoy8h")
+subMenu = NodePath("../../Options/Input")
+upMenu = NodePath("../Rumble Time")
+backMenu = NodePath("../../Options/Input")
+
+[node name="Misc" type="Control" parent="Title/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label Options" type="Label" parent="Title/Control/Misc"]
+texture_filter = 1
+material = ExtResource("2_v40an")
+layout_mode = 0
+offset_left = 16.0
+offset_top = 48.0
+offset_right = 76.0
+offset_bottom = 56.0
+theme = ExtResource("2_c8ius")
+text = "Misc"
+
+[node name="Reset" type="Label" parent="Title/Control/Misc" node_paths=PackedStringArray("downMenu", "backMenu")]
+texture_filter = 1
+material = ExtResource("2_v40an")
+layout_mode = 0
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 76.0
+offset_bottom = 72.0
+theme = ExtResource("2_c8ius")
+text = "Reset Options"
+script = ExtResource("3_eoy8h")
+downMenu = NodePath("../Back")
+backMenu = NodePath("../../Options/Misc")
+resetValues = true
+
+[node name="Back" type="Label" parent="Title/Control/Misc" node_paths=PackedStringArray("subMenu", "upMenu", "backMenu")]
+texture_filter = 1
+material = ExtResource("2_v40an")
+layout_mode = 0
+offset_left = 16.0
+offset_top = 128.0
+offset_right = 76.0
+offset_bottom = 136.0
+theme = ExtResource("2_c8ius")
+text = "Back"
+script = ExtResource("3_eoy8h")
+subMenu = NodePath("../../Options/Misc")
+upMenu = NodePath("../Reset")
+backMenu = NodePath("../../Options/Misc")
 
 [node name="Palette" type="Control" parent="Title/Control"]
 visible = false

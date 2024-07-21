@@ -18,7 +18,7 @@ public partial class CopyUI : Area2D
 	const float uiOutTimer = .2f;
 	const int uiNotSelectedPosterization = -2;
 	const float uiSelectedTimer = 0.3f;
-	const float minNoCopyAbilityTime = 0.3f;
+	const float minNoCopyAbilityTime = 0.1f;
 	Player.CopyAbility heldAbility;
 
 	enum CopyUIState

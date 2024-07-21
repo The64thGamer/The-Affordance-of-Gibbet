@@ -5,10 +5,11 @@ public partial class GameState : Node
 {
 	[Export] Node2D level;
 	[Export] Player Player;
+	[Export] int defaultLevel = 3;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		LevelChange(0,Vector2.Zero);
+		LevelChange(defaultLevel,Vector2.Zero);
 	}
 
 	public void LevelChange(int id, Vector2 position)

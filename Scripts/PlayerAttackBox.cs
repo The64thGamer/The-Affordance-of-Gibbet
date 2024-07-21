@@ -30,7 +30,7 @@ public partial class PlayerAttackBox : Node2D
 			GenericEnemy enemy = body as GenericEnemy;
 			if(!enemy.IsDead())
 			{
-				Input.StartJoyVibration(0,0,0.85f,0.2f);
+				Input.StartJoyVibration(0,0,0.85f*PlayerPrefs.GetFloat("RumbleIntensity"),0.2f*PlayerPrefs.GetFloat("RumbleTime"));
 				enemy.Die();
 				if(!alreadyPaused)
 				{

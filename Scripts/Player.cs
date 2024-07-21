@@ -334,11 +334,11 @@ public partial class Player : Entity
 		{
 			case FloorState.firstFrameOnFloor:
 			floorState = FloorState.onFloor;
-			Input.StartJoyVibration(0,0.3f,0,0.15f);
+			Input.StartJoyVibration(0,0.3f*PlayerPrefs.GetFloat("RumbleIntensity"),0,0.15f*PlayerPrefs.GetFloat("RumbleTime"));
 			break;
 			case FloorState.firstFrameOffFloor:
 			floorState = FloorState.offFloor;
-			Input.StartJoyVibration(0,0.01f,0,0.1f);
+			Input.StartJoyVibration(0,0.01f*PlayerPrefs.GetFloat("RumbleIntensity"),0,0.1f*PlayerPrefs.GetFloat("RumbleTime"));
 			break;
 			case FloorState.offFloor:
 			if(IsOnFloor())
@@ -424,11 +424,11 @@ public partial class Player : Entity
 					{
 						case 0:
 							sprite.SetSprite("Copy A");
-							Input.StartJoyVibration(0,0.1f,0,minCopyTime);
+							Input.StartJoyVibration(0,0.1f*PlayerPrefs.GetFloat("RumbleIntensity"),0,minCopyTime*PlayerPrefs.GetFloat("RumbleTime"));
 						break;
 						case 1:
 							sprite.SetSprite("Copy A");
-							Input.StartJoyVibration(0,0.1f,1,0.1f);
+							Input.StartJoyVibration(0,0.1f*PlayerPrefs.GetFloat("RumbleIntensity"),1*PlayerPrefs.GetFloat("RumbleIntensity"),0.1f*PlayerPrefs.GetFloat("RumbleTime"));
 						break;
 						case 2:
 							sprite.SetSprite("Copy B");
@@ -441,7 +441,7 @@ public partial class Player : Entity
 						break;
 						case 5:
 							sprite.SetSprite("Copy C");
-							Input.StartJoyVibration(0,0.1f,1,0.1f);
+							Input.StartJoyVibration(0,0.1f*PlayerPrefs.GetFloat("RumbleIntensity"),1*PlayerPrefs.GetFloat("RumbleIntensity"),0.1f*PlayerPrefs.GetFloat("RumbleTime"));
 						break;
 						default:
 						oldAnimTimer = Mathf.FloorToInt(animTimer);
@@ -509,7 +509,7 @@ public partial class Player : Entity
 									case 0:
 										inInvincibilityFrames = true;
 										CreateDashEffect(false);
-										Input.StartJoyVibration(0,0.4f,0,0.025f);
+										Input.StartJoyVibration(0,0.4f*PlayerPrefs.GetFloat("RumbleIntensity"),0,0.025f*PlayerPrefs.GetFloat("RumbleTime"));
 										sprite.SetSprite("Soda Side C");
 									break;
 									case 1:
@@ -520,7 +520,7 @@ public partial class Player : Entity
 									break;
 									case 3:
 										sprite.SetSprite("Soda Side A");
-										Input.StartJoyVibration(0,0,0.75f,0.05f);
+										Input.StartJoyVibration(0,0,0.75f*PlayerPrefs.GetFloat("RumbleIntensity"),0.05f*PlayerPrefs.GetFloat("RumbleTime"));
 										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,true);
 									break;
 									case 4:
@@ -532,7 +532,7 @@ public partial class Player : Entity
 									break;
 									case 6:
 										sprite.SetSprite("Soda Side A");
-										Input.StartJoyVibration(0,0,0.75f,0.05f);
+										Input.StartJoyVibration(0,0,0.75f*PlayerPrefs.GetFloat("RumbleIntensity"),0.05f*PlayerPrefs.GetFloat("RumbleTime"));
 										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,true);
 									break;
 									case 7:
@@ -543,7 +543,7 @@ public partial class Player : Entity
 									break;
 									case 9:
 										sprite.SetSprite("Soda Side A");
-										Input.StartJoyVibration(0,0,0.75f,0.05f);
+										Input.StartJoyVibration(0,0,0.75f*PlayerPrefs.GetFloat("RumbleIntensity"),0.05f*PlayerPrefs.GetFloat("RumbleTime"));
 										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,true);
 									break;
 									case 10:
@@ -570,7 +570,7 @@ public partial class Player : Entity
 				return;
 				case PlayerState.turningAround:
 					sprite.SetSprite("Turn Around");
-					Input.StartJoyVibration(0,0.2f,0,0.1f);
+					Input.StartJoyVibration(0,0.2f*PlayerPrefs.GetFloat("RumbleIntensity"),0,0.1f*PlayerPrefs.GetFloat("RumbleTime"));
 					return;
 				case PlayerState.enteringDoor:
 					sprite.SetSprite("Turn Around");
@@ -603,7 +603,7 @@ public partial class Player : Entity
 					if(animTimer != -1)
 					{
 						sprite.SetSprite("Crouch");
-						Input.StartJoyVibration(0,0.7f,0,0.15f);
+						Input.StartJoyVibration(0,0.7f*PlayerPrefs.GetFloat("RumbleIntensity"),0,0.15f*PlayerPrefs.GetFloat("RumbleTime"));
 						animTimer = -1;
 					}
 					
@@ -673,7 +673,7 @@ public partial class Player : Entity
 	public void SetCopyAbility(CopyAbility ability, int slot)
 	{
 		zapHitbox.SetDeferred("monitoring",false);
-		Input.StartJoyVibration(0,0.5f,1,0.3f);
+		Input.StartJoyVibration(0,0.5f*PlayerPrefs.GetFloat("RumbleIntensity"),1*PlayerPrefs.GetFloat("RumbleIntensity"),0.3f*PlayerPrefs.GetFloat("RumbleTime"));
 		if(ability != CopyAbility.none)
 		{
 			GD.Print("Player got " + ability + " ability in slot " + slot + "!");
@@ -729,7 +729,7 @@ public partial class Player : Entity
 			previousCloudPlacement = GlobalPosition;
 			flungTimer = currentDamage * damageToFlungTimeMultiplier;
 			Velocity = (GlobalPosition - globalHitPos).Normalized() * currentDamage * damageToFlungVelocityMultiplier;
-			Input.StartJoyVibration(0,1,1,Mathf.Clamp(currentDamage/75.0f,0.2f,1.0f));
+			Input.StartJoyVibration(0,1*PlayerPrefs.GetFloat("RumbleIntensity"),1*PlayerPrefs.GetFloat("RumbleIntensity"),Mathf.Clamp(currentDamage/75.0f,0.2f,1.0f)*PlayerPrefs.GetFloat("RumbleTime"));
 			playerCam.Flung(flungTimer);
 		}
 		
