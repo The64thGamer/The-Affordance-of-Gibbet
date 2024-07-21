@@ -326,6 +326,10 @@ public partial class Player : Entity
 		}
 		physicsTimer += (float)delta;
 
+		Rect2I rect = tileMap.GetUsedRect();
+		float size = tileMap.TileSet.TileSize.X;
+
+		GlobalPosition = new Vector2(Mathf.Clamp(GlobalPosition.X,rect.Position.X * size + (size /2),(rect.Position.X * size) + (rect.Size.X * size) - (size /2)),GlobalPosition.Y);
 	}
 
 	void CheckFloorState()
