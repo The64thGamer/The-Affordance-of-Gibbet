@@ -40,7 +40,7 @@ public partial class Player : Entity
 	TileMap tileMap;
 	Vector2 oldVelocity;
 
-	const float standardSpeed = 80;
+	const float standardSpeed = 75;
 	const float sodaSideAnimSpeed = 20;
 	const float copyCooldown = 0.5f;
 	const float attackCooldown = 0.3f;
@@ -58,7 +58,7 @@ public partial class Player : Entity
 	const float velocityRedirectPenalty = 0.5f;
 	const float minBounceVelToHitStun = 100;
 	const float bounceHitStunTimeMult = 0.0005f;
-	const float bounceReduceSpeedMult = 0.9f;
+	const float bounceReduceSpeedMult = 0.8f;
 
 	
 	public enum PlayerState
@@ -155,6 +155,7 @@ public partial class Player : Entity
 				copyCooldownTimer = copyCooldown;
 			break;
 			case PlayerState.flung:
+				inInvincibilityFrames = true;
 				if(previousCloudPlacement.DistanceTo(GlobalPosition) > 16)
 				{
 					previousCloudPlacement = GlobalPosition;

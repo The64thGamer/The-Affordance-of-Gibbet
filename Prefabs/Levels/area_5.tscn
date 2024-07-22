@@ -20,7 +20,7 @@ script = ExtResource("3_70dfo")
 [node name="Door" parent="." instance=ExtResource("4_nnavk")]
 position = Vector2(280, 16)
 toArea = 4
-toPosition = Vector2(40, -272)
+toPosition = Vector2(40, -288)
 
 [node name="Tipsy Spawner" parent="." instance=ExtResource("5_jlppm")]
 position = Vector2(192, -72)
