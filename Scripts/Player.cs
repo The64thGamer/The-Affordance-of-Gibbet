@@ -62,6 +62,7 @@ public partial class Player : Entity
 	const float flungDelayHitboxTime = 0.2f;
 	const float sodaSideBHitstun = 0.1f;
 	const float flungHitStun = 0.1f;
+	const float minSpeedToStopFlung = 10;
 	
 	public enum PlayerState
 	{
@@ -252,8 +253,6 @@ public partial class Player : Entity
 				{
 					Velocity = new Vector2(Velocity.X, Velocity.Y + (gravity * (float)delta)).Lerp(CalculateStandardVelocity(input,false,delta),physicsTimer/2);
 				}
-				
-
 				if(GetSlideCollisionCount() > 0)// && Velocity.Dot(collision.GetNormal()) != 0)
 				{
 					KinematicCollision2D collision = GetSlideCollision(0);
@@ -276,6 +275,14 @@ public partial class Player : Entity
 						pauseTimer.id = GetInstanceId();
 						Velocity *= bounceReduceSpeedMult;
 						(GetNode("/root/PauseBufferHandler") as PauseBufferHandler).AddPause(GetInstanceId());
+					}
+				}
+				else
+				{
+					if(Velocity.Length() < minSpeedToStopFlung)
+					{
+						ChangeState(PlayerState.standard);
+						flungTimer = 0;
 					}
 				}
 
@@ -555,7 +562,7 @@ public partial class Player : Entity
 									case 3:
 										sprite.SetSprite("Soda Side A");
 										Input.StartJoyVibration(0,0,0.75f*PlayerPrefs.GetFloat("RumbleIntensity"),0.05f*PlayerPrefs.GetFloat("RumbleTime"));
-										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,0,true,sodaSideBHitstun);
+										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,0,true,sodaSideBHitstun,true);
 									break;
 									case 4:
 										inInvincibilityFrames = false;
@@ -567,7 +574,7 @@ public partial class Player : Entity
 									case 6:
 										sprite.SetSprite("Soda Side A");
 										Input.StartJoyVibration(0,0,0.75f*PlayerPrefs.GetFloat("RumbleIntensity"),0.05f*PlayerPrefs.GetFloat("RumbleTime"));
-										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,0,true,sodaSideBHitstun);
+										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,0,true,sodaSideBHitstun,true);
 									break;
 									case 7:
 										sprite.SetSprite("Soda Side A");
@@ -578,7 +585,7 @@ public partial class Player : Entity
 									case 9:
 										sprite.SetSprite("Soda Side A");
 										Input.StartJoyVibration(0,0,0.75f*PlayerPrefs.GetFloat("RumbleIntensity"),0.05f*PlayerPrefs.GetFloat("RumbleTime"));
-										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,0,true,sodaSideBHitstun);
+										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,0,true,sodaSideBHitstun,true);
 									break;
 									case 10:
 										sprite.SetSprite("Soda Side A");
@@ -678,13 +685,15 @@ public partial class Player : Entity
 		}
 	}
 
-	public void SpawnHitbox(Vector2 position, Vector2 size, float time, float delayTimer, bool stuckToPlayer, float hitStun)
+	public void SpawnHitbox(Vector2 position, Vector2 size, float time, float delayTimer, bool stuckToPlayer, float hitStun, bool stopIfInStandardState)
 	{
 		PlayerAttackBox attackBox = GD.Load<PackedScene>("res://Prefabs/Triggers/Hurtbox From Player.tscn").Instantiate() as PlayerAttackBox;
 		((attackBox.GetChild(0) as CollisionShape2D).Shape as RectangleShape2D).Size = size;
 		attackBox.timer = time;
 		attackBox.delayTimer = delayTimer;
 		attackBox.attackHitStun = hitStun;
+		attackBox.stopIfInStandardState = stopIfInStandardState;
+		attackBox.player = this;
 		if(stuckToPlayer)
 		{
 			AddChild(attackBox);
@@ -767,7 +776,7 @@ public partial class Player : Entity
 			oldVelocity = Velocity;
 			Input.StartJoyVibration(0,1*PlayerPrefs.GetFloat("RumbleIntensity"),1*PlayerPrefs.GetFloat("RumbleIntensity"),Mathf.Clamp(currentDamage/75.0f,0.2f,1.0f)*PlayerPrefs.GetFloat("RumbleTime"));
 			playerCam.Flung(flungTimer);
-			SpawnHitbox(GlobalPosition,new Vector2(16,16),flungTimer,flungDelayHitboxTime,true,flungHitStun);
+			SpawnHitbox(GlobalPosition,new Vector2(16,16),flungTimer,flungDelayHitboxTime,true,flungHitStun,true);
 		}
 		
 	}

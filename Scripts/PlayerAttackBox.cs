@@ -6,6 +6,8 @@ public partial class PlayerAttackBox : Node2D
 	public float timer = 999;
 	public float delayTimer = 0;
 	public float attackHitStun = 0;
+	public bool stopIfInStandardState;
+	public Player player;
 	float removePauseTimer = 0;
 	bool firstFrame = false;
 	bool alreadyPaused = false;
@@ -19,7 +21,7 @@ public partial class PlayerAttackBox : Node2D
 			firstFrame = true;
 			return;
 		}
-		if(timer <= 0)
+		if(timer <= 0 || (stopIfInStandardState && player.GetPlayerState() == Player.PlayerState.standard))
 		{
 			if(GetTree().Paused)
 			{
