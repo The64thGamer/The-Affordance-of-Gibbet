@@ -243,36 +243,6 @@ theme = ExtResource("2_c8ius")
 text = "Palettes"
 script = ExtResource("3_eoy8h")
 subMenu = NodePath("../../Palette/Back")
-downMenu = NodePath("../Video")
-backMenu = NodePath("../../Main/Options")
-
-[node name="Video" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("upMenu", "downMenu", "backMenu")]
-texture_filter = 1
-material = ExtResource("2_v40an")
-layout_mode = 0
-offset_left = 16.0
-offset_top = 72.0
-offset_right = 76.0
-offset_bottom = 80.0
-theme = ExtResource("2_c8ius")
-text = "Video"
-script = ExtResource("3_eoy8h")
-upMenu = NodePath("../Palettes")
-downMenu = NodePath("../Audio")
-backMenu = NodePath("../../Main/Options")
-
-[node name="Audio" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("upMenu", "downMenu", "backMenu")]
-texture_filter = 1
-material = ExtResource("2_v40an")
-layout_mode = 0
-offset_left = 16.0
-offset_top = 80.0
-offset_right = 76.0
-offset_bottom = 88.0
-theme = ExtResource("2_c8ius")
-text = "Audio"
-script = ExtResource("3_eoy8h")
-upMenu = NodePath("../Video")
 downMenu = NodePath("../Input")
 backMenu = NodePath("../../Main/Options")
 
@@ -281,14 +251,14 @@ texture_filter = 1
 material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
-offset_top = 88.0
+offset_top = 72.0
 offset_right = 76.0
-offset_bottom = 96.0
+offset_bottom = 80.0
 theme = ExtResource("2_c8ius")
 text = "Input"
 script = ExtResource("3_eoy8h")
 subMenu = NodePath("../../Input/Rumble")
-upMenu = NodePath("../Audio")
+upMenu = NodePath("../Palettes")
 downMenu = NodePath("../Misc")
 backMenu = NodePath(".")
 
@@ -297,9 +267,9 @@ texture_filter = 1
 material = ExtResource("2_v40an")
 layout_mode = 0
 offset_left = 16.0
-offset_top = 96.0
+offset_top = 80.0
 offset_right = 76.0
-offset_bottom = 104.0
+offset_bottom = 88.0
 theme = ExtResource("2_c8ius")
 text = "Misc"
 script = ExtResource("3_eoy8h")
