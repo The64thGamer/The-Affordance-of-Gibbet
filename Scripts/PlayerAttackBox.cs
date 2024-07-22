@@ -4,11 +4,16 @@ using System;
 public partial class PlayerAttackBox : Node2D
 {
 	public float timer = 999;
+	public float delayTimer = 0;
+	public float attackHitStun = 0;
+	float removePauseTimer = 0;
 	bool firstFrame = false;
 	bool alreadyPaused = false;
 	public override void _Process(double delta)
 	{
 		timer -= (float)delta;
+		delayTimer -= (float)delta;
+		removePauseTimer -= (float)delta;
 		if(!firstFrame)
 		{	
 			firstFrame = true;
@@ -22,9 +27,21 @@ public partial class PlayerAttackBox : Node2D
 			}
 			QueueFree();
 		}
+		if(removePauseTimer <= 0)
+		{
+			if(GetTree().Paused)
+			{
+				(GetNode("/root/PauseBufferHandler") as PauseBufferHandler).RemovePause(GetInstanceId());
+			}
+		}
 	}
 	void _on_body_entered(PhysicsBody2D body)
     {			
+		if(delayTimer > 0)
+		{
+			return;
+		}
+		
 		if(body is GenericEnemy)
 		{
 			GenericEnemy enemy = body as GenericEnemy;
@@ -37,8 +54,7 @@ public partial class PlayerAttackBox : Node2D
 					alreadyPaused = true;
 					(GetNode("/root/PauseBufferHandler") as PauseBufferHandler).AddPause(GetInstanceId());
 				}
-				
-				timer = Mathf.Max(timer,0.1f);
+				removePauseTimer = attackHitStun;
 			}
 		}
     }
