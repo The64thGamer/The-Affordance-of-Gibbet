@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cicwccnqv7g56"]
+[gd_scene load_steps=7 format=3 uid="uid://cicwccnqv7g56"]
 
 [ext_resource type="Material" uid="uid://dqnlne22d5wug" path="res://Shaders/TilemapShader.tres" id="1_skuwo"]
 [ext_resource type="TileSet" uid="uid://dcsalqtqp55os" path="res://Tilesets/Tiles.tres" id="2_ovy5q"]
 [ext_resource type="Script" path="res://Scripts/TileMapSprites.cs" id="3_qemdc"]
 [ext_resource type="PackedScene" uid="uid://etuvmji1fhpm" path="res://Prefabs/Spawners/Wibbly WalkLeft Spawner.tscn" id="4_kdc6w"]
+[ext_resource type="PackedScene" uid="uid://bssg8g0g52uwj" path="res://Prefabs/Triggers/Door.tscn" id="4_v45oe"]
 [ext_resource type="PackedScene" uid="uid://v6j1pwi0aiyo" path="res://Prefabs/Spawners/Tipsy Spawner.tscn" id="5_s1svu"]
 
 [node name="Area" type="Node2D"]
@@ -37,3 +38,7 @@ position = Vector2(600, -296)
 
 [node name="Tipsy Spawner" parent="." instance=ExtResource("5_s1svu")]
 position = Vector2(456, -360)
+
+[node name="Door" parent="." instance=ExtResource("4_v45oe")]
+position = Vector2(632, -224)
+toArea = 3

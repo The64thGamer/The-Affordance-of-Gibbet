@@ -56,7 +56,7 @@ public partial class Player : Entity
 	const float attackDashSpeed = 200;
 	const float attackDashDeceleration = 3;
 	const float velocityRedirectPenalty = 0.5f;
-	const float minBounceVelToHitStun = 100;
+	const float minBounceVelToHitStun = 120;
 	const float bounceHitStunTimeMult = 0.0005f;
 	const float bounceReduceSpeedMult = 0.8f;
 	const float flungDelayHitboxTime = 0.2f;
@@ -109,6 +109,10 @@ public partial class Player : Entity
 		SetPhysics(delta);
 		MoveAndSlide();
 		UpdateSprites(delta);
+		if(Input.IsActionPressed("Pause"))
+		{
+			GetTree().ChangeSceneToFile("res://Scenes/Title.tscn");
+		}
 	}
 
 	void StateCheck(double delta)
@@ -172,7 +176,12 @@ public partial class Player : Entity
 				}
 				if(!isVisibletoCamera)
 				{
-					GetTree().ChangeSceneToFile("res://Scenes/MainGame.tscn");
+					ChangeState(PlayerState.standard);
+					Velocity = Vector2.Zero;
+					currentDamage = 0;
+					playerCam.Flung(0);
+					GameState gs = GetTree().CurrentScene as GameState;
+					gs.LevelChange(gs.GetCurrentArea(),gs.GetLastDoorPosition());
 				}
 				break;
 			case PlayerState.turningAround:

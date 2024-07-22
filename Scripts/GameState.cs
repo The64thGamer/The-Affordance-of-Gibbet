@@ -6,10 +6,22 @@ public partial class GameState : Node
 	[Export] Node2D level;
 	[Export] Player Player;
 	[Export] int defaultLevel = 3;
+	int currentid;
+	Vector2 currentPos;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		LevelChange(defaultLevel,Vector2.Zero);
+	}
+
+	public int GetCurrentArea()
+	{
+		return currentid;
+	}
+
+	public Vector2 GetLastDoorPosition()
+	{
+		return currentPos;
 	}
 
 	public void LevelChange(int id, Vector2 position)
@@ -36,8 +48,8 @@ public partial class GameState : Node
             if (child is TileMap)
                 Player.ChangeLevel(child as TileMap);
         }
-
-		
+		currentid = id;
+		currentPos = position;
 	}
 
 }
