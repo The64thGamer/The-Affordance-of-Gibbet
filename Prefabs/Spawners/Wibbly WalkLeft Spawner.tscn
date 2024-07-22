@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://etuvmji1fhpm"]
 
 [ext_resource type="Script" path="res://Scripts/OnscreenSpawner.cs" id="1_pivxr"]
-[ext_resource type="PackedScene" uid="uid://lyauqo0eaxay" path="res://Prefabs/Enemies/Wibbly.tscn" id="2_jnayp"]
+[ext_resource type="PackedScene" uid="uid://lyauqo0eaxay" path="res://Prefabs/Enemies/Wibbly WalkLeft.tscn" id="2_jnayp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l1npc"]
 size = Vector2(15, 15)

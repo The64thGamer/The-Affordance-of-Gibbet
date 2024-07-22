@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bssg8g0g52uwj" path="res://Prefabs/Triggers/Door.tscn" id="4_titpl"]
 [ext_resource type="PackedScene" uid="uid://r61pil4tbihc" path="res://Prefabs/Spawners/Heavy Spawner.tscn" id="5_ndgon"]
 [ext_resource type="PackedScene" uid="uid://v6j1pwi0aiyo" path="res://Prefabs/Spawners/Tipsy Spawner.tscn" id="6_f56h5"]
-[ext_resource type="PackedScene" uid="uid://etuvmji1fhpm" path="res://Prefabs/Spawners/Wibbly Spawner.tscn" id="7_i5lkr"]
+[ext_resource type="PackedScene" uid="uid://etuvmji1fhpm" path="res://Prefabs/Spawners/Wibbly WalkLeft Spawner.tscn" id="7_i5lkr"]
 
 [node name="Area" type="Node2D"]
 

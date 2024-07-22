@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjn2jxn1dfkmr"]
+
+[ext_resource type="Script" path="res://Scripts/OnscreenSpawner.cs" id="1_yjieo"]
+[ext_resource type="PackedScene" uid="uid://fueb4saag41i" path="res://Prefabs/Enemies/Wibbly WalkRight.tscn" id="2_jhplu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l1npc"]
+size = Vector2(15, 15)
+
+[node name="Blibbly Spawner" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 0
+safe_margin = 0.5
+script = ExtResource("1_yjieo")
+spawntype = ExtResource("2_jhplu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_l1npc")

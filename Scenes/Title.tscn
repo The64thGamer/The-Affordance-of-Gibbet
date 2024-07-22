@@ -260,7 +260,7 @@ script = ExtResource("3_eoy8h")
 subMenu = NodePath("../../Input/Rumble")
 upMenu = NodePath("../Palettes")
 downMenu = NodePath("../Misc")
-backMenu = NodePath(".")
+backMenu = NodePath("../../Main/Options")
 
 [node name="Misc" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("subMenu", "upMenu", "downMenu", "backMenu")]
 texture_filter = 1
@@ -276,7 +276,7 @@ script = ExtResource("3_eoy8h")
 subMenu = NodePath("../../Misc/Reset")
 upMenu = NodePath("../Input")
 downMenu = NodePath("../Back")
-backMenu = NodePath("../Input")
+backMenu = NodePath("../../Main/Options")
 
 [node name="Back" type="Label" parent="Title/Control/Options" node_paths=PackedStringArray("subMenu", "upMenu", "backMenu")]
 texture_filter = 1

@@ -3,7 +3,7 @@
 [ext_resource type="Material" uid="uid://dqnlne22d5wug" path="res://Shaders/TilemapShader.tres" id="1_8qidl"]
 [ext_resource type="TileSet" uid="uid://dcsalqtqp55os" path="res://Tilesets/Tiles.tres" id="2_ad35a"]
 [ext_resource type="Script" path="res://Scripts/TileMapSprites.cs" id="3_q24da"]
-[ext_resource type="PackedScene" uid="uid://etuvmji1fhpm" path="res://Prefabs/Spawners/Wibbly Spawner.tscn" id="4_7dm4x"]
+[ext_resource type="PackedScene" uid="uid://etuvmji1fhpm" path="res://Prefabs/Spawners/Wibbly WalkLeft Spawner.tscn" id="4_7dm4x"]
 [ext_resource type="PackedScene" uid="uid://r61pil4tbihc" path="res://Prefabs/Spawners/Heavy Spawner.tscn" id="5_bapws"]
 [ext_resource type="PackedScene" uid="uid://4vyn2kvs3kpr" path="res://Prefabs/Triggers/Hurtbox.tscn" id="6_xs710"]
 [ext_resource type="PackedScene" uid="uid://v6j1pwi0aiyo" path="res://Prefabs/Spawners/Tipsy Spawner.tscn" id="7_wkgjh"]

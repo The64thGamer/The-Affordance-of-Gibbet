@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://epyob0cd1td8"]
+[gd_scene load_steps=8 format=3 uid="uid://epyob0cd1td8"]
 
 [ext_resource type="Material" uid="uid://dqnlne22d5wug" path="res://Shaders/TilemapShader.tres" id="1_8wwwv"]
 [ext_resource type="TileSet" uid="uid://dcsalqtqp55os" path="res://Tilesets/Tiles.tres" id="2_5n6qj"]
 [ext_resource type="Script" path="res://Scripts/TileMapSprites.cs" id="3_w0d3p"]
-[ext_resource type="PackedScene" uid="uid://etuvmji1fhpm" path="res://Prefabs/Spawners/Wibbly Spawner.tscn" id="4_v3ead"]
+[ext_resource type="PackedScene" uid="uid://etuvmji1fhpm" path="res://Prefabs/Spawners/Wibbly WalkLeft Spawner.tscn" id="4_v3ead"]
 [ext_resource type="PackedScene" uid="uid://v6j1pwi0aiyo" path="res://Prefabs/Spawners/Tipsy Spawner.tscn" id="5_wm66y"]
 [ext_resource type="PackedScene" uid="uid://r61pil4tbihc" path="res://Prefabs/Spawners/Heavy Spawner.tscn" id="6_r5nrn"]
+[ext_resource type="PackedScene" uid="uid://bssg8g0g52uwj" path="res://Prefabs/Triggers/Door.tscn" id="7_hntvn"]
 
 [node name="Area" type="Node2D"]
 
@@ -41,3 +42,8 @@ position = Vector2(1176, -40)
 
 [node name="Blibbly Spawner4" parent="." instance=ExtResource("4_v3ead")]
 position = Vector2(400, -40)
+
+[node name="Door" parent="." instance=ExtResource("7_hntvn")]
+position = Vector2(1176, -32)
+toArea = 4
+toPosition = Vector2(40, -16)

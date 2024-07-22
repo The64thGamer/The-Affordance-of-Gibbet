@@ -58,6 +58,7 @@ public partial class Player : Entity
 	const float velocityRedirectPenalty = 0.5f;
 	const float minBounceVelToHitStun = 100;
 	const float bounceHitStunTimeMult = 0.0005f;
+	const float bounceReduceSpeedMult = 0.9f;
 
 	
 	public enum PlayerState
@@ -265,12 +266,12 @@ public partial class Player : Entity
 
 					if(normVec.Dot(collision.GetNormal()) < -0.5 && Velocity.Length() > minBounceVelToHitStun)
 					{
-						GD.Print(Velocity.Length());
 						PauseHandler pauseTimer = new PauseHandler();
 						AddChild(pauseTimer);
 						pauseTimer.ProcessMode = ProcessModeEnum.Always;
 						pauseTimer.timer = Velocity.Length()*bounceHitStunTimeMult;
 						pauseTimer.id = GetInstanceId();
+						Velocity *= bounceReduceSpeedMult;
 						(GetNode("/root/PauseBufferHandler") as PauseBufferHandler).AddPause(GetInstanceId());
 					}
 				}
