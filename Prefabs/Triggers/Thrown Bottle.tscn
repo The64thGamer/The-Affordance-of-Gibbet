@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://7kuumstpiyha"]
+
+[ext_resource type="Script" path="res://Scripts/PlayerAttackBox.cs" id="1_63v6i"]
+[ext_resource type="Material" uid="uid://c4tu1v615ntye" path="res://Shaders/PixelShader.tres" id="2_fyamh"]
+[ext_resource type="Texture2D" uid="uid://ch1rfmha81014" path="res://Sprites/Sprite Effects.png" id="3_m81sc"]
+[ext_resource type="Script" path="res://Scripts/SpriteAnim.cs" id="4_6q6sg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_st8b7"]
+size = Vector2(16, 16)
+
+[node name="Thrown Bottle" type="Area2D" node_paths=PackedStringArray("sprite")]
+process_mode = 3
+collision_layer = 2
+collision_mask = 5
+gravity = 250.0
+script = ExtResource("1_63v6i")
+timer = 10.0
+gravity = 250.0
+explodeOnTimer = true
+explodeForSec = 0.5
+explodeSize = Vector2(32, 32)
+sprite = NodePath("Sprite")
+animation = Array[String](["Soda Toss A", "Soda Toss B"])
+animSpeed = 10.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_st8b7")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+material = ExtResource("2_fyamh")
+texture = ExtResource("3_m81sc")
+hframes = 10
+vframes = 20
+frame = 16
+script = ExtResource("4_6q6sg")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

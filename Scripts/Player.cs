@@ -42,6 +42,7 @@ public partial class Player : Entity
 
 	const float standardSpeed = 75;
 	const float sodaSideAnimSpeed = 20;
+	const float sodaNeutralAnimSpeed = 5;
 	const float copyCooldown = 0.5f;
 	const float attackCooldown = 0.3f;
 	const float turnaroundCooldown = 0.3f;
@@ -63,6 +64,10 @@ public partial class Player : Entity
 	const float sodaSideBHitstun = 0.1f;
 	const float flungHitStun = 0.1f;
 	const float minSpeedToStopFlung = 10;
+	const int minSodaThrowFrame = 3;
+	const int maxSodaThrowFrame = 20;
+	const int finalSodaThrowFrame = 27;
+	const float sodaThrowCooldown = 0.05f;
 	
 	public enum PlayerState
 	{
@@ -124,9 +129,40 @@ public partial class Player : Entity
 				{
 					ChangeState(PlayerState.copying);
 				}
-				if(Input.IsActionPressed("Attack") && attackCooldownTimer <= 0 && currentInput.X != 0 && copyAbility[1] != CopyAbility.none)
+				if(Input.IsActionPressed("Attack") && attackCooldownTimer <= 0)
 				{
-					ChangeState(PlayerState.sideAttack);
+					if(currentInput.Y <= 0.45 && currentInput.Y >= -0.45)
+					{
+						if(currentInput.X != 0)
+						{
+							if(copyAbility[1] != 0)
+							{
+								ChangeState(PlayerState.sideAttack);
+							}
+						}
+						else
+						{
+							if(copyAbility[0] != 0)
+							{
+								ChangeState(PlayerState.neutralAttack);
+							}
+						}
+					}
+					else if(currentInput.Y > 0.45)
+					{
+						if(copyAbility[2] != 0)
+						{
+							ChangeState(PlayerState.upAttack);
+						}
+					}
+					else if(currentInput.Y < -0.45)
+					{
+						if(copyAbility[3] != 0)
+						{
+							ChangeState(PlayerState.downAttack);
+						}
+					}
+					
 				}
 				attackCooldownTimer = Mathf.Max(0,attackCooldownTimer - (float)delta);
 				copyCooldownTimer = Mathf.Max(0,copyCooldownTimer - (float)delta);
@@ -338,6 +374,23 @@ public partial class Player : Entity
 					break;
 					default:
 					ChangeState(PlayerState.standard);
+					break;
+				}
+				break;
+			case PlayerState.neutralAttack:
+				switch (copyAbility[0])
+				{
+					case CopyAbility.drinker:
+						currentInput = new Vector2(Mathf.Lerp(currentInput.X,0,(float)delta),0);
+						Velocity = CalculateStandardVelocity(input,false,delta);
+						if(!Input.IsActionPressed("Attack") && animTimer > minSodaThrowFrame && animTimer < maxSodaThrowFrame)
+						{
+							animTimer = maxSodaThrowFrame;
+						}
+						CheckFloorState();
+					break;
+					default:
+						ChangeState(PlayerState.standard);
 					break;
 				}
 				break;
@@ -618,6 +671,57 @@ public partial class Player : Entity
 					break;
 				}
 				return;
+			case PlayerState.neutralAttack:
+				switch (copyAbility[0])
+				{
+					case CopyAbility.drinker:
+						if(oldAnimTimer != Mathf.FloorToInt(animTimer))
+						{
+							if(animTimer < maxSodaThrowFrame)
+							{
+								if(Mathf.FloorToInt(animTimer)% 2 == 0)
+								{
+									sprite.SetSprite("Soda Shake A");
+								}
+								else
+								{
+									Input.StartJoyVibration(0,0,0.5f*PlayerPrefs.GetFloat("RumbleIntensity"),0.06f*PlayerPrefs.GetFloat("RumbleTime"));
+									if(IsOnFloor())
+									{
+										sprite.SetSprite("Soda Shake B");
+									}
+									else
+									{
+										sprite.SetSprite("Soda Shake B Air");
+									}	
+								}
+							}
+							if(Mathf.FloorToInt(animTimer) == maxSodaThrowFrame)
+							{
+								animTimer = maxSodaThrowFrame + 1;
+								Input.StartJoyVibration(0,0.4f*PlayerPrefs.GetFloat("RumbleIntensity"),0,0.3f*PlayerPrefs.GetFloat("RumbleTime"));
+								sprite.SetSprite("Toss");
+
+								PlayerAttackBox bottle = GD.Load<PackedScene>("res://Prefabs/Triggers/Thrown Bottle.tscn").Instantiate() as PlayerAttackBox;
+								bottle.velocity = new Vector2((sprite.FlipH ? -1 : 1) * physicsTimer*120*physicsTimer,Mathf.Lerp(-physicsTimer*80,-60,physicsTimer));
+								bottle.player = this;
+								GetParent().AddChild(bottle);
+								bottle.GlobalPosition = GlobalPosition + new Vector2(0,-16);
+							}
+							if(animTimer >= finalSodaThrowFrame)
+							{
+								ChangeState(PlayerState.standard);
+								attackCooldownTimer = sodaThrowCooldown;
+							}
+						}
+						oldAnimTimer = Mathf.FloorToInt(animTimer);
+						animTimer += (float)delta * sodaNeutralAnimSpeed;
+						animTimer += animTimer*(float)delta;
+						break;
+					default:
+					break;
+				}
+				return;
 				case PlayerState.turningAround:
 					sprite.SetSprite("Turn Around");
 					Input.StartJoyVibration(0,0.2f*PlayerPrefs.GetFloat("RumbleIntensity"),0,0.1f*PlayerPrefs.GetFloat("RumbleTime"));
@@ -626,9 +730,6 @@ public partial class Player : Entity
 					sprite.SetSprite("Turn Around");
 					return;
 				case PlayerState.upAttack:
-					ChangeState(PlayerState.standard);
-					return;
-				case PlayerState.neutralAttack:
 					ChangeState(PlayerState.standard);
 					return;
 				case PlayerState.downAttack:
@@ -719,6 +820,7 @@ public partial class Player : Entity
 	{
 		physicsTimer = 0;
 		animTimer = 0;
+		oldAnimTimer = 0;
 		playerState = state;
 		inInvincibilityFrames = false;
 	}

@@ -57,6 +57,11 @@ public partial class CopyUI : Area2D
 		switch (uiState)
 		{
 			case CopyUIState.starting:
+				arrowUp.SetSprite("Button Up Arrow");
+				arrowRight.SetSprite("Button Left Arrow");
+				arrowDown.SetSprite("Button Down Arrow");
+				arrowLeft.SetSprite("Button Left Arrow");
+
 				arrowUp.Position = Vector2.Zero.Lerp(Vector2.Up * uiMaxOutPosition,uiStateTimer / uiOutTimer);
 				arrowRight.Position = Vector2.Zero.Lerp(Vector2.Right * uiMaxOutPosition,uiStateTimer / uiOutTimer);
 				arrowDown.Position = Vector2.Zero.Lerp(-Vector2.Up * uiMaxOutPosition,uiStateTimer / uiOutTimer);

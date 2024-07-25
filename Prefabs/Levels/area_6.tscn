@@ -41,4 +41,4 @@ position = Vector2(456, -360)
 
 [node name="Door" parent="." instance=ExtResource("4_v45oe")]
 position = Vector2(632, -224)
-toArea = 3
+toArea = 7
