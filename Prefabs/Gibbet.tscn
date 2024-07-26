@@ -22,7 +22,7 @@ point_count = 4
 size = Vector2(304, 208)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_st8b7"]
-size = Vector2(16, 20)
+size = Vector2(20, 24)
 
 [node name="Gibbet" type="CharacterBody2D" node_paths=PackedStringArray("zapHitbox", "playerCam")]
 position = Vector2(-8, -8)

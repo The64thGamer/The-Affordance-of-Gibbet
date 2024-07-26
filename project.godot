@@ -21,6 +21,7 @@ config/icon="res://Sprites/Icon.png"
 
 DebugDraw="*res://addons/debug_drawing/DebugDraw.cs"
 PauseBufferHandler="*res://Scripts/PauseBufferHandler.cs"
+SoundManager="*res://Scripts/SoundManager.cs"
 
 [display]
 

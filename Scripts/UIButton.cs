@@ -30,10 +30,12 @@ public partial class UIButton : Label
 	public int maxList = -1;
 	bool stopMovement;
 	string oldText;
+	SoundManager soundManager;
 
-public override void _Ready()
+	public override void _Ready()
 	{
-		if(cursor != null && !PlayerPrefs.GetBool("NotTheFirstTimeLoading"))
+		soundManager = (GetNode("/root/SoundManager") as SoundManager);
+		if(cursor != null && !PlayerPrefs.GetBool("NotTheFirstTimeLoading_A"))
 		{
 			ResetValues();
 		}
@@ -163,6 +165,7 @@ public override void _Ready()
 		{
 			ResetValues();
 		}
+		soundManager.PlaySound("Select Sound");
 	}
 
 	void ResetValues()
@@ -171,6 +174,8 @@ public override void _Ready()
 		PlayerPrefs.SetValue<int>("Sprite Palette",Convert.ToInt32(Tr("PALETTE_0_SPRITES")));
 		PlayerPrefs.SetValue<float>("RumbleIntensity",1);
 		PlayerPrefs.SetValue<float>("RumbleTime",1);
+		PlayerPrefs.SetValue<float>("SoundVolume",1);
+		PlayerPrefs.SetValue<float>("MusicVolume",1);
 		PlayerPrefs.SetValue<bool>("NotTheFirstTimeLoading",true);
 	}
 

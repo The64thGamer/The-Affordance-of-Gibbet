@@ -34,9 +34,11 @@ public partial class PlayerAttackBox : Node2D
 	float removePauseTimer = 0;
 	bool firstFrame = false;
 	bool alreadyPaused = false;					
-	
+		SoundManager soundManager;
+
 	public override void _Ready()
 	{
+		soundManager = (GetNode("/root/SoundManager") as SoundManager);
 		((GetChild(0) as CollisionShape2D).Shape as RectangleShape2D).Size = size;
 	}
 
@@ -155,6 +157,8 @@ public partial class PlayerAttackBox : Node2D
 		((GetChild(0) as CollisionShape2D).Shape as RectangleShape2D).Size = explodeSize;
 		explodeTimer = explodeForSec;
 		timer = 0;
+		soundManager.PlaySound("Bottle Explode");
+
 	}
 
 	public void CreateGenericEffect(Effect.EffectType type, Effect.EffectMovement movement, Vector2 pos, Effect.SpriteDirection spriteDir)
