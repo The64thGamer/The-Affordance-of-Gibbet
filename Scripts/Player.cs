@@ -101,9 +101,12 @@ public partial class Player : Entity
 		firstFrameOnFloor,
 	}
 
+	SoundManager soundManager;
+
 	public override void _Ready()
 	{
 		base._Ready();
+		soundManager = (GetNode("/root/SoundManager") as SoundManager);
 		isVisibletoCamera = true;
 	}
 
@@ -686,6 +689,7 @@ public partial class Player : Entity
 								else
 								{
 									Input.StartJoyVibration(0,0,0.5f*PlayerPrefs.GetFloat("RumbleIntensity"),0.06f*PlayerPrefs.GetFloat("RumbleTime"));
+									soundManager.PlaySound("Bottle Shake");
 									if(IsOnFloor())
 									{
 										sprite.SetSprite("Soda Shake B");
