@@ -450,6 +450,7 @@ public partial class Player : Entity
 			if(IsOnFloor())
 			{
 				floorState = FloorState.firstFrameOnFloor;
+				soundManager.PlaySound("Fall");
 				CreateGenericEffect(Effect.EffectType.landing,Effect.EffectMovement.none,GlobalPosition,Effect.SpriteDirection.notFlipped);
 			}
 			break;
@@ -496,6 +497,7 @@ public partial class Player : Entity
 			velocity.Y = JumpVelocity * initialJumpMult;
 			jumpTimer = 0;
 			CreateGenericEffect(Effect.EffectType.jumping,Effect.EffectMovement.none,GlobalPosition,Effect.SpriteDirection.notFlipped);
+			soundManager.PlaySound("Jump");
 		}
 
 		if (input.X > horizontalMoveDeadzone || input.X < -horizontalMoveDeadzone)
@@ -885,6 +887,7 @@ public partial class Player : Entity
 		if(launch)
 		{
 			ChangeState(PlayerState.flung);
+			soundManager.PlaySound("Gibbet Hit");
 			previousCloudPlacement = GlobalPosition;
 			flungTimer = currentDamage * damageToFlungTimeMultiplier;
 			Velocity = (GlobalPosition - globalHitPos).Normalized() * currentDamage * damageToFlungVelocityMultiplier;
