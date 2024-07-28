@@ -691,7 +691,7 @@ public partial class Player : Entity
 								else
 								{
 									Input.StartJoyVibration(0,0,0.5f*PlayerPrefs.GetFloat("RumbleIntensity"),0.06f*PlayerPrefs.GetFloat("RumbleTime"));
-									soundManager.PlaySound("Bottle Shake");
+									soundManager.PlaySound("BottleShake");
 									if(IsOnFloor())
 									{
 										sprite.SetSprite("Soda Shake B");

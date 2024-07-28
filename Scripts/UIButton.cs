@@ -151,6 +151,7 @@ public partial class UIButton : Label
 			(this.GetParent() as Control).Visible = false;
 			subMenu.GetCursor(cursor);
 			cursor = null;
+			soundManager.PlaySound("Select Sound");
 		}
 		else if(scene != null)
 		{
@@ -158,6 +159,7 @@ public partial class UIButton : Label
 		}
 		else if(setPalette)
 		{
+			soundManager.PlaySound("PaletteSelect");
 			PlayerPrefs.SetValue<int>("Tilemap Palette",setTilemapPalette);
 			PlayerPrefs.SetValue<int>("Sprite Palette",setSpritePalette);
 		}
@@ -165,7 +167,6 @@ public partial class UIButton : Label
 		{
 			ResetValues();
 		}
-		soundManager.PlaySound("Select Sound");
 	}
 
 	void ResetValues()
@@ -190,6 +191,7 @@ public partial class UIButton : Label
 			(this.GetParent() as Control).Visible = false;
 			upMenu.GetCursor(cursor);
 			cursor = null;
+			soundManager.PlaySound("ChangeSelect");
 		}
 	}
 
@@ -205,22 +207,24 @@ public partial class UIButton : Label
 			(this.GetParent() as Control).Visible = false;
 			downMenu.GetCursor(cursor);
 			cursor = null;
+			soundManager.PlaySound("ChangeSelect");
 		}
 	}
 
 	void MoveBack()
 	{
 		if(cursor == null)
-			{
-				return;
-			}
+		{
+			return;
+		}
 
-			if(backMenu != null)
-			{
-				(this.GetParent() as Control).Visible = false;
-				backMenu.GetCursor(cursor);
-				cursor = null;
-			}
+		if(backMenu != null)
+		{
+			(this.GetParent() as Control).Visible = false;
+			backMenu.GetCursor(cursor);
+			cursor = null;
+			soundManager.PlaySound("ChangeSelect");
+		}
 	}
 
 	void AdjustList()
