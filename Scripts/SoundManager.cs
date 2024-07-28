@@ -55,27 +55,50 @@ public partial class SoundManager : Node
 			}
 			AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"),vol);
 		}
+		
+		ReEvaluateChannels();
+	}
+
+	void ReEvaluateChannels()
+	{
 		for (int i = 0; i < soundPlayers.Count; i++)
 		{
 			soundPlayers[i].VolumeDb = -4000;
 		}
 
+		
 		for (int e = simultaniousSoundCache-1; e >-1; e--)
 		{
-			if(soundPlayers[e*soundChannels].Playing ||
-			soundPlayers[(e*soundChannels)+1].Playing ||
-			soundPlayers[(e*soundChannels)+2].Playing ||
-			soundPlayers[(e*soundChannels)+3].Playing
-			)
+			if(soundPlayers[e*soundChannels].Playing)
 			{
 				soundPlayers[e*soundChannels].VolumeDb = 0;
+				break;
+			}
+		}
+		for (int e = simultaniousSoundCache-1; e >-1; e--)
+		{
+			if(soundPlayers[(e*soundChannels)+1].Playing)
+			{
 				soundPlayers[(e*soundChannels)+1].VolumeDb = 0;
+				break;
+			}
+		}
+		for (int e = simultaniousSoundCache-1; e >-1; e--)
+		{
+			if(soundPlayers[(e*soundChannels)+2].Playing)
+			{
 				soundPlayers[(e*soundChannels)+2].VolumeDb = 0;
+				break;
+			}
+		}
+		for (int e = simultaniousSoundCache-1; e >-1; e--)
+		{
+			if(soundPlayers[(e*soundChannels)+3].Playing)
+			{
 				soundPlayers[(e*soundChannels)+3].VolumeDb = 0;
 				break;
 			}
 		}
-		
 	}
 
 	public void PlaySound(string name)
@@ -86,8 +109,8 @@ public partial class SoundManager : Node
 			if((!soundPlayers[e*soundChannels].Playing &&
 			!soundPlayers[(e*soundChannels)+1].Playing &&
 			!soundPlayers[(e*soundChannels)+2].Playing && 
-			!soundPlayers[(e*soundChannels)+3].Playing
-			|| soundPlayerClipNames[e] == name)
+			!soundPlayers[(e*soundChannels)+3].Playing)
+			|| soundPlayerClipNames[e] == name
 			)
 			{
 				GD.Print("Sound " + name + " Played on Player " + e);
@@ -97,10 +120,11 @@ public partial class SoundManager : Node
 					if(ResourceLoader.Exists(path))
 					{
 						soundPlayers[(e*soundChannels)+i].Stream = GD.Load<AudioStream>(path);
-						soundPlayers[(e*soundChannels)+i].Play();
+						soundPlayers[(e*soundChannels)+i].Play(0);
 						soundPlayerClipNames[e] = name;
 					}	
 				}
+				ReEvaluateChannels();
 				return;
 			}		
 		}
