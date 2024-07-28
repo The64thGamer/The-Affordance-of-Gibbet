@@ -532,6 +532,7 @@ public partial class Player : Entity
 					{
 						case 0:
 							sprite.SetSprite("Copy A");
+							soundManager.PlaySound("Copy");
 							Input.StartJoyVibration(0,0.1f*PlayerPrefs.GetFloat("RumbleIntensity"),0,minCopyTime*PlayerPrefs.GetFloat("RumbleTime"));
 						break;
 						case 1:
@@ -831,7 +832,7 @@ public partial class Player : Entity
 	{
 		physicsTimer = 0;
 		animTimer = 0;
-		oldAnimTimer = 0;
+		oldAnimTimer = -1;
 		playerState = state;
 		inInvincibilityFrames = false;
 	}
