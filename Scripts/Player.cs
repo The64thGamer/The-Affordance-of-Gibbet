@@ -684,6 +684,11 @@ public partial class Player : Entity
 						{
 							if(animTimer < maxSodaThrowFrame)
 							{
+								Vector2 inputNew = Input.GetVector("Left", "Right", "Up", "Down");
+								if(inputNew.X != 0)
+								{
+									sprite.FlipH = inputNew.X < 0 ? true : false;
+								}	
 								if(Mathf.FloorToInt(animTimer)% 2 == 0)
 								{
 									sprite.SetSprite("Soda Shake A");

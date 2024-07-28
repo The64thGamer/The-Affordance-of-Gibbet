@@ -91,20 +91,7 @@ text = "Options"
 script = ExtResource("3_eoy8h")
 subMenu = NodePath("../../Options/Palettes")
 upMenu = NodePath("../Start Game")
-downMenu = NodePath("../Manual")
-
-[node name="Manual" type="Label" parent="Title/Control/Main" node_paths=PackedStringArray("upMenu")]
-texture_filter = 1
-material = ExtResource("2_v40an")
-layout_mode = 0
-offset_left = 16.0
-offset_top = 80.0
-offset_right = 76.0
-offset_bottom = 88.0
-theme = ExtResource("2_c8ius")
-text = "Manual"
-script = ExtResource("3_eoy8h")
-upMenu = NodePath("../Options")
+downMenu = NodePath("")
 
 [node name="File Select" type="Control" parent="Title/Control"]
 visible = false

@@ -124,10 +124,9 @@ public partial class SoundManager : Node
 						soundPlayerClipNames[e] = name;
 					}	
 				}
-				ReEvaluateChannels();
 				return;
 			}		
 		}
-		
+		ReEvaluateChannels();
 	}
 }
