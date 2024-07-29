@@ -34,7 +34,7 @@ public partial class Player : Entity
 	[Export] float turnaroundCooldownTimer;
 
 	[Export] PlayerState playerState = PlayerState.standard;
-	CopyAbility[] copyAbility = new CopyAbility[4];
+	CopyAbility[] copyAbility = new CopyAbility[3];
 
 	FloorState floorState;
 	TileMap tileMap;
@@ -76,7 +76,6 @@ public partial class Player : Entity
 		uncopying,
 		flung,
 		sideAttack,
-		neutralAttack,
 		upAttack,
 		downAttack,
 		turningAround,
@@ -137,31 +136,21 @@ public partial class Player : Entity
 				{
 					if(currentInput.Y <= 0.45 && currentInput.Y >= -0.45)
 					{
-						if(currentInput.X != 0)
+						if(copyAbility[0] != 0)
 						{
-							if(copyAbility[1] != 0)
-							{
-								ChangeState(PlayerState.sideAttack);
-							}
+							ChangeState(PlayerState.sideAttack);
 						}
-						else
+					}
+					else if(currentInput.Y < -0.45)
+					{
+						if(copyAbility[1] != 0)
 						{
-							if(copyAbility[0] != 0)
-							{
-								ChangeState(PlayerState.neutralAttack);
-							}
+							ChangeState(PlayerState.upAttack);
 						}
 					}
 					else if(currentInput.Y > 0.45)
 					{
 						if(copyAbility[2] != 0)
-						{
-							ChangeState(PlayerState.upAttack);
-						}
-					}
-					else if(currentInput.Y < -0.45)
-					{
-						if(copyAbility[3] != 0)
 						{
 							ChangeState(PlayerState.downAttack);
 						}
@@ -337,7 +326,7 @@ public partial class Player : Entity
 
 				break;
 			case PlayerState.sideAttack:
-				switch (copyAbility[1])
+				switch (copyAbility[0])
 				{
 					case CopyAbility.drinker:
 						input = Input.GetVector("Left", "Right", "Up", "Down");
@@ -381,8 +370,8 @@ public partial class Player : Entity
 					break;
 				}
 				break;
-			case PlayerState.neutralAttack:
-				switch (copyAbility[0])
+			case PlayerState.upAttack:
+				switch (copyAbility[1])
 				{
 					case CopyAbility.drinker:
 						currentInput = new Vector2(Mathf.Lerp(currentInput.X,0,(float)delta),0);
@@ -609,7 +598,7 @@ public partial class Player : Entity
 				animTimer += (float)delta * rollAnimSpeed;
 				return;
 			case PlayerState.sideAttack:
-				switch (copyAbility[1])
+				switch (copyAbility[0])
 				{
 					case CopyAbility.drinker:
 						if(oldAnimTimer != Mathf.FloorToInt(animTimer))
@@ -679,8 +668,8 @@ public partial class Player : Entity
 					break;
 				}
 				return;
-			case PlayerState.neutralAttack:
-				switch (copyAbility[0])
+			case PlayerState.upAttack:
+				switch (copyAbility[1])
 				{
 					case CopyAbility.drinker:
 						if(oldAnimTimer != Mathf.FloorToInt(animTimer))
@@ -743,9 +732,6 @@ public partial class Player : Entity
 					return;
 				case PlayerState.enteringDoor:
 					sprite.SetSprite("Turn Around");
-					return;
-				case PlayerState.upAttack:
-					ChangeState(PlayerState.standard);
 					return;
 				case PlayerState.downAttack:
 					ChangeState(PlayerState.standard);
@@ -851,15 +837,12 @@ public partial class Player : Entity
 			switch (slot)
 			{
 				case 0:
-					ChangeState(PlayerState.neutralAttack);
-					break;
-				case 1:
 					ChangeState(PlayerState.sideAttack);
 					break;
-				case 2:
+				case 1:
 					ChangeState(PlayerState.upAttack);
 					break;
-				case 3:
+				case 2:
 					ChangeState(PlayerState.downAttack);
 					break;
 				default:

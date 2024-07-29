@@ -28,7 +28,6 @@ public partial class CopyUI : Area2D
 		finished,
 		upSelected,
 		sidesSelected,
-		neutralSelected,
 		downSelected,
 		goingOff,
 		noCopyAbility,
@@ -80,25 +79,22 @@ public partial class CopyUI : Area2D
 				
 				if(Input.IsActionPressed("Up"))
 				{
-					player.SetCopyAbility(heldAbility,2);
+					player.SetCopyAbility(heldAbility,1);
 					uiState = CopyUIState.upSelected;
 					break;
 				}
 				if(Input.IsActionPressed("Down"))
 				{
-					player.SetCopyAbility(heldAbility,3);
+					player.SetCopyAbility(heldAbility,2);
 					uiState = CopyUIState.downSelected;
 					break;
 				}
-				if(Input.IsActionPressed("Left") || Input.IsActionPressed("Right"))
+				else
 				{
-					player.SetCopyAbility(heldAbility,1);
+					player.SetCopyAbility(heldAbility,0);
 					uiState = CopyUIState.sidesSelected;
 					break;
 				}
-				
-				player.SetCopyAbility(heldAbility,0);
-				uiState = CopyUIState.neutralSelected;
 			}
 			break;
 			case CopyUIState.upSelected:
@@ -123,17 +119,6 @@ public partial class CopyUI : Area2D
 			break;
 			case CopyUIState.sidesSelected:
 				arrowDown.Posterize(uiNotSelectedPosterization);
-				arrowUp.Posterize(uiNotSelectedPosterization);
-				if(uiStateTimer >= uiSelectedTimer)
-				{
-					uiStateTimer = 0;
-					uiState = CopyUIState.goingOff;
-				}
-			break;
-			case CopyUIState.neutralSelected:
-				arrowDown.Posterize(uiNotSelectedPosterization);
-				arrowLeft.Posterize(uiNotSelectedPosterization);
-				arrowRight.Posterize(uiNotSelectedPosterization);
 				arrowUp.Posterize(uiNotSelectedPosterization);
 				if(uiStateTimer >= uiSelectedTimer)
 				{
@@ -187,8 +172,7 @@ public partial class CopyUI : Area2D
 			{
 				enemy.Die();
 
-				if(player.GetPlayerState() != Player.PlayerState.neutralAttack 
-				&& player.GetPlayerState() != Player.PlayerState.sideAttack 
+				if(player.GetPlayerState() != Player.PlayerState.sideAttack 
 				&& player.GetPlayerState() != Player.PlayerState.downAttack 
 				&& player.GetPlayerState() != Player.PlayerState.upAttack 
 				&& uiState == CopyUIState.off
