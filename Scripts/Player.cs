@@ -612,7 +612,7 @@ public partial class Player : Entity
 										soundManager.PlaySound("BottleFlip");
 										sprite.SetSprite("Soda Side A");
 										Input.StartJoyVibration(0,0,0.75f*PlayerPrefs.GetFloat("RumbleIntensity"),0.05f*PlayerPrefs.GetFloat("RumbleTime"));
-										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,0,true,sodaSideBHitstun,true);
+										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 16,0), new Vector2(32,16),1 / sodaSideAnimSpeed,0,true,sodaSideBHitstun,true);
 									break;
 									case 4:
 										inInvincibilityFrames = false;
@@ -624,7 +624,7 @@ public partial class Player : Entity
 									case 6:
 										sprite.SetSprite("Soda Side A");
 										Input.StartJoyVibration(0,0,0.75f*PlayerPrefs.GetFloat("RumbleIntensity"),0.05f*PlayerPrefs.GetFloat("RumbleTime"));
-										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,0,true,sodaSideBHitstun,true);
+										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 16,0), new Vector2(32,16),1 / sodaSideAnimSpeed,0,true,sodaSideBHitstun,true);
 									break;
 									case 7:
 										sprite.SetSprite("Soda Side A");
@@ -635,7 +635,7 @@ public partial class Player : Entity
 									case 9:
 										sprite.SetSprite("Soda Side A");
 										Input.StartJoyVibration(0,0,0.75f*PlayerPrefs.GetFloat("RumbleIntensity"),0.05f*PlayerPrefs.GetFloat("RumbleTime"));
-										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,0,true,sodaSideBHitstun,true);
+										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 16,0), new Vector2(32,16),1 / sodaSideAnimSpeed,0,true,sodaSideBHitstun,true);
 									break;
 									case 10:
 										sprite.SetSprite("Soda Side A");
