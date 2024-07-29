@@ -628,6 +628,7 @@ public partial class Player : Entity
 										sprite.SetSprite("Soda Side B");
 									break;
 									case 3:
+										soundManager.PlaySound("BottleFlip");
 										sprite.SetSprite("Soda Side A");
 										Input.StartJoyVibration(0,0,0.75f*PlayerPrefs.GetFloat("RumbleIntensity"),0.05f*PlayerPrefs.GetFloat("RumbleTime"));
 										SpawnHitbox(GlobalPosition + new Vector2((sprite.FlipH ? -1 : 1) * 8,0), new Vector2(32,16),1 / sodaSideAnimSpeed,0,true,sodaSideBHitstun,true);
@@ -683,13 +684,14 @@ public partial class Player : Entity
 					case CopyAbility.drinker:
 						if(oldAnimTimer != Mathf.FloorToInt(animTimer))
 						{
+							Vector2 inputNew = Input.GetVector("Left", "Right", "Up", "Down");
+							if(inputNew.X != 0)
+							{
+								sprite.FlipH = inputNew.X < 0 ? true : false;
+							}	
 							if(animTimer < maxSodaThrowFrame)
 							{
-								Vector2 inputNew = Input.GetVector("Left", "Right", "Up", "Down");
-								if(inputNew.X != 0)
-								{
-									sprite.FlipH = inputNew.X < 0 ? true : false;
-								}	
+								
 								if(Mathf.FloorToInt(animTimer)% 2 == 0)
 								{
 									sprite.SetSprite("Soda Shake A");
