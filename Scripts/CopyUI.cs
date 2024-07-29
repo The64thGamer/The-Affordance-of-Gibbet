@@ -73,7 +73,7 @@ public partial class CopyUI : Area2D
 				}
 			break;
 			case CopyUIState.finished:
-			if (Input.IsActionJustPressed("Attack"))
+			if (Input.IsActionJustPressed("Attack") || Input.IsActionJustPressed("Jump"))
 			{
 				uiStateTimer = 0;
 				

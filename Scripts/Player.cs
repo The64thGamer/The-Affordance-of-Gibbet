@@ -128,32 +128,23 @@ public partial class Player : Entity
 		switch (playerState)
 		{
 			case PlayerState.standard:
-				if(Input.IsActionPressed("Copy") && copyCooldownTimer <= 0)
-				{
-					ChangeState(PlayerState.copying);
-				}
 				if(Input.IsActionPressed("Attack") && attackCooldownTimer <= 0)
 				{
-					if(currentInput.Y <= 0.45 && currentInput.Y >= -0.45)
+					if(currentInput.Y <= 0.65 && currentInput.Y >= -0.65 && (currentInput.X >= 0.45 || currentInput.X <= -0.45) && copyAbility[0] != 0)
 					{
-						if(copyAbility[0] != 0)
-						{
-							ChangeState(PlayerState.sideAttack);
-						}
+						ChangeState(PlayerState.sideAttack);
 					}
-					else if(currentInput.Y < -0.45)
+					else if(currentInput.Y < -0.65 && copyAbility[1] != 0)
 					{
-						if(copyAbility[1] != 0)
-						{
-							ChangeState(PlayerState.upAttack);
-						}
+						ChangeState(PlayerState.upAttack);
 					}
-					else if(currentInput.Y > 0.45)
+					else if(currentInput.Y > 0.65 && copyAbility[2] != 0)
 					{
-						if(copyAbility[2] != 0)
-						{
-							ChangeState(PlayerState.downAttack);
-						}
+						ChangeState(PlayerState.downAttack);
+					}
+					else if(copyCooldownTimer <= 0)
+					{
+						ChangeState(PlayerState.copying);
 					}
 					
 				}
@@ -465,7 +456,7 @@ public partial class Player : Entity
 
 		if(isJumping)
 		{
-			if(!Input.IsActionPressed("Up"))
+			if(!Input.IsActionPressed("Jump"))
 			{
 				isJumping = false;
 			}
@@ -504,7 +495,7 @@ public partial class Player : Entity
 	
 	bool CheckJump()
 	{
-		if ((Input.IsActionJustPressed("Up")||Input.IsActionPressed("Up")) && IsOnFloor())
+		if (Input.IsActionJustPressed("Jump") && IsOnFloor())
 		{
 			return true;
 		}	
