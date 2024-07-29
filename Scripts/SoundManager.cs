@@ -5,20 +5,27 @@ public partial class SoundManager : Node
 {
 	Godot.Collections.Array<AudioStreamPlayer> soundPlayers = new Godot.Collections.Array<AudioStreamPlayer>();
 	Godot.Collections.Array<string> soundPlayerClipNames = new Godot.Collections.Array<string>();
-	AudioStreamPlayer musicPlayer = new AudioStreamPlayer();
+	Godot.Collections.Array<AudioStreamPlayer>  musicPlayers = new Godot.Collections.Array<AudioStreamPlayer>();
 	const int soundChannels = 4;
 	const int simultaniousSoundCache = 3;
 	float oldSoundVolume = -443;
 	float oldMusicVolume = -443;
+	bool loopMusic = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		ProcessMode = ProcessModeEnum.Always;
-		musicPlayer.Bus = "Music";
 		for (int i = 0; i < simultaniousSoundCache; i++)
 		{
 			soundPlayerClipNames.Add("");
+		}
+		for (int i = 0; i < soundChannels; i++)
+		{
+			AudioStreamPlayer music = new AudioStreamPlayer();
+			music.Bus = "Music";
+			musicPlayers.Add(music);
+			AddChild(music);
 		}
 		for (int i = 0; i < soundChannels * simultaniousSoundCache; i++)
 		{
@@ -54,6 +61,14 @@ public partial class SoundManager : Node
 				vol = -1000;
 			}
 			AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"),vol);
+		}
+
+		for (int i = 0; i < soundChannels; i++)
+		{
+			if(!musicPlayers[i].Playing && musicPlayers[i].Stream != null)
+			{
+				musicPlayers[i].Play(0);
+			}
 		}
 		
 		ReEvaluateChannels();
@@ -99,6 +114,26 @@ public partial class SoundManager : Node
 				break;
 			}
 		}
+	}
+	
+	public void PlayMusic(string name, bool loop)
+	{
+		GD.Print("Music " + name + " Played");
+		for (int i = 0; i < soundChannels; i++)
+		{
+			string path = "res://Music/" + name + ".ch" + (i+1) + ".wav";
+			if(ResourceLoader.Exists(path))
+			{
+				musicPlayers[i].Stream = GD.Load<AudioStream>(path);
+				musicPlayers[i].Play(0);
+			}
+			else
+			{
+				musicPlayers[i].Stream = null;
+			}
+		}
+		loopMusic = loop;
+		ReEvaluateChannels();
 	}
 
 	public void PlaySound(string name)

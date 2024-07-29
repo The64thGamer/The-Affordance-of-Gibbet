@@ -10,9 +10,12 @@ public partial class TitleScreen : Node
 	[Export] UIButton palleteBackButton;
 	[Export] PackedScene uiButton;
 	const int maxMenuCount = 7;
-	// Called when the node enters the scene tree for the first time.
+	SoundManager soundManager;
+
 	public override void _Ready()
 	{
+		soundManager = (GetNode("/root/SoundManager") as SoundManager);
+		soundManager.PlayMusic("Music 01",true);
 		startingMenu.GetCursor(cursor);
 
 		string translation;

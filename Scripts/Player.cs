@@ -107,6 +107,7 @@ public partial class Player : Entity
 	{
 		base._Ready();
 		soundManager = (GetNode("/root/SoundManager") as SoundManager);
+		soundManager.PlayMusic("?????",false);
 		isVisibletoCamera = true;
 	}
 
